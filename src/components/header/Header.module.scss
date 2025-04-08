@@ -1,0 +1,64 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  height: 100px;
+
+  background-color: main.$color-primary;
+
+  padding: 0 16px;
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    cursor: pointer;
+
+    &__image {
+      height: 75%;
+    }
+  }
+
+  &__profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    &__logout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 93px;
+      height: 30px;
+
+      background-color: transparent;
+
+      border: 1px solid main.$color-border-white;
+      border-radius: 50px;
+      gap: 4px;
+
+      div {
+        color: main.$color-text-white;
+      }
+
+      span {
+        color: main.$color-text-white;
+      }
+    }
+
+    &__hello {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: main.$color-text-white;
+      gap: 10px;
+    }
+  }
+}
