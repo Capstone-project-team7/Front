@@ -1,26 +1,22 @@
-// 요청하신 기본 색상
-$color-primary: #3d3d3d;
-$color-background: #eeeeee;
-$color-button-primary: #49a8f9; // 기본 버튼 색상 (밝은 파란색)
-$color-button-secondary: #ffffff; // 기본 버튼 색상 (흰색)
-$color-text-white: #ffffff;
-$color-text-black: #000000;
-$color-text-gray: #808080;
+$color-primary: #a14f1a; // 따뜻한 샌드 오렌지 (헤더, 주요 배경, 로고 등)
+$color-secondary: #2a9d8f; // 시원한 청록색 (강조 요소, 아이콘, 보조 배경)
 
-// 버튼 hover 색상 추가
-$color-button-primary-hover: #2b8cdc; // button-1의 hover 상태 (조금 어두운 파란색)
-$color-button-secondary-hover: #f5f5f5; // button-2의 hover 상태 (살짝 회색빛 흰색)
+$color-accent: #e76f51; // 따뜻한 코럴 (포인트 요소, 링크, 작은 버튼)
+
+$color-button: #264653; // 깊은 청회색 (기본 버튼 배경)
+$color-button-hover: #2a9d8f; // 청록색 (기본 버튼 호버 상태, Secondary와 동일)
+$color-button-emphasis: #e76f51; // 따뜻한 코럴 (강조 버튼 배경, Accent와 동일)
+$color-button-emphasis-hover: #f4a261; // 따뜻한 샌드 오렌지 (강조 버튼 호버 상태, Primary와 동일)
+
+$color-background: #fdf6f0; // 크림 화이트 (웹사이트 기본 배경)
+
+$color-error: #d00000; // 강렬한 레드 (에러 메시지, 경고 표시)
+$color-success: #2a9d8f; // 청록색 (성공 메시지, Secondary와 동일)
+
+$color-text-white: #ffffff;
+$color-text-black: #1a2526;
+$color-text-gray: #6b7280;
 
 $color-border-white: #ffffff;
-$color-border-gray: #808080;
-$color-border-black: #000000;
-
-// 추가된 자주 사용되는 색상
-$color-success: #28a745;
-$color-warning: #ffc107;
-$color-error: #dc3545;
-$color-info: #17a2b8;
-$color-muted: #6c757d;
-$color-light-gray: #d3d3d3;
-$color-dark: #212529;
-$color-accent: #ff6f61;
+$color-border-gray: #6b7280;
+$color-border-black: #1a2526;

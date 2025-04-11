@@ -1,25 +1,54 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./Header.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowRightFromBracket,
+  faCircleUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { UserContext } from "../../stores/UserContext";
+import { Link } from "react-router-dom";
 
 export default function Header() {
+  const { user, setUser } = useContext(UserContext);
+
+  const Logout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+
+    // 로그인 페이지로 navigate
+  };
+
   return (
     <header className={styles.header}>
-      <div className={styles.header__logo} onClick={() => {}}>
+      <Link className={styles.header__logo} to={"/"}>
         <img
-          src="@assets/images/logo.png"
-          className={styles.header__logo_image}
+          src="src/assets/images/Logo.svg"
+          className={styles.header__logo__image}
         />
-      </div>
-      <div className={styles.header__profile}>
-        <button className={styles.header__profile__logout} onClick={() => {}}>
-          <div>아이콘</div>
-          <span>로그아웃</span>
-        </button>
-        <div className={styles.header__profile__hello}>
-          <div>아이콘</div>
-          <span>username님 안녕하세요!</span>
+      </Link>
+      {user ? (
+        <div className={styles.header__profile}>
+          <button className={styles.header__profile__logout} onClick={Logout}>
+            <FontAwesomeIcon
+              icon={faArrowRightFromBracket}
+              size="lg"
+              color="white"
+            />{" "}
+            <span>로그아웃</span>
+          </button>
+          <div className={styles.header__profile__hello}>
+            <FontAwesomeIcon icon={faCircleUser} size="2x" color="white" />{" "}
+            <div>
+              <span className={styles.header__profile__hello__name}>
+                {user.name}
+              </span>
+              <span>님 안녕하세요!</span>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
     </header>
   );
 }

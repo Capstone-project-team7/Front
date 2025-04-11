@@ -1,7 +1,15 @@
-import Header from "./components/header/Header";
+import ReactDOM from "react-dom";
+import MainPage from "./pages/mainPage/MainPage";
+import { UserContext, UserProvider } from "./stores/UserContext";
+import { useContext } from "react";
 
 function App() {
-  return <Header></Header>;
+  const { user } = useContext(UserContext);
+  return (
+    <>
+      <MainPage></MainPage>
+    </>
+  );
 }
 
 export default App;
