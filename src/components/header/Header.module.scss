@@ -45,7 +45,7 @@
       font-size: 0.6rem;
       font-weight: 400;
 
-      background-color: main.$color-button;
+      background-color: main.$color-primary;
 
       border: 2px solid main.$color-border-white;
       border-radius: 50px;
@@ -54,7 +54,7 @@
       cursor: pointer;
 
       &:hover {
-        filter: brightness(0.8);
+        background-color: main.$color-primary-selected;
       }
 
       span {

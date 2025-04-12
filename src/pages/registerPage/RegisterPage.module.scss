@@ -1,4 +1,4 @@
-.mainpage {
+.registerpage {
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -16,10 +16,9 @@
 
     position: absolute;
     bottom: 0;
-    right: 0;
 
     background-color: main.$color-background;
-    width: calc(100% - 230px);
+    width: 100%;
     height: calc(100vh - 70px);
   }
 }

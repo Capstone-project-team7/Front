@@ -15,11 +15,11 @@ export default function MenuItem({ label, to }) {
   const isActive = location.pathname === to;
 
   const icontype = {
-    Home: faHouseChimney,
-    Calendar: faCalendar,
-    CCTV: faVideo,
-    Guide: faFileLines,
-    MyPage: faGear,
+    홈페이지: faHouseChimney,
+    캘린더: faCalendar,
+    "CCTV 관리": faVideo,
+    이용가이드: faFileLines,
+    마이페이지: faGear,
   }[label];
 
   return (
