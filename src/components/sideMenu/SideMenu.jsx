@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./SideMenu.module.scss";
 import MenuItem from "../menuItem/MenuItem";
+import Modal from "../modal/Modal";
+import TermContent from "../termContent/TermContent";
 
 export default function SideMenu() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClickLeft, setIsClickLeft] = useState(true);
   return (
     <div className={styles.sidemenu}>
       <span className={styles.sidemenu__title}>Menu</span>
@@ -15,10 +19,30 @@ export default function SideMenu() {
         <MenuItem label="마이페이지" to="/mypage" />
       </ul>
       <div className={styles.sidemenu__terms}>
-        <span>이용약관</span>
+        <button
+          className={styles.sidemenu__terms__button}
+          onClick={() => {
+            setIsModalOpen(true);
+            setIsClickLeft(true);
+          }}
+        >
+          이용약관
+        </button>
         <span>|</span>
-        <span>개인정보처리방침</span>
+        <button
+          className={styles.sidemenu__terms__button}
+          onClick={() => {
+            setIsModalOpen(true);
+            setIsClickLeft(false);
+          }}
+        >
+          개인정보처리방침
+        </button>
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <TermContent isClickLeft={isClickLeft}></TermContent>
+      </Modal>
     </div>
   );
 }

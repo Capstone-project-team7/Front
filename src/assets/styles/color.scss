@@ -9,14 +9,16 @@ $color-button: #2a9d8f; // 깊은 청회색 (기본 버튼 배경)
 $color-button-emphasis: #ffffff; // 따뜻한 코럴 (강조 버튼 배경, Accent와 동일)
 
 $color-background: #fdf6f0; // 크림 화이트 (웹사이트 기본 배경)
+$color-modal-background: #00000080;
 
 $color-error: #d00000; // 강렬한 레드 (에러 메시지, 경고 표시)
 $color-success: #34ffa7; // 청록색 (성공 메시지, Secondary와 동일)
 
 $color-text-white: #ffffff;
 $color-text-black: #1a2526;
-$color-text-gray: #6b7280;
+$color-text-gray: #808080;
+$color-text-emphasize: #2a9d8f;
 
 $color-border-white: #ffffff;
-$color-border-gray: #6b7280;
+$color-border-gray: #808080;
 $color-border-black: #1a2526;

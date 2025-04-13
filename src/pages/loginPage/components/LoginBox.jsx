@@ -58,8 +58,12 @@ export default function LoginBox() {
         </button>
       </form>
       <div className={styles.loginbox__bottom}>
-        <Link className={styles.loginbox__bottom__link}>비밀번호 찾기</Link>
-        <Link className={styles.loginbox__bottom__link}>회원가입</Link>
+        <Link to="/findpassword" className={styles.loginbox__bottom__link}>
+          비밀번호 찾기
+        </Link>
+        <Link to="/register" className={styles.loginbox__bottom__link}>
+          회원가입
+        </Link>
       </div>
     </div>
   );

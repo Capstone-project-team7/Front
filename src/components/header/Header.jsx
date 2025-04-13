@@ -12,9 +12,9 @@ export default function Header() {
   const { user, setUser } = useContext(UserContext);
 
   const Logout = () => {
+    // 로그아웃 api 추가
     setUser(null);
     localStorage.removeItem("user");
-
     // 로그인 페이지로 navigate
   };
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styles from "./RegisterBox.module.scss";
+import TermContent from "../../../components/termContent/TermContent";
+import Modal from "../../../components/modal/Modal";
 import { Link } from "react-router-dom";
 
 export default function RegisterBox() {
@@ -12,22 +14,24 @@ export default function RegisterBox() {
   const [isAgreePrivacy, setIsAgreePrivacy] = useState(false);
   const [isAgreeAlarm, setIsAgreeAlarm] = useState(false);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClickLeft, setIsClickLeft] = useState(true);
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
     const fullEmail = `${userEmail}@${userEmailDomain}`;
 
-    console.log(fullEmail);
-    console.log(userPassword);
-    console.log(name);
-    console.log(isAgreeTerm);
-    console.log(isAgreePrivacy);
-    console.log(isAgreeAlarm);
+    // email 입력 체크
+    // 패스워드 일치 체크
+    // 패스워드 기준 만족 체크
+    // 이름 입력 체크
+    // 필수 동의 체크
 
     try {
       // 회원가입 api 추가
     } catch (err) {
-      // 실패 시 오류 출력
+      // 이미 가입된 이메일일 경우 오류
     }
   };
 
@@ -99,8 +103,16 @@ export default function RegisterBox() {
           />
           <span className={styles.registerbox__form__checkbox__box}></span>
           <span className={styles.registerbox__form__checkbox__text}>
-            [필수]
-            <span onClick={() => {}}> 최종이용자 이용약관</span>에 동의합니다.
+            [필수]{" "}
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+                setIsClickLeft(true);
+              }}
+            >
+              최종이용자 이용약관
+            </button>
+            에 동의합니다.
           </span>
         </label>
         <label className={styles.registerbox__form__checkbox}>
@@ -111,8 +123,16 @@ export default function RegisterBox() {
           />
           <span className={styles.registerbox__form__checkbox__box}></span>
           <span className={styles.registerbox__form__checkbox__text}>
-            [필수]
-            <span onClick={() => {}}> 개인정보 수집 및 이용</span>에 동의합니다.
+            [필수]{" "}
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+                setIsClickLeft(false);
+              }}
+            >
+              개인정보 수집 및 이용
+            </button>
+            에 동의합니다.
           </span>
         </label>
         <label className={styles.registerbox__form__checkbox}>
@@ -131,6 +151,10 @@ export default function RegisterBox() {
           회원가입
         </button>
       </form>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <TermContent isClickLeft={isClickLeft}></TermContent>
+      </Modal>
     </div>
   );
 }

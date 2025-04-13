@@ -88,7 +88,7 @@
           content: "";
           position: absolute;
           width: 4px;
-          height: 10px;
+          height: 9px;
           border: solid white;
           border-width: 0 2px 2px 0;
           top: -1px;
@@ -110,6 +110,20 @@
       &__text {
         font-size: 0.6rem;
         color: main.$color-text-white;
+
+        button {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+
+          font-size: 0.6rem;
+          font-weight: 500;
+          color: main.$color-text-emphasize;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
     }
 
