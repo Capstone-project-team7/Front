@@ -15,6 +15,7 @@ export default function RegisterBox() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickLeft, setIsClickLeft] = useState(true);
+  const [isValid, setIsValid] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -32,6 +33,18 @@ export default function RegisterBox() {
     } catch (err) {
       // 이미 가입된 이메일일 경우 오류
     }
+  };
+
+  const validatePassword = (password) => {
+    const regex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{8,}$/;
+    return regex.test(password);
+  };
+
+  const handleChangePassword = (e) => {
+    const pw = e.target.value;
+    setUserPassword(pw);
+    setIsValid(validatePassword(pw));
   };
 
   return (
@@ -62,13 +75,17 @@ export default function RegisterBox() {
           </select>
         </div>
 
-        <div className={styles.registerbox__form__inputwrapper}>
+        <div
+          className={`${styles.registerbox__form__inputwrapper} ${
+            userPassword ? (isValid ? styles.match : styles.mismatch) : ""
+          }`}
+        >
           <input
             className={styles.registerbox__form__inputwrapper__input}
             type="password"
             placeholder="비밀번호(영문, 숫자, 특수문자 조합 8자리 이상)"
             value={userPassword}
-            onChange={(e) => setUserPassword(e.target.value)}
+            onChange={handleChangePassword}
             autoComplete="new-password"
           />
         </div>
