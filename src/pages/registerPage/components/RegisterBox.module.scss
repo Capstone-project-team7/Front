@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  position: relative;
 
   width: 500px;
   height: 600px;
@@ -51,14 +52,42 @@
       }
     }
 
-    &__input {
+    &__inputwrapper {
       width: 70%;
-      padding: 12px 20px;
       border: none;
       outline: none;
-      border-radius: 10px;
+      position: relative;
 
-      background-color: main.$color-background;
+      &__input {
+        width: 100%;
+        padding: 12px 20px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+
+        background-color: main.$color-background;
+      }
+
+      &.match::after,
+      &.mismatch::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+
+      &.match::after {
+        content: "✅"; /* 또는 background-image 사용 가능 */
+      }
+
+      &.mismatch::after {
+        content: "❌"; /* 또는 background-image 사용 가능 */
+      }
     }
 
     &__checkbox {
@@ -130,8 +159,9 @@
     &__button {
       width: 70%;
       height: 50px;
+      position: absolute;
 
-      margin-top: 30px;
+      bottom: 50px;
 
       border: none;
       outline: none;

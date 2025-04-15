@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./RegisterBox.module.scss";
 import TermContent from "../../../components/termContent/TermContent";
 import Modal from "../../../components/modal/Modal";
-import { Link } from "react-router-dom";
 
 export default function RegisterBox() {
   const [userEmail, setUserEmail] = useState("");
@@ -63,37 +62,45 @@ export default function RegisterBox() {
           </select>
         </div>
 
-        <input
-          className={styles.registerbox__form__input}
-          type="password"
-          placeholder="비밀번호"
-          value={userPassword}
-          onChange={(e) => setUserPassword(e.target.value)}
-          autoComplete="new-password"
-        />
-        <input
-          className={styles.registerbox__form__input}
-          type="password"
-          placeholder="비밀번호 확인"
-          value={userPasswordCheck}
-          onChange={(e) => setUserPasswordCheck(e.target.value)}
-          autoComplete="new-password"
-        />
-        {userPasswordCheck &&
-          (userPassword === userPasswordCheck ? (
-            <span>일치</span>
-          ) : (
-            <span>불일치</span>
-          ))}
+        <div className={styles.registerbox__form__inputwrapper}>
+          <input
+            className={styles.registerbox__form__inputwrapper__input}
+            type="password"
+            placeholder="비밀번호(영문, 숫자, 특수문자 조합 8자리 이상)"
+            value={userPassword}
+            onChange={(e) => setUserPassword(e.target.value)}
+            autoComplete="new-password"
+          />
+        </div>
+        <div
+          className={`${styles.registerbox__form__inputwrapper} ${
+            userPasswordCheck
+              ? userPassword === userPasswordCheck
+                ? styles.match
+                : styles.mismatch
+              : ""
+          }`}
+        >
+          <input
+            className={styles.registerbox__form__inputwrapper__input}
+            type="password"
+            placeholder="비밀번호 확인"
+            value={userPasswordCheck}
+            onChange={(e) => setUserPasswordCheck(e.target.value)}
+            autoComplete="new-password"
+          />
+        </div>
 
-        <input
-          className={styles.registerbox__form__input}
-          type="text"
-          placeholder="이름"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          autoComplete="name"
-        />
+        <div className={styles.registerbox__form__inputwrapper}>
+          <input
+            className={styles.registerbox__form__inputwrapper__input}
+            type="text"
+            placeholder="이름"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            autoComplete="name"
+          />
+        </div>
 
         <label className={styles.registerbox__form__checkbox}>
           <input

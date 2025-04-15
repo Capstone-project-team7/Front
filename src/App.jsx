@@ -3,9 +3,9 @@ import MainPage from "./pages/mainPage/MainPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/registerPage/RegisterPage";
 import FindPasswordPage from "./pages/findPasswordPage/FindPasswordPage";
-import { UserContext, UserProvider } from "./stores/UserContext";
-import { useContext } from "react";
+import { UserProvider } from "./stores/UserContext";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ResetPasswordPage from "./pages/resetPasswordPage/ResetPasswordPage";
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/findpassword" element={<FindPasswordPage />}></Route>
+          <Route path="/resetpassword" element={<ResetPasswordPage />}></Route>
         </Routes>
       </BrowserRouter>
     </UserProvider>
