@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./LoginBox.module.scss";
 import { Link } from "react-router-dom";
 
+
 export default function LoginBox() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -9,15 +10,41 @@ export default function LoginBox() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    console.log(userEmail);
-    console.log(userPassword);
-    console.log(isStay);
-
+  
+    const payload = {
+      user_email: userEmail,
+      user_password: userPassword,
+    };
+  
     try {
-      // 로그인 api 추가
-    } catch (err) {
-      // 실패 시 오류 출력
+      const response = await fetch("http://localhost:8080/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok && result.status === "success") {
+        const { token, user_id, first_login, expiresIn } = result.data;
+  
+        // 필요하다면 localStorage 저장
+        localStorage.setItem("token", token);
+        localStorage.setItem("user_id", user_id);
+        localStorage.setItem("first_login", first_login);
+  
+        alert("로그인 성공!");
+  
+        // 예시로 이동 (react-router 사용 시)
+        // navigate("/main");
+      } else {
+        alert(result.message || "로그인에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("로그인 에러:", error);
+      alert("서버 오류 또는 네트워크 에러가 발생했습니다.");
     }
   };
 

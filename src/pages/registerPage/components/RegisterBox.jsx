@@ -3,6 +3,7 @@ import styles from "./RegisterBox.module.scss";
 import TermContent from "../../../components/termContent/TermContent";
 import Modal from "../../../components/modal/Modal";
 
+
 export default function RegisterBox() {
   const [userEmail, setUserEmail] = useState("");
   const [userEmailDomain, setUserEmailDomain] = useState("");
@@ -17,24 +18,6 @@ export default function RegisterBox() {
   const [isClickLeft, setIsClickLeft] = useState(true);
   const [isValid, setIsValid] = useState(false);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    const fullEmail = `${userEmail}@${userEmailDomain}`;
-
-    // email 입력 체크
-    // 패스워드 일치 체크
-    // 패스워드 기준 만족 체크
-    // 이름 입력 체크
-    // 필수 동의 체크
-
-    try {
-      // 회원가입 api 추가
-    } catch (err) {
-      // 이미 가입된 이메일일 경우 오류
-    }
-  };
-
   const validatePassword = (password) => {
     const regex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{8,}$/;
@@ -45,6 +28,58 @@ export default function RegisterBox() {
     const pw = e.target.value;
     setUserPassword(pw);
     setIsValid(validatePassword(pw));
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const fullEmail = `${userEmail}@${userEmailDomain}`;
+  
+    // 입력 유효성 검사
+    if (!userEmail || !userEmailDomain || !userPassword || !userPasswordCheck || !name) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+    if (userPassword !== userPasswordCheck) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if (!isValid) {
+      alert("비밀번호 형식을 확인해주세요.");
+      return;
+    }
+    if (!isAgreeTerm || !isAgreePrivacy) {
+      alert("필수 약관에 동의해야 합니다.");
+      return;
+    }
+  
+    const payload = {
+      user_email: fullEmail,
+      user_password: userPassword,
+      user_name: name,
+      agreement_status: true,
+    };
+  
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok && result.status === "success") {
+        alert("회원가입이 완료되었습니다!");
+        console.log("회원가입 성공:", result.data);
+      } else {
+        alert(result.message || "회원가입에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("회원가입 에러:", error);
+      alert("서버 오류 또는 이미 가입된 이메일일 수 있습니다.");
+    }
   };
 
   return (
@@ -67,19 +102,13 @@ export default function RegisterBox() {
             onChange={(e) => setUserEmailDomain(e.target.value)}
             placeholder="도메인 선택"
           >
-            <option value="" disabled>
-              도메인 선택
-            </option>
+            <option value="" disabled>도메인 선택</option>
             <option value="gmail.com">gmail.com</option>
             <option value="naver.com">naver.com</option>
           </select>
         </div>
 
-        <div
-          className={`${styles.registerbox__form__inputwrapper} ${
-            userPassword ? (isValid ? styles.match : styles.mismatch) : ""
-          }`}
-        >
+        <div className={`${styles.registerbox__form__inputwrapper} ${userPassword ? (isValid ? styles.match : styles.mismatch) : ""}`}>
           <input
             className={styles.registerbox__form__inputwrapper__input}
             type="password"
@@ -89,15 +118,7 @@ export default function RegisterBox() {
             autoComplete="new-password"
           />
         </div>
-        <div
-          className={`${styles.registerbox__form__inputwrapper} ${
-            userPasswordCheck
-              ? userPassword === userPasswordCheck
-                ? styles.match
-                : styles.mismatch
-              : ""
-          }`}
-        >
+        <div className={`${styles.registerbox__form__inputwrapper} ${userPasswordCheck ? userPassword === userPasswordCheck ? styles.match : styles.mismatch : ""}`}>
           <input
             className={styles.registerbox__form__inputwrapper__input}
             type="password"
@@ -119,6 +140,7 @@ export default function RegisterBox() {
           />
         </div>
 
+        {/* 약관 동의 */}
         <label className={styles.registerbox__form__checkbox}>
           <input
             type="checkbox"
@@ -129,6 +151,7 @@ export default function RegisterBox() {
           <span className={styles.registerbox__form__checkbox__text}>
             [필수]{" "}
             <button
+              type="button"
               onClick={() => {
                 setIsModalOpen(true);
                 setIsClickLeft(true);
@@ -149,6 +172,7 @@ export default function RegisterBox() {
           <span className={styles.registerbox__form__checkbox__text}>
             [필수]{" "}
             <button
+              type="button"
               onClick={() => {
                 setIsModalOpen(true);
                 setIsClickLeft(false);
