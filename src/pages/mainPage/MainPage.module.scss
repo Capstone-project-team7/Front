@@ -1,25 +1,2 @@
 .mainpage {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  position: relative;
-
-  width: 100%;
-  height: 100vh;
-
-  background-color: main.$color-background;
-
-  &__content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
-    background-color: main.$color-background;
-    width: calc(100% - 230px);
-    height: calc(100vh - 70px);
-  }
 }

@@ -10,11 +10,11 @@
   width: 230px;
   height: calc(100vh - 70px);
 
-  background-color: main.$color-primary;
-  border-top: 1px solid main.$color-border-white;
+  background-color: main.$color-background-accent;
+  // border-right: 2px solid main.$color-border-black;
 
   &__title {
-    color: main.$color-text-white;
+    color: main.$color-text-black;
     margin-top: 20px;
 
     font-size: 0.8rem;
@@ -24,8 +24,8 @@
   &__separator {
     margin-top: 10px;
     width: 180px;
-    height: 1px;
-    background-color: main.$color-border-white;
+    height: 2px;
+    background-color: main.$color-border-black;
   }
 
   &__list {
@@ -48,13 +48,13 @@
     gap: 10px;
 
     font-size: 0.7rem;
-    color: main.$color-text-white;
+    color: main.$color-text-black;
 
     &__button {
       background-color: transparent;
       border: none;
       font-size: 0.7rem;
-      color: main.$color-text-white;
+      color: main.$color-text-black;
 
       &:hover {
         text-decoration: underline;

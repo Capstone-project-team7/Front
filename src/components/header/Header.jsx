@@ -32,12 +32,12 @@ export default function Header() {
             <FontAwesomeIcon
               icon={faArrowRightFromBracket}
               size="lg"
-              color="white"
+              color="black"
             />{" "}
             <span>로그아웃</span>
           </button>
           <div className={styles.header__profile__hello}>
-            <FontAwesomeIcon icon={faCircleUser} size="2x" color="white" />{" "}
+            <FontAwesomeIcon icon={faCircleUser} size="2x" color="black" />{" "}
             <div>
               <span className={styles.header__profile__hello__name}>
                 {user.name}

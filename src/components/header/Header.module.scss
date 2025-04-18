@@ -6,14 +6,17 @@
   width: 100%;
   height: 70px;
 
-  background-color: main.$color-primary;
+  background-color: main.$color-background-accent;
 
-  padding: 0 16px;
+  // border-bottom: 2px solid main.$color-border-black;
+
+  padding: 0 15px;
 
   &__logo {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 200px;
     height: 100%;
 
     cursor: pointer;
@@ -21,7 +24,6 @@
     &__image {
       display: flex;
       height: 90%;
-      filter: invert(1);
     }
   }
 
@@ -45,20 +47,21 @@
       font-size: 0.6rem;
       font-weight: 400;
 
-      background-color: main.$color-primary;
+      background-color: main.$color-background-accent;
 
-      border: 2px solid main.$color-border-white;
+      border: 1px solid main.$color-border-black;
       border-radius: 50px;
       gap: 2px;
 
       cursor: pointer;
 
       &:hover {
-        background-color: main.$color-primary-selected;
+        filter: brightness(0.9);
       }
 
       span {
-        color: main.$color-text-white;
+        color: main.$color-text-black;
+        font-weight: 500;
       }
     }
 
@@ -69,7 +72,7 @@
 
       gap: 10px;
 
-      color: main.$color-text-white;
+      color: main.$color-text-black;
       font-weight: 500;
 
       &__name {

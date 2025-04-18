@@ -16,7 +16,7 @@ export default function Modal({ isOpen, onClose, children }) {
           <FontAwesomeIcon
             icon={faClose}
             size="1x"
-            color="white"
+            color="black"
           ></FontAwesomeIcon>
         </button>
         {children}

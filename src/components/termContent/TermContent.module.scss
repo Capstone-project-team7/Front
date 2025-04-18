@@ -16,10 +16,13 @@
       padding: 10px;
       background-color: main.$color-primary;
       border: none;
+      border-radius: 10px 10px 0 0;
+
+      font-weight: 600;
 
       &.active {
-        border-bottom: 2px solid main.$color-border-white;
-        color: main.$color-text-white;
+        border-bottom: 2px solid main.$color-border-black;
+        color: main.$color-text-black;
       }
 
       &.inactive {
@@ -28,7 +31,7 @@
       }
 
       &:hover {
-        filter: brightness(1.2);
+        filter: brightness(0.9);
       }
     }
   }
@@ -42,7 +45,7 @@
     width: 100%;
 
     font-size: 1rem;
-    color: main.$color-text-white;
+    color: main.$color-text-black;
     gap: 20px;
     margin-top: 20px;
     padding: 10px 20px;
