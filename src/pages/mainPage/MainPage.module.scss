@@ -1,2 +1,241 @@
 .mainpage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 120px;
+
+    margin-top: 20px;
+    padding: 0 20px;
+    gap: 20px;
+
+    &__filter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex: 3;
+      height: 100%;
+      background-color: main.$color-primary;
+      border-radius: 10px;
+
+      gap: 20px;
+
+      &__title {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 0.8rem;
+      }
+
+      &__date {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        text-wrap: nowrap;
+
+        gap: 10px;
+
+        .dateRangeDisplay {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+          background-color: main.$color-background;
+          height: 40px;
+          padding: 8px 16px;
+          gap: 10px;
+          min-width: 270px;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+          font-size: 1rem;
+        }
+
+        .dateRangeText {
+          font-size: 1rem;
+          font-weight: 500;
+          color: main.$color-text-black;
+        }
+
+        .placeholderText {
+          font-size: 1rem;
+          color: main.$color-text-gray;
+        }
+
+        .datePickerButton {
+          position: absolute;
+          right: 0;
+          background-color: main.$color-background;
+          color: main.$color-text-black;
+          border: none;
+          padding: 8px 12px;
+
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: background-color 0.3s;
+
+          &:hover {
+            filter: brightness(0.9);
+          }
+        }
+
+        &__calendar {
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 0;
+          background-color: main.$color-background;
+          z-index: 10;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      &__category {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-wrap: nowrap;
+        height: 40px;
+        gap: 10px;
+
+        &__select {
+          width: 100px;
+          height: 100%;
+          padding: 8px 16px;
+          border-radius: 5px;
+          border: none;
+          background-color: main.$color-background;
+
+          &:focus {
+            border: none;
+          }
+        }
+      }
+
+      &__search {
+        width: 70px;
+        height: 40px;
+        border: none;
+        border-radius: 5px;
+
+        background-color: main.$color-button;
+        font-size: 1rem;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+
+    &__types {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex: 1;
+      height: 100%;
+
+      background-color: main.$color-primary;
+      border-radius: 10px;
+
+      &__title {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 0.8rem;
+        text-wrap: nowrap;
+      }
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    width: 100%;
+    height: 450px;
+    margin-top: 20px;
+    padding: 0 20px;
+    gap: 20px;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: main.$color-primary;
+      border-radius: 10px;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 20px;
+    padding: 0 20px;
+
+    width: 100%;
+    height: 50px;
+    gap: 5px;
+
+    .pageItem {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      border: none;
+      background-color: main.$color-background;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:hover {
+        background-color: #dbdbdb;
+      }
+
+      &.active {
+        background-color: main.$color-button;
+        color: black;
+      }
+
+      &.disabled {
+        color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 10px;
+    position: fixed;
+
+    bottom: 30px;
+    right: 20px;
+  }
 }
