@@ -2,11 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./AuthBox.module.scss";
 
-export default function AuthBox({ title, children, submitButton, isLogin }) {
+export default function AuthBox({
+  title,
+  children,
+  submitButton,
+  isLogin,
+  contentStart,
+}) {
   return (
     <div className={styles.authbox}>
       <span className={styles.authbox__title}>{title}</span>
-      <div className={styles.authbox__content}>{children}</div>
+      <div
+        className={`${styles.authbox__content} ${
+          contentStart === "blank" ? styles.blank : ""
+        }`}
+      >
+        {children}
+      </div>
       <div className={styles.authbox__bottom}>
         {submitButton}
         {isLogin && (

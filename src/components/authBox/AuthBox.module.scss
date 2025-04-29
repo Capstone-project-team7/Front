@@ -13,7 +13,7 @@
   background-color: main.$color-primary;
 
   &__title {
-    margin-top: 80px;
+    margin-top: 60px;
     font-size: 2.5rem;
     font-weight: 700;
     color: main.$color-text-black;
@@ -28,6 +28,10 @@
     width: 100%;
 
     margin-top: 50px;
+
+    &.blank {
+      margin-top: 80px;
+    }
   }
 
   &__bottom {

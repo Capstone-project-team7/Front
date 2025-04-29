@@ -1,32 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MainPage.module.scss";
 import CommonButton from "../../components/commonButton/CommonButton";
+import VideoItem from "./components/videoItem/VideoItem";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
-import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFilter,
+  faCircleInfo,
+  faCalendarDays,
+  faSearch,
+  faTrash,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function MainPage() {
-  // 현재 페이지의 아이템들을 저장할 상태
   const [currentItems, setCurrentItems] = useState([]);
-  // 현재 페이지 번호
   const [currentPage, setCurrentPage] = useState(0);
-  // 임의의 영상 개수 설정 : 120개
   const totalItems = 120;
-  // 한 페이지 당 영상 개수
   const itemsPerPage = 6;
-  // 페이저에서 한번에 표시할 페이지 수
   const pageRange = 5;
-  // 페이지 시작 번호 (1~5페이지의 경우 0, 6~10페이지의 경우 5)
   const blockStart = Math.floor(currentPage / pageRange) * pageRange;
-  // 표시할 페이지 배열의 형태로 반환
   const pages = Array.from({ length: pageRange }, (_, i) => blockStart + i);
-  // 전체 페이지 개수 계산
   const pageCount = Math.ceil(totalItems / itemsPerPage);
 
   // 페이지가 변경될 때마다 해당 페이지의 아이템들을 가져옴
   useEffect(() => {
-    // 실제 API 호출을 대신하는 더미 데이터 생성
     // 페이지에 해당하는 영상 리스트 요청 api
+    // 우선 더미데이터 생성 후 삽입
 
     const generateDummyItems = () => {
       const startIndex = currentPage * itemsPerPage;
@@ -38,7 +39,8 @@ export default function MainPage() {
         if (itemIndex < totalItems) {
           return {
             id: itemIndex + 1,
-            title: `아이템 ${itemIndex + 1}`,
+            time: `2025.04.29 16:00 ${itemIndex + 1}`,
+            type: "절도",
           };
         }
         return null;
@@ -56,17 +58,19 @@ export default function MainPage() {
   const [category, setCategory] = useState("전체");
 
   const handleSearch = () => {
+    // 날짜 및 유형 필터링 검색 api
     console.log(range);
     console.log(category);
   };
 
+  // 날짜 필터 바깥쪽 클릭 시 닫기
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         dayFilterRef.current &&
         !dayFilterRef.current.contains(event.target)
       ) {
-        setDayFilterOpen(false); // 바깥쪽 클릭 시 닫기
+        setDayFilterOpen(false);
       }
     };
 
@@ -76,17 +80,22 @@ export default function MainPage() {
       document.removeEventListener("mousedown", handleClickOutside);
     }
 
-    // clean up
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dayFilterOpen]); // dayFilterOpen 상태 변경 시마다 실행
 
+  const handleVideoClicked = (video) => {
+    console.log(video);
+  };
+
   return (
     <div className={styles.mainpage}>
       <div className={styles.mainpage__top}>
         <div className={styles.mainpage__top__filter}>
-          <span className={styles.mainpage__top__filter__title}>필터</span>
+          <div className={styles.mainpage__top__filter__title}>
+            <FontAwesomeIcon icon={faFilter} size="2x" />
+          </div>
           <div className={styles.mainpage__top__filter__date}>
             <span>날짜 선택: </span>
             <div className={styles.dateRangeDisplay} ref={dayFilterRef}>
@@ -101,7 +110,7 @@ export default function MainPage() {
                 onClick={() => setDayFilterOpen(!dayFilterOpen)}
                 className={styles.datePickerButton}
               >
-                <span>📅</span>
+                <FontAwesomeIcon icon={faCalendarDays} size="lg" />
               </button>
               {dayFilterOpen && (
                 <div className={styles.mainpage__top__filter__date__calendar}>
@@ -130,22 +139,47 @@ export default function MainPage() {
               <option value="유기">유기</option>
             </select>
           </div>
-          <button
-            className={styles.mainpage__top__filter__search}
-            onClick={handleSearch}
-          >
-            검색
-          </button>
+          <div className={styles.mainpage__top__filter__search}>
+            <CommonButton
+              size="small"
+              label={
+                <FontAwesomeIcon icon={faSearch} size="lg"></FontAwesomeIcon>
+              }
+              color="primary"
+              onClick={handleSearch}
+            >
+              검색
+            </CommonButton>
+          </div>
         </div>
         <div className={styles.mainpage__top__types}>
-          <span className={styles.mainpage__top__types__title}>타입</span>
+          <div className={styles.mainpage__top__types__title}>
+            <FontAwesomeIcon icon={faCircleInfo} size="2x" />
+          </div>
+          <div className={styles.mainpage__top__types__content}>
+            <div className={styles.first}>
+              <div className={styles.thief}>절도</div>
+              <div className={styles.break}>파손</div>
+              <div className={styles.assault}>폭행</div>
+              <div className={styles.falling}>전도</div>
+            </div>
+            <div className={styles.second}>
+              <div className={styles.arson}>방화</div>
+              <div className={styles.smoke}>흡연</div>
+              <div className={styles.abandon}>유기</div>
+            </div>
+          </div>
         </div>
       </div>
       <div className={styles.mainpage__list}>
         {currentItems.map((item) => (
-          <div key={item.id} className={styles.mainpage__list__item}>
-            <h3>{item.title}</h3>
-          </div>
+          <VideoItem
+            key={item.id}
+            time={item.time}
+            type={item.type}
+            thumbnail={null}
+            onClick={() => handleVideoClicked(item)}
+          ></VideoItem>
         ))}
       </div>
       <div className={styles.mainpage__pagination}>
@@ -179,11 +213,17 @@ export default function MainPage() {
       </div>
       <div className={styles.mainpage__buttons}>
         <CommonButton
+          icon={<FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>}
           label="삭제"
           color="secondary"
           size="small"
         ></CommonButton>
-        <CommonButton label="저장" color="primary" size="small"></CommonButton>
+        <CommonButton
+          icon={<FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>}
+          label="저장"
+          color="primary"
+          size="small"
+        ></CommonButton>
       </div>
     </div>
   );

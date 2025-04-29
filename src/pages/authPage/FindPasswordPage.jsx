@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./AuthPages.module.scss";
 import AuthBox from "@components/authBox/AuthBox";
+import CommonButton from "../../components/commonButton/CommonButton";
 
 export default function FindPasswordPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -20,14 +21,15 @@ export default function FindPasswordPage() {
       <AuthBox
         title="비밀번호 변경"
         submitButton={
-          <button
-            className={styles.pagewrapper__form__button}
+          <CommonButton
+            label="비밀번호 초기화"
+            color="primary"
+            size="large"
             onClick={handleFindPassword}
-          >
-            비밀번호 초기화
-          </button>
+          />
         }
         isLogin={false}
+        contentStart="blank"
       >
         <form className={styles.pagewrapper__form}>
           <input

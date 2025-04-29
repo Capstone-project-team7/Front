@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./AuthPages.module.scss";
 import AuthBox from "@components/authBox/AuthBox";
+import CommonButton from "../../components/commonButton/CommonButton";
 
 export default function ResetPasswordPage() {
   const [userPassword, setUserPassword] = useState("");
@@ -35,14 +36,15 @@ export default function ResetPasswordPage() {
       <AuthBox
         title="비밀번호 변경"
         submitButton={
-          <button
-            className={styles.pagewrapper__form__button}
+          <CommonButton
+            label="변경하기"
+            size="large"
+            color="primary"
             onClick={handleResetPassword}
-          >
-            변경하기
-          </button>
+          />
         }
         isLogin={false}
+        contentStart="blank"
       >
         <form className={styles.pagewrapper__form}>
           <div

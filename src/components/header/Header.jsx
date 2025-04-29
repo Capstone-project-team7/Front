@@ -6,16 +6,18 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../stores/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const Logout = () => {
     // 로그아웃 api 추가
     setUser(null);
     localStorage.removeItem("user");
     // 로그인 페이지로 navigate
+    navigate("/login");
   };
 
   return (

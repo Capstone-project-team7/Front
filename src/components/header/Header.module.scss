@@ -7,9 +7,7 @@
   height: 70px;
   border-bottom: 1px solid main.$color-border-white;
 
-  background-color: main.$color-background-accent;
-
-  // border-bottom: 2px solid main.$color-border-black;
+  background-color: main.$color-primary;
 
   padding: 0 15px;
 
@@ -50,7 +48,7 @@
 
       background-color: main.$color-background-accent;
 
-      border: 1px solid main.$color-border-black;
+      border: 1px solid main.$color-border-gray;
       border-radius: 50px;
       gap: 2px;
 
@@ -58,6 +56,10 @@
 
       &:hover {
         filter: brightness(0.9);
+      }
+
+      &:active {
+        scale: 0.97;
       }
 
       span {
@@ -74,6 +76,7 @@
       gap: 10px;
 
       color: main.$color-text-black;
+      font-size: 1rem;
       font-weight: 500;
 
       &__name {

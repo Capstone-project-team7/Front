@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "./AuthPages.module.scss";
 import AuthBox from "@components/authBox/AuthBox";
+import CommonButton from "../../components/commonButton/CommonButton";
+import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
 
 export default function LoginPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -25,14 +27,17 @@ export default function LoginPage() {
       <AuthBox
         title="로그인"
         submitButton={
-          <button
-            className={styles.pagewrapper__form__button}
+          <CommonButton
+            label="로그인"
+            color="primary"
+            size="large"
             onClick={handleLogin}
           >
             로그인
-          </button>
+          </CommonButton>
         }
         isLogin={true}
+        contentStart="blank"
       >
         <form className={styles.pagewrapper__form}>
           <input
@@ -51,7 +56,11 @@ export default function LoginPage() {
             onChange={(e) => setUserPassword(e.target.value)}
             autoComplete="current-password"
           />
-          <label className={styles.pagewrapper__form__saveid}>
+          <CommonCheckbox checked={isStay} onChange={setIsStay}>
+            로그인 상태 유지
+          </CommonCheckbox>
+
+          {/* <label className={styles.pagewrapper__form__saveid}>
             <input
               type="checkbox"
               checked={isStay}
@@ -61,7 +70,7 @@ export default function LoginPage() {
             <span className={styles.pagewrapper__form__saveid__text}>
               로그인 상태 유지
             </span>
-          </label>
+          </label> */}
         </form>
       </AuthBox>
     </div>

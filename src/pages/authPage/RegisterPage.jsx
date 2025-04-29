@@ -3,6 +3,8 @@ import styles from "./AuthPages.module.scss";
 import AuthBox from "@components/authBox/AuthBox";
 import Modal from "../../components/modal/Modal";
 import TermContent from "../../components/termContent/TermContent";
+import CommonButton from "../../components/commonButton/CommonButton";
+import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
 
 export default function RegisterPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -53,14 +55,15 @@ export default function RegisterPage() {
       <AuthBox
         title="회원가입"
         submitButton={
-          <button
-            className={styles.pagewrapper__form__button}
+          <CommonButton
+            label="회원가입"
+            size="large"
+            color="primary"
             onClick={handleRegister}
-          >
-            회원가입
-          </button>
+          />
         }
         isLogin={false}
+        contentStart="full"
       >
         <form className={styles.pagewrapper__form}>
           <div className={styles.pagewrapper__form__email}>
@@ -130,35 +133,25 @@ export default function RegisterPage() {
               autoComplete="name"
             />
           </div>
+          <CommonCheckbox checked={isAgreeTerm} onChange={setIsAgreeTerm}>
+            {
+              <span className={styles.pagewrapper__form__checkbox__text}>
+                [필수]{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setIsClickLeft(true);
+                  }}
+                >
+                  최종이용자 이용약관
+                </button>
+                에 동의합니다.
+              </span>
+            }
+          </CommonCheckbox>
 
-          <label className={styles.pagewrapper__form__checkbox}>
-            <input
-              type="checkbox"
-              checked={isAgreeTerm}
-              onChange={(e) => setIsAgreeTerm(e.target.checked)}
-            />
-            <span className={styles.pagewrapper__form__checkbox__box}></span>
-            <span className={styles.pagewrapper__form__checkbox__text}>
-              [필수]{" "}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setIsClickLeft(true);
-                }}
-              >
-                최종이용자 이용약관
-              </button>
-              에 동의합니다.
-            </span>
-          </label>
-          <label className={styles.pagewrapper__form__checkbox}>
-            <input
-              type="checkbox"
-              checked={isAgreePrivacy}
-              onChange={(e) => setIsAgreePrivacy(e.target.checked)}
-            />
-            <span className={styles.pagewrapper__form__checkbox__box}></span>
+          <CommonCheckbox checked={isAgreePrivacy} onChange={setIsAgreePrivacy}>
             <span className={styles.pagewrapper__form__checkbox__text}>
               [필수]{" "}
               <button
@@ -172,18 +165,12 @@ export default function RegisterPage() {
               </button>
               에 동의합니다.
             </span>
-          </label>
-          <label className={styles.pagewrapper__form__checkbox}>
-            <input
-              type="checkbox"
-              checked={isAgreeAlarm}
-              onChange={(e) => setIsAgreeAlarm(e.target.checked)}
-            />
-            <span className={styles.pagewrapper__form__checkbox__box}></span>
+          </CommonCheckbox>
+          <CommonCheckbox checked={isAgreeAlarm} onChange={setIsAgreeAlarm}>
             <span className={styles.pagewrapper__form__checkbox__text}>
               [선택] 이메일 알림 수신에 동의합니다.
             </span>
-          </label>
+          </CommonCheckbox>
         </form>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <TermContent isClickLeft={isClickLeft}></TermContent>

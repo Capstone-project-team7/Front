@@ -1,13 +1,20 @@
 import React from "react";
 import styles from "./CommonButton.module.scss";
 
-function CommonButton({ label, size = "large", color = "primary", onClick }) {
+function CommonButton({
+  icon,
+  label,
+  size = "large",
+  color = "primary",
+  onClick,
+}) {
   return (
     <button
       className={`${styles.commonbutton} ${styles[size]} ${styles[color]}`}
       onClick={onClick}
     >
-      {label}
+      {icon && <span>{icon}</span>}
+      <span>{label}</span>
     </button>
   );
 }

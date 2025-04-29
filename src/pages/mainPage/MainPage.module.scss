@@ -5,8 +5,9 @@
   justify-content: flex-start;
   position: relative;
 
-  width: 100%;
+  min-width: 1136px;
   height: 100%;
+  min-height: 600px;
 
   &__top {
     display: flex;
@@ -27,7 +28,9 @@
       position: relative;
       flex: 3;
       height: 100%;
-      background-color: main.$color-primary;
+      // background-color: main.$color-background-card;
+
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
       border-radius: 10px;
 
       gap: 20px;
@@ -36,7 +39,7 @@
         position: absolute;
         top: 10px;
         left: 10px;
-        font-size: 0.8rem;
+        font-size: 0.6rem;
       }
 
       &__date {
@@ -44,7 +47,10 @@
         align-items: center;
         justify-content: center;
         position: relative;
+
         text-wrap: nowrap;
+        font-size: 1rem;
+        margin-top: 15px;
 
         gap: 10px;
 
@@ -59,7 +65,7 @@
           gap: 10px;
           min-width: 270px;
           border-radius: 5px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
           cursor: pointer;
           font-size: 1rem;
         }
@@ -111,15 +117,27 @@
         justify-content: center;
         text-wrap: nowrap;
         height: 40px;
+        margin-top: 15px;
+
         gap: 10px;
+        font-size: 1rem;
 
         &__select {
-          width: 100px;
+          width: 200px;
           height: 100%;
           padding: 8px 16px;
           border-radius: 5px;
           border: none;
+          outline: none;
           background-color: main.$color-background;
+          font-size: 1rem;
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+
+          option {
+            font-size: 1rem;
+            border: none;
+            outline: none;
+          }
 
           &:focus {
             border: none;
@@ -128,21 +146,7 @@
       }
 
       &__search {
-        width: 70px;
-        height: 40px;
-        border: none;
-        border-radius: 5px;
-
-        background-color: main.$color-button;
-        font-size: 1rem;
-
-        &:hover {
-          filter: brightness(0.9);
-        }
-
-        &:active {
-          transform: scale(0.98);
-        }
+        margin-top: 15px;
       }
     }
 
@@ -154,15 +158,63 @@
       flex: 1;
       height: 100%;
 
-      background-color: main.$color-primary;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+      // background-color: main.$color-background-card;
       border-radius: 10px;
 
       &__title {
         position: absolute;
         top: 10px;
         left: 10px;
-        font-size: 0.8rem;
+        font-size: 0.6rem;
         text-wrap: nowrap;
+      }
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 5px;
+        margin-top: 20px;
+
+        .first,
+        .second {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+          gap: 5px;
+
+          div {
+            background-color: main.$color-accent;
+            border-radius: 5px;
+            padding: 8px 12px;
+          }
+
+          .thief {
+            background-color: main.$color-thief;
+          }
+          .break {
+            background-color: main.$color-break;
+          }
+          .assault {
+            background-color: main.$color-assault;
+          }
+          .falling {
+            background-color: main.$color-falling;
+          }
+          .arson {
+            background-color: main.$color-arson;
+          }
+          .smoke {
+            background-color: main.$color-smoke;
+          }
+          .abandon {
+            background-color: main.$color-abandon;
+          }
+        }
       }
     }
   }
@@ -173,17 +225,19 @@
     grid-template-rows: repeat(2, 1fr);
 
     width: 100%;
-    height: 450px;
+    height: 480px;
     margin-top: 20px;
     padding: 0 20px;
-    gap: 20px;
+    gap: 12px;
 
     &__item {
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: main.$color-primary;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+      // background-color: main.$color-background-card;
       border-radius: 10px;
+      font-size: 1rem;
     }
   }
 
@@ -191,12 +245,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    margin-top: 20px;
+    position: absolute;
     padding: 0 20px;
 
     width: 100%;
     height: 50px;
+    bottom: 10px;
     gap: 5px;
 
     .pageItem {
@@ -208,7 +262,7 @@
       border-radius: 4px;
       border: none;
       background-color: main.$color-background;
-      color: #333;
+      color: main.$color-text-black;
       text-decoration: none;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -220,7 +274,7 @@
 
       &.active {
         background-color: main.$color-button;
-        color: black;
+        color: main.$color-text-white;
       }
 
       &.disabled {
@@ -233,9 +287,9 @@
   &__buttons {
     display: flex;
     gap: 10px;
-    position: fixed;
+    position: absolute;
 
-    bottom: 30px;
+    bottom: 20px;
     right: 20px;
   }
 }

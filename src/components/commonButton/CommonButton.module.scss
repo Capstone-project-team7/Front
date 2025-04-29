@@ -1,6 +1,11 @@
 .commonbutton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
@@ -12,14 +17,14 @@
   }
 
   &.large {
-    width: 400px;
+    width: 100%;
     height: 50px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   &.primary {
     background-color: main.$color-button;
-    color: black;
+    color: main.$color-text-white;
     font-weight: 500;
 
     &:hover {
@@ -29,7 +34,7 @@
 
   &.secondary {
     background-color: transparent;
-    border: 1px solid main.$color-border-black;
+    border: 1px solid main.$color-border-gray;
     color: black;
     font-weight: 400;
 

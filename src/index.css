@@ -95,7 +95,10 @@ video {
 html,
 body,
 #root {
-  height: 100vh;
+  width: 100%;
+  min-width: 1366px;
+  height: auto;
+  overflow: auto;
 }
 /* HTML5 display-role reset for older browsers */
 article,
