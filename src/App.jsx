@@ -1,6 +1,7 @@
 import DefaultLayout from "./components/layout/DefaultLayout";
 import SideMenuLayout from "./components/layout/SideMenuLayout";
 import MainPage from "./pages/mainPage/MainPage";
+import GuidePage from "./pages/guidePage/GuidePage";
 import LoginPage from "./pages/authPage/LoginPage";
 import RegisterPage from "./pages/authPage/RegisterPage";
 import FindPasswordPage from "./pages/authPage/FindPasswordPage";
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
       { path: "/", element: <MainPage /> },
       { path: "/calendar", element: <MainPage /> },
       { path: "/cctv", element: <MainPage /> },
-      { path: "/guide", element: <MainPage /> },
+      { path: "/guide", element: <GuidePage /> },
       { path: "/mypage", element: <MainPage /> },
     ],
   },
