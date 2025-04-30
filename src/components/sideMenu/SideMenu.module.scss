@@ -3,12 +3,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  position: absolute;
-  left: 0;
-  top: 70px;
+  position: relative;
 
   width: 230px;
-  height: calc(100vh - 70px);
+  height: 100%;
+  min-height: 700px;
 
   background-color: main.$color-primary;
   // border-right: 2px solid main.$color-border-black;

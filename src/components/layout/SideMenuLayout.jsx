@@ -8,8 +8,8 @@ export default function SideMenuLayout() {
   return (
     <div className={styles.layoutwrapper}>
       <Header />
-      <SideMenu />
       <main className={styles.layoutwrapper__sidemenu}>
+        <SideMenu />
         <Outlet />
       </main>
     </div>

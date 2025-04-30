@@ -1,11 +1,12 @@
 .layoutwrapper {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   position: relative;
 
   width: 100%;
-  height: 100vh;
+  height: 100%;
 
   background-color: main.$color-background;
 
@@ -14,12 +15,9 @@
     align-items: center;
     justify-content: center;
 
-    position: absolute;
-    bottom: 0;
-
     background-color: main.$color-background;
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100% - 70px);
   }
 
   &__sidemenu {
@@ -27,12 +25,8 @@
     align-items: center;
     justify-content: center;
 
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
     background-color: main.$color-background;
-    width: calc(100% - 230px);
-    height: calc(100vh - 70px);
+    width: 100%;
+    height: calc(100% - 70px);
   }
 }
