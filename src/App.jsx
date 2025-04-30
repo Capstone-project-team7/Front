@@ -2,6 +2,9 @@ import DefaultLayout from "./components/layout/DefaultLayout";
 import SideMenuLayout from "./components/layout/SideMenuLayout";
 import MainPage from "./pages/mainPage/MainPage";
 import GuidePage from "./pages/guidePage/GuidePage";
+import CalendarPage from "./pages/calendarPage/CalendarPage";
+import CctvPage from "./pages/cctvPage/CctvPage";
+import MyPage from "./pages/myPage/MyPage";
 import LoginPage from "./pages/authPage/LoginPage";
 import RegisterPage from "./pages/authPage/RegisterPage";
 import FindPasswordPage from "./pages/authPage/FindPasswordPage";
@@ -38,10 +41,10 @@ const router = createBrowserRouter([
     element: <SideMenuLayout />,
     children: [
       { path: "/", element: <MainPage /> },
-      { path: "/calendar", element: <MainPage /> },
-      { path: "/cctv", element: <MainPage /> },
+      { path: "/calendar", element: <CalendarPage /> },
+      { path: "/cctv", element: <CctvPage /> },
       { path: "/guide", element: <GuidePage /> },
-      { path: "/mypage", element: <MainPage /> },
+      { path: "/mypage", element: <MyPage /> },
     ],
   },
 ]);
