@@ -9,11 +9,14 @@ export function UserProvider({ children }) {
     const saved = localStorage.getItem("user");
     // if (saved) setUser(JSON.parse(saved));
 
-    // 임시 유저 값 세팅팅
+    // 임시 유저 값 세팅
     setUser({
       name: "홍길동",
       email: "honggildong@gmail.com",
-      storage: 10.0,
+      currentStorage: 22.5,
+      maxStorage: 30.0,
+      isAlarm: true,
+      isFirst: true,
     });
   }, []);
 

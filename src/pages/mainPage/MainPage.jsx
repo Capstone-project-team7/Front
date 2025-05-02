@@ -213,14 +213,14 @@ export default function MainPage() {
       </div>
       <div className={styles.mainpage__buttons}>
         <CommonButton
-          icon={<FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>}
-          label="삭제"
+          icon={<FontAwesomeIcon icon={faTrash} size="1x"></FontAwesomeIcon>}
+          label="선택 항목 삭제"
           color="secondary"
           size="small"
         ></CommonButton>
         <CommonButton
-          icon={<FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>}
-          label="저장"
+          icon={<FontAwesomeIcon icon={faDownload} size="1x"></FontAwesomeIcon>}
+          label="선택 항목 다운로드"
           color="primary"
           size="small"
         ></CommonButton>

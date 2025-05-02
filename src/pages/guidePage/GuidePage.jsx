@@ -6,7 +6,6 @@ export default function GuidePage() {
     <div className={styles.guidepage}>
       <div className={styles.guidepage__wrapper}>
         <span className={styles.guidepage__wrapper__title}>사용 가이드</span>
-        <div className={styles.guidepage__wrapper__separator}></div>
         <div className={styles.starter}>
           <span className={styles.title}>🌟시작하며</span>
           <span className={styles.intro}>
@@ -113,20 +112,13 @@ export default function GuidePage() {
                   <br /> 알림을 켜거나 끌 수 있는 ON/OFF 기능을 제공합니다.
                 </li>
                 <li>
-                  🧑 회원 정보 확인
-                  <br /> 현재 회원 정보를 간편하게 확인할 수 있습니다.
-                </li>
-                <li>
-                  🔑 정보 변경
-                  <br /> 이름과 비밀번호를 원하는 대로 변경하세요.
+                  🧑 회원 정보 확인 및 변경
+                  <br /> 현재 회원 정보를 간편하게 확인 및 변경할 수 있습니다.
                 </li>
                 <li>
                   💾 저장 공간 확인
-                  <br /> 잔여 저장 공간을 실시간으로 체크할 수 있습니다.
-                </li>
-                <li>
-                  ⚠️ 저장 공간 주의
-                  <br /> 공간이 가득 차면 더 이상 저장되지 않으니 주기적으로
+                  <br /> 잔여 저장 공간을 실시간으로 체크할 수 있습니다. <br />
+                  공간이 가득 차면 더 이상 저장되지 않으니 주기적으로
                   확인해주세요.
                 </li>
                 <li>

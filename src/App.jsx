@@ -6,6 +6,7 @@ import GuidePage from "./pages/guidePage/GuidePage";
 import CalendarPage from "./pages/calendarPage/CalendarPage";
 import CctvPage from "./pages/cctvPage/CctvPage";
 import MyPage from "./pages/myPage/MyPage";
+import EditPage from "./pages/myPage/EditPage";
 import LoginPage from "./pages/authPage/LoginPage";
 import RegisterPage from "./pages/authPage/RegisterPage";
 import FindPasswordPage from "./pages/authPage/FindPasswordPage";
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
       { path: "/cctv", element: <CctvPage /> },
       { path: "/guide", element: <GuidePage /> },
       { path: "/mypage", element: <MyPage /> },
+      { path: "/mypage/edit", element: <EditPage /> },
     ],
   },
 ]);

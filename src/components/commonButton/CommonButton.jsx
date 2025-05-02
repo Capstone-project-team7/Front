@@ -13,7 +13,7 @@ function CommonButton({
       className={`${styles.commonbutton} ${styles[size]} ${styles[color]}`}
       onClick={onClick}
     >
-      {icon && <span>{icon}</span>}
+      {icon && <span className={styles.commonbutton__icon}>{icon}</span>}
       <span>{label}</span>
     </button>
   );
