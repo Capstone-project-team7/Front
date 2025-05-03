@@ -5,8 +5,8 @@ import TutorialPage from "./pages/tutorialPage/TutorialPage";
 import GuidePage from "./pages/guidePage/GuidePage";
 import CalendarPage from "./pages/calendarPage/CalendarPage";
 import CctvPage from "./pages/cctvPage/CctvPage";
+import CctvEditPage from "./pages/cctvPage/CctvEditPage";
 import MyPage from "./pages/myPage/MyPage";
-import EditPage from "./pages/myPage/EditPage";
 import LoginPage from "./pages/authPage/LoginPage";
 import RegisterPage from "./pages/authPage/RegisterPage";
 import FindPasswordPage from "./pages/authPage/FindPasswordPage";
@@ -14,6 +14,7 @@ import ResetPasswordPage from "./pages/authPage/ResetPasswordPage";
 import { UserProvider } from "./stores/UserContext";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import UserEditPage from "./pages/myPage/UserEditPage";
 
 const router = createBrowserRouter([
   {
@@ -46,9 +47,10 @@ const router = createBrowserRouter([
       { path: "/tutorial", element: <TutorialPage /> },
       { path: "/calendar", element: <CalendarPage /> },
       { path: "/cctv", element: <CctvPage /> },
+      { path: "/cctv/edit", element: <CctvEditPage /> },
       { path: "/guide", element: <GuidePage /> },
       { path: "/mypage", element: <MyPage /> },
-      { path: "/mypage/edit", element: <EditPage /> },
+      { path: "/mypage/edit", element: <UserEditPage /> },
     ],
   },
 ]);

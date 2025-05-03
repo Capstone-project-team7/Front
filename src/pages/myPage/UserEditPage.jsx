@@ -3,7 +3,7 @@ import styles from "./MyPage.module.scss";
 import { UserContext } from "@stores/UserContext";
 import CommonButton from "@components/commonButton/CommonButton";
 
-export default function EditPage() {
+export default function UserEditPage() {
   const { user, setUser } = useContext(UserContext);
   const [name, setName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -11,6 +11,8 @@ export default function EditPage() {
   const [passwordCheck, setPasswordCheck] = useState("");
 
   const handleChangeInfo = () => {
+    // 현재 비밀번호 체크
+    // 비밀번호 일치 체크
     // 개인정보 수정 api
   };
 
@@ -49,6 +51,7 @@ export default function EditPage() {
               <label>현재 비밀번호</label>
               <input
                 className={styles.input}
+                type="password"
                 placeholder="현재 비밀번호"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -58,6 +61,7 @@ export default function EditPage() {
               <label>변경할 비밀번호</label>
               <input
                 className={styles.input}
+                type="password"
                 placeholder="변경할 비밀번호"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -67,6 +71,7 @@ export default function EditPage() {
               <label>이름</label>
               <input
                 className={styles.input}
+                type="password"
                 placeholder="비밀번호 확인"
                 value={passwordCheck}
                 onChange={(e) => setPasswordCheck(e.target.value)}

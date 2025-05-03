@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import styles from "./Header.module.scss";
+import Logo from "@assets/images/Logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightFromBracket,
@@ -23,10 +24,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <Link className={styles.header__logo} to={"/"}>
-        <img
-          src="src/assets/images/Logo.svg"
-          className={styles.header__logo__image}
-        />
+        <img src={Logo} className={styles.header__logo__image} />
       </Link>
       {user ? (
         <div className={styles.header__profile}>
