@@ -13,6 +13,8 @@ import {
   faTrash,
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../../components/modal/Modal";
+import ReactPlayer from "react-player";
 
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
@@ -41,6 +43,7 @@ export default function MainPage() {
             id: itemIndex + 1,
             time: `2025.04.29 16:00 ${itemIndex + 1}`,
             type: "절도",
+            url: "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
           };
         }
         return null;
@@ -56,6 +59,8 @@ export default function MainPage() {
   const dayFilterRef = useRef(null);
   const [range, setRange] = useState({ from: null, to: null });
   const [category, setCategory] = useState("전체");
+  const [video, setVideo] = useState();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSearch = () => {
     // 날짜 및 유형 필터링 검색 api
@@ -85,8 +90,10 @@ export default function MainPage() {
     };
   }, [dayFilterOpen]); // dayFilterOpen 상태 변경 시마다 실행
 
-  const handleVideoClicked = (video) => {
-    console.log(video);
+  const handleVideoClicked = (item) => {
+    //console.log(item);
+    setVideo(item);
+    setIsOpen(true);
   };
 
   return (
@@ -225,6 +232,23 @@ export default function MainPage() {
           size="small"
         ></CommonButton>
       </div>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <div className={styles.modalwrapper}>
+          <div className={styles.modalwrapper__video}>
+            {/* <ReactPlayer
+              //url={video.url}
+              controls
+              width="100%"
+              height="auto"
+              playing
+              muted
+            /> */}
+          </div>
+          <span className={styles.modalwrapper__title}>
+            {/*`${video.time} ${video.type}`*/}
+          </span>
+        </div>
+      </Modal>
     </div>
   );
 }
