@@ -9,7 +9,7 @@ export default function SideMenu() {
   const [isClickLeft, setIsClickLeft] = useState(true);
   return (
     <div className={styles.sidemenu}>
-      <span className={styles.sidemenu__title}>Menu</span>
+      <div className={styles.sidemenu__title}>메뉴</div>
       <div className={styles.sidemenu__separator}></div>
       <ul className={styles.sidemenu__list}>
         <MenuItem label="홈페이지" to="/" />

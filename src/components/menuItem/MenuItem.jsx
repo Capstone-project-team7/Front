@@ -10,9 +10,14 @@ import {
   faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
+const getBasePath = (pathname) => {
+  const segments = pathname.split("/").filter(Boolean);
+  return segments.length > 0 ? `/${segments[0]}` : "/";
+};
+
 export default function MenuItem({ label, to }) {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  const isActive = getBasePath(location.pathname) === to;
 
   const icontype = {
     홈페이지: faHouseChimney,

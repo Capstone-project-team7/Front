@@ -98,6 +98,7 @@ export default function CctvPage() {
   ]);
 
   const myTheme = themeQuartz.withPart(iconSetQuartzLight).withParams({
+    fontFamily: "pretendard, sans-serif",
     accentColor: "#2C3E50",
     backgroundColor: "#fefbf6",
     browserColorScheme: "light",

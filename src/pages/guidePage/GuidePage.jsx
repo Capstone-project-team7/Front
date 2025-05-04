@@ -7,7 +7,7 @@ export default function GuidePage() {
       <div className={styles.guidepage__wrapper}>
         <span className={styles.guidepage__wrapper__title}>사용 가이드</span>
         <div className={styles.starter}>
-          <span className={styles.title}>🌟시작하며</span>
+          <span className={styles.title}>🌟 시작하며</span>
           <span className={styles.intro}>
             이 시스템은 여러분의 안전과 편의를 위해 설계되었습니다. 각 기능을
             활용해 보다 스마트한 CCTV 관리를 경험해보세요. 궁금한 점이 있다면
@@ -17,7 +17,7 @@ export default function GuidePage() {
         <div className={styles.guidepage__wrapper__content}>
           <div className={styles.guidepage__wrapper__content__left}>
             <div className={styles.homepage}>
-              <span className={styles.title}>🏠홈페이지</span>
+              <span className={styles.title}>🏠 홈페이지</span>
               <span className={styles.intro}>
                 CCTV로 감지된 모든 순간을 한눈에 관리하세요.
               </span>
@@ -57,7 +57,7 @@ export default function GuidePage() {
               </ul>
             </div>
             <div className={styles.calendar}>
-              <span className={styles.title}>📅캘린더</span>
+              <span className={styles.title}>📅 캘린더</span>
               <span className={styles.intro}>
                 이상 행동 발생 현황을 달력으로 한눈에 파악하세요.
               </span>
@@ -77,7 +77,7 @@ export default function GuidePage() {
           </div>
           <div className={styles.guidepage__wrapper__content__right}>
             <div className={styles.cctv}>
-              <span className={styles.title}>🎥CCTV 관리</span>
+              <span className={styles.title}>🎥 CCTV 관리</span>
               <span className={styles.intro}>
                 등록된 CCTV를 효율적으로 관리할 수 있습니다.
               </span>
@@ -102,7 +102,7 @@ export default function GuidePage() {
               </ul>
             </div>
             <div className={styles.mypage}>
-              <span className={styles.title}>👤마이페이지</span>
+              <span className={styles.title}>👤 마이페이지</span>
               <span className={styles.intro}>
                 나만의 설정과 정보를 관리하세요.
               </span>

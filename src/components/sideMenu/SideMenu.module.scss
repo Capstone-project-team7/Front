@@ -13,18 +13,15 @@
   // border-right: 2px solid main.$color-border-black;
 
   &__title {
+    text-align: center;
     color: main.$color-text-black;
-    margin-top: 20px;
+    width: 80%;
+    padding: 20px 0 15px 0;
 
     font-size: 0.8rem;
-    font-weight: 500;
-  }
+    font-weight: 600;
 
-  &__separator {
-    margin-top: 10px;
-    width: 180px;
-    height: 2px;
-    background-color: main.$color-border-black;
+    border-bottom: 1px solid main.$color-border-primary;
   }
 
   &__list {
