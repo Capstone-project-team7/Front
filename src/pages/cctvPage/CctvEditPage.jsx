@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CctvPage.module.scss";
 import CommonButton from "../../components/commonButton/CommonButton";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { cctvApi } from "../../apis/cctvApi";
 
 export default function CctvEditPage() {
   const location = useLocation();
@@ -14,6 +15,8 @@ export default function CctvEditPage() {
   const [password, setPassword] = useState("");
   const [storeName, setStoreName] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (cctv) {
       setCctvName(cctv.cctvName);
@@ -25,7 +28,31 @@ export default function CctvEditPage() {
     }
   }, [cctv]);
 
-  const handleSaveCctv = () => {};
+  const handleSaveCctv = async (e) => {
+    e.preventDefault();
+    const payload = {
+      cctv_name: cctvName,
+      ip_address: ipAddress,
+      cctv_admin: cctvId,
+      cctv_path: stream,
+      cctv_password: password,
+      // user_id: ?
+    };
+    if (location.pathname.endsWith("add")) {
+      try {
+        await cctvApi.createCctv({ cctvId, payload }); // CCTV ID????
+        navigate("/cctv");
+      } catch (error) {
+        alert("cctv 등록에 실패하였습니다. 다시 시도해주세요.");
+      }
+    } else if (location.pathname.endsWith("edit")) {
+      try {
+        await cctvApi.updateCctv({ payload });
+      } catch (error) {
+        alert("cctv 수정에 실패하였습니다. 다시 시도해주세요.");
+      }
+    }
+  };
   return (
     <div className={styles.cctvpage}>
       <div className={styles.cctvpage__wrapper}>

@@ -5,6 +5,7 @@ import Modal from "../../components/modal/Modal";
 import TermContent from "../../components/termContent/TermContent";
 import CommonButton from "../../components/commonButton/CommonButton";
 import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -19,22 +20,50 @@ export default function RegisterPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickLeft, setIsClickLeft] = useState(true);
   const [isValid, setIsValid] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
     const fullEmail = `${userEmail}@${userEmailDomain}`;
 
-    // email 입력 체크
-    // 패스워드 일치 체크
-    // 패스워드 기준 만족 체크
-    // 이름 입력 체크
-    // 필수 동의 체크
+    if (
+      !userEmail ||
+      !userEmailDomain ||
+      !userPassword ||
+      !userPasswordCheck ||
+      !name
+    ) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+    if (userPassword !== userPasswordCheck) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if (!isValid) {
+      alert("비밀번호 형식을 확인해주세요.");
+      return;
+    }
+    if (!isAgreeTerm || !isAgreePrivacy) {
+      alert("필수 약관에 동의해야 합니다.");
+      return;
+    }
+
+    const payload = {
+      user_email: fullEmail,
+      user_password: userPassword,
+      user_name: name,
+      agreement_status: true,
+    };
 
     try {
-      // 회원가입 api 추가
-    } catch (err) {
-      // 이미 가입된 이메일일 경우 오류
+      await userApi.register({ payload });
+      alert("회원가입이 완료되었습니다. 로그인 후 사용해주세요.");
+      navigate("/login");
+    } catch (error) {
+      console.error("회원가입 오류: ", error);
+      alert("서버 오류로 회원가입에 실패하였습니다. 다시 시도해주세요.");
     }
   };
 

@@ -48,6 +48,7 @@ const router = createBrowserRouter([
       { path: "/calendar", element: <CalendarPage /> },
       { path: "/cctv", element: <CctvPage /> },
       { path: "/cctv/edit", element: <CctvEditPage /> },
+      { path: "/cctv/add", element: <CctvEditPage /> },
       { path: "/guide", element: <GuidePage /> },
       { path: "/mypage", element: <MyPage /> },
       { path: "/mypage/edit", element: <UserEditPage /> },

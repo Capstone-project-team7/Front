@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./CctvPage.module.scss";
 import CommonButton from "@components/commonButton/CommonButton";
 import { AgGridReact } from "ag-grid-react";
@@ -11,6 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { cctvApi } from "../../apis/cctvApi";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -125,20 +126,34 @@ export default function CctvPage() {
   const [selectedRows, setSelectedRows] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {}, []);
+
   const handleEditCCTV = (item) => {
-    // 수정 로직 추가
-    //console.log(item);
     navigate("edit", { state: { cctv: item } });
   };
 
   const handleAddCCTV = () => {
-    // 추가 로직 추가
-    navigate("edit");
+    navigate("add");
   };
 
-  const handleDeleteCCTV = () => {
-    // 삭제 로직 추가
+  const handleDeleteCCTV = async (e) => {
+    e.preventDefault();
+
     console.log(selectedRows);
+    const cctvs = selectedRows.map((item) => item.cctvName);
+
+    const confirmDelete = window.confirm("선택한 CCTV를 삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        await cctvApi.deleteCctv({ cctvs });
+        alert("선택한 CCTV가 삭제되었습니다.");
+        window.location.reload();
+      } catch (error) {
+        alert(
+          "서버 오류로 인해 CCTV 삭제에 실패하였습니다. 다시 시도해주세요."
+        );
+      }
+    }
   };
 
   return (

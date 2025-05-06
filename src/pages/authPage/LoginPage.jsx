@@ -3,11 +3,13 @@ import styles from "./AuthPages.module.scss";
 import AuthBox from "@components/authBox/AuthBox";
 import CommonButton from "../../components/commonButton/CommonButton";
 import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [isStay, setIsStay] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,10 +18,18 @@ export default function LoginPage() {
     console.log(userPassword);
     console.log(isStay);
 
+    const payload = {
+      user_email: userEmail,
+      user_password: userPassword,
+    };
+
     try {
-      // 로그인 api 추가
-    } catch (err) {
-      // 실패 시 오류 출력
+      const { data } = await userApi.login({ payload });
+      localStorage.setItem("user", data);
+      localStorage.setItem("token", data.token);
+      navigate("/");
+    } catch (error) {
+      alert("로그인에 실패하였습니다. 다시 시도해주세요.");
     }
   };
   return (
