@@ -5,6 +5,7 @@ import Modal from "../../components/modal/Modal";
 import TermContent from "../../components/termContent/TermContent";
 import CommonButton from "../../components/commonButton/CommonButton";
 import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
+import { userApi } from "@apis/userApi.js";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {

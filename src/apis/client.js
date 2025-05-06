@@ -1,6 +1,7 @@
 const API_BASE_URL = "http://localhost:8080/api/v1";
 
 async function fetchClient(endpoint, options = {}, withAuth = true) {
+  console.log(options.body);
   // 기본 헤더 설정
   const headers = {
     "Content-Type": "application/json",
@@ -17,6 +18,7 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
 
   // URL 구성
   const url = `${API_BASE_URL}${endpoint}`;
+  console.log(url);
 
   try {
     // fetch 요청 실행

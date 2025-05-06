@@ -4,6 +4,7 @@ import AuthBox from "@components/authBox/AuthBox";
 import CommonButton from "../../components/commonButton/CommonButton";
 import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
 import { useNavigate } from "react-router-dom";
+import { userApi } from "@apis/userApi";
 
 export default function LoginPage() {
   const [userEmail, setUserEmail] = useState("");
