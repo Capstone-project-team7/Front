@@ -59,9 +59,11 @@ export default function RegisterPage() {
     };
 
     try {
-      await userApi.register({ payload });
-      alert("회원가입이 완료되었습니다. 로그인 후 사용해주세요.");
-      navigate("/login");
+      const response = await userApi.register({ payload });
+      if (response.status === 200) {
+        alert("회원가입이 완료되었습니다. 로그인 후 사용해주세요.");
+        navigate("/login");
+      }
     } catch (error) {
       console.error("회원가입 오류: ", error);
       alert("서버 오류로 회원가입에 실패하였습니다. 다시 시도해주세요.");

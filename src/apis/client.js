@@ -1,7 +1,6 @@
 const API_BASE_URL = "http://localhost:8080/api/v1";
 
 async function fetchClient(endpoint, options = {}, withAuth = true) {
-  console.log(options.body);
   // 기본 헤더 설정
   const headers = {
     "Content-Type": "application/json",
@@ -18,7 +17,6 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
 
   // URL 구성
   const url = `${API_BASE_URL}${endpoint}`;
-  console.log(url);
 
   try {
     // fetch 요청 실행
@@ -27,23 +25,17 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
       headers,
     });
 
+    const result = await response.json();
     // 응답이 ok가 아니면 에러 처리
-    if (response.ok) {
-      const data = await response.json();
-      if (data.message === "success") {
-        return { data, status: response.status };
-      } else {
-        console.error("Data Error: ", data.message);
-        throw new Error("Data Error: ", data.message);
-      }
+    if (response.ok && result.message === "success") {
+      return { result, status: response.status };
     } else {
-      console.error("Response Error: ", response.status);
-      throw new Error(`HTTP Error: ${response.status}`);
+      console.error("****", result.message);
+      return { status: response.status };
     }
     // JSON 응답 파싱
   } catch (error) {
     console.error("API 요청 실패: ", error);
-    throw error;
   }
 }
 
