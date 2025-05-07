@@ -15,22 +15,20 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    console.log(userEmail);
-    console.log(userPassword);
-    console.log(isStay);
-
-    const payload = {
-      user_email: userEmail,
-      user_password: userPassword,
-    };
-
     try {
-      const { data } = await userApi.login({ payload });
-      localStorage.setItem("user", data);
-      localStorage.setItem("token", data.token);
+      const response = await userApi.login({
+        user_email: userEmail,
+        user_password: userPassword,
+      });
+      console.log(response.status);
+
+      // 유저 정보 가져오기
+      // localStorage.setItem("user", data);
+
+      localStorage.setItem("token", response.data.token);
       navigate("/");
     } catch (error) {
-      alert("로그인에 실패하였습니다. 다시 시도해주세요.");
+      console.error("Component : 로그인 실패");
     }
   };
   return (

@@ -27,15 +27,16 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
 
     const result = await response.json();
     // 응답이 ok가 아니면 에러 처리
-    if (response.ok && result.message === "success") {
+    console.log(result);
+    if (response.ok && result.status === "success") {
       return { result, status: response.status };
     } else {
-      console.error("****", result.message);
+      alert(result.message || "API : 요청 실패");
       return { status: response.status };
     }
     // JSON 응답 파싱
   } catch (error) {
-    console.error("API 요청 실패: ", error);
+    console.error("API : error");
   }
 }
 

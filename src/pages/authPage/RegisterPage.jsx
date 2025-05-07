@@ -51,22 +51,20 @@ export default function RegisterPage() {
       return;
     }
 
-    const payload = {
-      user_email: fullEmail,
-      user_password: userPassword,
-      user_name: name,
-      agreement_status: true,
-    };
-
     try {
-      const response = await userApi.register({ payload });
+      const response = await userApi.register({
+        user_email: fullEmail,
+        user_password: userPassword,
+        user_name: name,
+        agreement_status: true,
+      });
+
       if (response.status === 200) {
         alert("회원가입이 완료되었습니다. 로그인 후 사용해주세요.");
         navigate("/login");
       }
     } catch (error) {
-      console.error("회원가입 오류: ", error);
-      alert("서버 오류로 회원가입에 실패하였습니다. 다시 시도해주세요.");
+      console.error("Component : 회원가입 실패");
     }
   };
 
