@@ -17,7 +17,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: main.$color-primary;
+    background-color: main.$color-background-box;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
     padding: 2rem;
     border-radius: 20px;
     position: relative;

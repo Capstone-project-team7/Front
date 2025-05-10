@@ -19,12 +19,22 @@ import ReactPlayer from "react-player";
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const totalItems = 120;
+  const totalItems = 40;
   const itemsPerPage = 6;
+  const maxPage = totalItems / itemsPerPage + 1;
+  console.log();
   const pageRange = 5;
   const blockStart = Math.floor(currentPage / pageRange) * pageRange;
-  const pages = Array.from({ length: pageRange }, (_, i) => blockStart + i);
   const pageCount = Math.ceil(totalItems / itemsPerPage);
+  const pages = Array.from(
+    {
+      length:
+        (currentPage + 1) / pageRange === maxPage / pageRange
+          ? pageRange
+          : (currentPage + 1) % pageRange,
+    },
+    (_, i) => blockStart + i
+  );
 
   // 페이지가 변경될 때마다 해당 페이지의 아이템들을 가져옴
   useEffect(() => {

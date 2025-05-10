@@ -20,15 +20,18 @@ export default function LoginPage() {
         user_email: userEmail,
         user_password: userPassword,
       });
-      console.log(response.status);
-
-      // 유저 정보 가져오기
-      // localStorage.setItem("user", data);
-
-      localStorage.setItem("token", response.data.token);
-      navigate("/");
+      console.log(response);
+      if (response.status === "success") {
+        // 유저 정보 가져오기
+        // localStorage.setItem("user", data);
+        localStorage.setItem("token", response.data.token);
+        console.log("token:", response.data.token);
+        navigate("/");
+      } else {
+        alert(response.message);
+      }
     } catch (error) {
-      console.error("Component : 로그인 실패");
+      console.error("LoginPage: ", error);
     }
   };
   return (

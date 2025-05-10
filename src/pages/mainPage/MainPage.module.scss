@@ -30,17 +30,16 @@
       position: relative;
       flex: 3;
       height: 100%;
-      // background-color: main.$color-background-card;
-
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+      background-color: main.$color-background-box;
+      border-radius: 20px;
 
       gap: 20px;
 
       &__title {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 15px;
+        left: 15px;
         font-size: 0.6rem;
       }
 
@@ -160,14 +159,14 @@
       flex: 1;
       height: 100%;
 
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-      // background-color: main.$color-background-card;
-      border-radius: 10px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+      background-color: main.$color-background-box;
+      border-radius: 20px;
 
       &__title {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 15px;
+        left: 15px;
         font-size: 0.6rem;
         text-wrap: nowrap;
       }
@@ -190,7 +189,7 @@
           gap: 5px;
 
           div {
-            background-color: main.$color-accent;
+            background-color: main.$color-background;
             border-radius: 5px;
             padding: 8px 12px;
           }
@@ -236,8 +235,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
-      // background-color: main.$color-background-card;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+      background-color: main.$color-background-box;
       border-radius: 10px;
       font-size: 1rem;
     }

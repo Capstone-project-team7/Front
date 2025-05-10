@@ -101,11 +101,11 @@ export default function CctvPage() {
   const myTheme = themeQuartz.withPart(iconSetQuartzLight).withParams({
     fontFamily: "pretendard, sans-serif",
     accentColor: "#2C3E50",
-    backgroundColor: "#fefbf6",
+    backgroundColor: "#ffffff",
     browserColorScheme: "light",
     columnBorder: false,
     foregroundColor: "#2C3E50",
-    headerBackgroundColor: "#fefbf6",
+    headerBackgroundColor: "#ffffff",
     headerFontSize: 14,
     headerFontWeight: 600,
     headerTextColor: "#666666",
@@ -114,6 +114,7 @@ export default function CctvPage() {
     spacing: 8,
     wrapperBorder: false,
     wrapperBorderRadius: 0,
+    //selectCellBorder: "none",
   });
 
   const defaultColDef = {
