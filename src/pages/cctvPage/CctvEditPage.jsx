@@ -8,9 +8,10 @@ export default function CctvEditPage() {
   const location = useLocation();
   const { cctv } = location.state || {};
 
+  const [cctvId, setCctvId] = useState();
   const [cctvName, setCctvName] = useState("");
   const [ipAddress, setIpAddress] = useState("");
-  const [cctvId, setCctvId] = useState("");
+  const [cctvAdmin, setCctvAdmin] = useState("");
   const [stream, setStream] = useState("");
   const [password, setPassword] = useState("");
   const [storeName, setStoreName] = useState("");
@@ -19,35 +20,43 @@ export default function CctvEditPage() {
 
   useEffect(() => {
     if (cctv) {
+      setCctvId(cctv.cctvId);
       setCctvName(cctv.cctvName);
       setIpAddress(cctv.ipAddress);
-      setCctvId(cctv.cctvId);
+      setCctvAdmin(cctv.cctvAdmin);
       setStream(cctv.stream);
-      // password 처리?
       setStoreName(cctv.storeName);
     }
   }, [cctv]);
 
   const handleSaveCctv = async (e) => {
     e.preventDefault();
-    const payload = {
-      cctv_name: cctvName,
-      ip_address: ipAddress,
-      cctv_admin: cctvId,
-      cctv_path: stream,
-      cctv_password: password,
-      // user_id: ?
-    };
+
     if (location.pathname.endsWith("add")) {
       try {
-        await cctvApi.createCctv({ cctvId, payload }); // CCTV ID????
+        await cctvApi.createCctv({
+          user_id: null,
+          cctv_name: cctvName,
+          ip_address: ipAddress,
+          cctv_admin: cctvId,
+          cctv_path: stream,
+          cctv_password: password,
+        }); // CCTV ID????
         navigate("/cctv");
       } catch (error) {
         alert("cctv 등록에 실패하였습니다. 다시 시도해주세요.");
       }
     } else if (location.pathname.endsWith("edit")) {
       try {
-        await cctvApi.updateCctv({ payload });
+        await cctvApi.updateCctv({
+          cctvId: null,
+          user_id: null,
+          cctv_name: cctvName,
+          ip_address: ipAddress,
+          cctv_admin: cctvId,
+          cctv_path: stream,
+          cctv_password: password,
+        });
       } catch (error) {
         alert("cctv 수정에 실패하였습니다. 다시 시도해주세요.");
       }
@@ -81,12 +90,12 @@ export default function CctvEditPage() {
               ></input>
             </div>
             <div className={styles.row}>
-              <label>CCTV ID</label>
+              <label>CCTV Admin</label>
               <input
                 className={styles.input}
-                value={cctvId}
-                onChange={(e) => setCctvId(e.target.value)}
-                placeholder="CCTV ID (admin)"
+                value={cctvAdmin}
+                onChange={(e) => setCctvAdmin(e.target.value)}
+                placeholder="CCTV Admin (기본값은 admin입니다.)"
               ></input>
             </div>
             <div className={styles.row}>

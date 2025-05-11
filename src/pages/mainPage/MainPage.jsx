@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import "react-day-picker/dist/style.css";
 import styles from "./MainPage.module.scss";
 import CommonButton from "../../components/commonButton/CommonButton";
 import VideoItem from "./components/videoItem/VideoItem";
 import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ko } from "date-fns/locale";
 import {
   faFilter,
   faCircleInfo,
@@ -72,6 +73,18 @@ export default function MainPage() {
   const [video, setVideo] = useState();
   const [isOpen, setIsOpen] = useState(false);
 
+  const customStyles = {
+    day: {
+      selected: {
+        backgroundColor: "#ff4081",
+        color: "white",
+      },
+      today: {
+        border: "1px solid #ff4081",
+      },
+    },
+  };
+
   const handleSearch = () => {
     // 날짜 및 유형 필터링 검색 api
     console.log(range);
@@ -135,6 +148,16 @@ export default function MainPage() {
                     mode="range"
                     selected={range}
                     onSelect={setRange}
+                    locale={ko}
+                    formatters={{
+                      formatCaption: (month, options) =>
+                        `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
+                      formatWeekdayName: (day, options) =>
+                        ["일", "월", "화", "수", "목", "금", "토"][
+                          day.getDay()
+                        ],
+                      formatDay: (date, options) => date.getDate().toString(),
+                    }}
                   />
                 </div>
               )}

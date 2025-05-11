@@ -10,10 +10,24 @@ export default function UserEditPage() {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
 
+  const [isValid, setIsValid] = useState(false);
+
   const handleChangeInfo = () => {
     // 현재 비밀번호 체크
     // 비밀번호 일치 체크
     // 개인정보 수정 api
+  };
+
+  const validatePassword = (password) => {
+    const regex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]).{8,}$/;
+    return regex.test(password);
+  };
+
+  const handleChangePassword = (e) => {
+    const pw = e.target.value;
+    setPassword(pw);
+    setIsValid(validatePassword(pw));
   };
 
   useEffect(() => {
@@ -60,17 +74,25 @@ export default function UserEditPage() {
             <div className={styles.row}>
               <label>변경할 비밀번호</label>
               <input
-                className={styles.input}
+                className={`${styles.input} ${
+                  password ? (isValid ? styles.match : styles.mismatch) : ""
+                }`}
                 type="password"
-                placeholder="변경할 비밀번호"
+                placeholder="변경할 비밀번호(영문, 숫자, 특수문자 조합 8자리 이상)"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChangePassword}
               ></input>
             </div>
             <div className={styles.row}>
-              <label>이름</label>
+              <label>비밀번호 확인</label>
               <input
-                className={styles.input}
+                className={`${styles.input} ${
+                  passwordCheck
+                    ? password === passwordCheck
+                      ? styles.match
+                      : styles.mismatch
+                    : ""
+                }`}
                 type="password"
                 placeholder="비밀번호 확인"
                 value={passwordCheck}
