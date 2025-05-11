@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./AuthPages.module.scss";
 import AuthBox from "@components/authBox/AuthBox";
 import CommonButton from "../../components/commonButton/CommonButton";
@@ -6,11 +6,15 @@ import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
 import { useNavigate } from "react-router-dom";
 import { userApi } from "@apis/userApi";
 import { toast } from "react-toastify";
+import { UserContext } from "../../stores/UserContext";
 
 export default function LoginPage() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [isStay, setIsStay] = useState(false);
+
+  const { setUser } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -25,7 +29,15 @@ export default function LoginPage() {
       if (response.success) {
         toast.success("로그인 성공");
         localStorage.setItem("token", response.data.token);
-        navigate("/");
+        setUser({
+          userid: response.data.user_id,
+          name: response.data.user_name,
+          email: userEmail,
+          currentStorage: response.data.used_space,
+          maxStorage: response.data.total_space,
+          isAlarm: true,
+        });
+        response.data.first_login ? navigate("/tutorial") : navigate("/");
       } else {
         toast.error(response.error.message);
         console.error(response.error.message);

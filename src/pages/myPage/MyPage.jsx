@@ -68,8 +68,8 @@ export default function MyPage() {
           </span>
           <div className={styles.mypage__wrapper__content__inner}>
             <StorageBar
-              total={user ? user.maxStorage : 30}
-              used={user ? user.currentStorage : 0}
+              total={user ? user.maxStorage / 1024 / 1024 / 1024 : 10}
+              used={user ? user.currentStorage / 1024 / 1024 / 1024 : 0}
             />
           </div>
         </div>

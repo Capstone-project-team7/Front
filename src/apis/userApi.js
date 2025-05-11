@@ -10,5 +10,5 @@ export const userApi = {
   getUser: () => api.get("/auth/info", {}, true), // 마이페이지 조회
   updateUser: (userData) => api.put(`/auth/update`, userData, true), // 회원정보 수정(비밀번호 변경 포함)
   deleteUser: () => api.delete(`/auth/withdraw`, {}, true), // 회원 탈퇴
-  logout: () => api.post("/auth/logout", {}, true), // 로그아웃
+  logout: (userData) => api.post("/auth/logout", userData, true), // 로그아웃
 };

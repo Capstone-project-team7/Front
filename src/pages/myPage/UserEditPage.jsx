@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./MyPage.module.scss";
 import { UserContext } from "@stores/UserContext";
 import CommonButton from "@components/commonButton/CommonButton";
+import { toast } from "react-toastify";
+import { userApi } from "../../apis/userApi";
+import { useNavigate } from "react-router-dom";
 
 export default function UserEditPage() {
   const { user, setUser } = useContext(UserContext);
@@ -12,10 +15,41 @@ export default function UserEditPage() {
 
   const [isValid, setIsValid] = useState(false);
 
-  const handleChangeInfo = () => {
-    // 현재 비밀번호 체크
+  const navigate = useNavigate();
+
+  const handleChangeInfo = async (e) => {
+    e.preventDefault();
     // 비밀번호 일치 체크
+    if (!isValid) {
+      toast.error("비밀번호 형식을 다시 확인해주세요.");
+      return;
+    }
+    if (password !== passwordCheck) {
+      toast.error("변경할 비밀번호가 일치하지 않습니다.");
+    }
     // 개인정보 수정 api
+    try {
+      const response = await userApi.updateUser({
+        user_id: user.userid,
+        user_name: name,
+        user_password: password,
+        notify_status: true,
+      });
+      if (response.success) {
+        toast.success("회원정보 수정 성공");
+        setUser({
+          ...user,
+          name: response.data.user_name,
+          isAlarm: response.data.notify_status,
+        });
+        navigate("/mypage", { replace: true });
+      } else {
+        toast.error(response.error.message);
+        console.error(response.error.message);
+      }
+    } catch (error) {
+      console.error("UserEditPage: ", error);
+    }
   };
 
   const validatePassword = (password) => {
@@ -44,7 +78,7 @@ export default function UserEditPage() {
           <span className={styles.mypage__wrapper__content__subtitle}>
             개인정보 수정
           </span>
-          <div className={styles.mypage__wrapper__content__inner}>
+          <form className={styles.mypage__wrapper__content__inner}>
             <div className={styles.row}>
               <label>사용자 이메일</label>
               <span className={styles.gray}>
@@ -55,8 +89,8 @@ export default function UserEditPage() {
               <label>이름</label>
               <input
                 className={styles.input}
-                defaultValue={user ? user.name : ""}
                 value={name}
+                autoComplete="username"
                 onChange={(e) => setName(e.target.value)}
                 placeholder="이름"
               ></input>
@@ -66,6 +100,7 @@ export default function UserEditPage() {
               <input
                 className={styles.input}
                 type="password"
+                autoComplete="current-password"
                 placeholder="현재 비밀번호"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -78,6 +113,7 @@ export default function UserEditPage() {
                   password ? (isValid ? styles.match : styles.mismatch) : ""
                 }`}
                 type="password"
+                autoComplete="new-password"
                 placeholder="변경할 비밀번호(영문, 숫자, 특수문자 조합 8자리 이상)"
                 value={password}
                 onChange={handleChangePassword}
@@ -94,6 +130,7 @@ export default function UserEditPage() {
                     : ""
                 }`}
                 type="password"
+                autoComplete="new-password"
                 placeholder="비밀번호 확인"
                 value={passwordCheck}
                 onChange={(e) => setPasswordCheck(e.target.value)}
@@ -105,7 +142,7 @@ export default function UserEditPage() {
               color="primary"
               onClick={handleChangeInfo}
             ></CommonButton>
-          </div>
+          </form>
         </div>
       </div>
     </div>

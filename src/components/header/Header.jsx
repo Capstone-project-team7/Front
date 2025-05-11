@@ -8,17 +8,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../stores/UserContext";
 import { Link, useNavigate } from "react-router-dom";
+import { userApi } from "@apis/userApi";
+import { toast } from "react-toastify";
 
 export default function Header() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const Logout = () => {
+  const handleLogout = async () => {
     // 로그아웃 api 추가
-    setUser(null);
-    localStorage.removeItem("user");
-    // 로그인 페이지로 navigate
-    navigate("/login");
+    try {
+      const response = await userApi.logout({ user_id: user.userid });
+      if (response.success) {
+        toast.success("로그아웃됨");
+        localStorage.removeItem("token");
+        setUser(null);
+        navigate("/login");
+      } else {
+        toast.error(response.error.message);
+        console.error(response.error.message);
+      }
+    } catch (error) {
+      console.error("Logout: ", error);
+    }
   };
 
   return (
@@ -28,7 +40,10 @@ export default function Header() {
       </Link>
       {user ? (
         <div className={styles.header__profile}>
-          <button className={styles.header__profile__logout} onClick={Logout}>
+          <button
+            className={styles.header__profile__logout}
+            onClick={handleLogout}
+          >
             <FontAwesomeIcon
               icon={faArrowRightFromBracket}
               size="lg"
