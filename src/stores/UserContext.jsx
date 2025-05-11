@@ -13,7 +13,7 @@ export function UserProvider({ children }) {
     setUser({
       name: "홍길동",
       email: "honggildong@gmail.com",
-      currentStorage: 22.5,
+      currentStorage: 22.0,
       maxStorage: 30.0,
       isAlarm: true,
       isFirst: true,

@@ -15,6 +15,8 @@ import { UserProvider } from "./stores/UserContext";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserEditPage from "./pages/myPage/UserEditPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +62,18 @@ function App() {
   return (
     <UserProvider>
       <RouterProvider router={router} />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        limit={3}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </UserProvider>
   );
 }

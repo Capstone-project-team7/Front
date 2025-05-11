@@ -1,5 +1,5 @@
 .bar {
-  width: 700px;
+  width: 1000px;
   position: relative;
 
   &__labels {
@@ -33,7 +33,7 @@
       height: 100%;
       background-color: main.$color-secondary;
       height: 100%;
-      border-radius: 0 5px 5px 0px;
+      border-radius: 10px;
       background: linear-gradient(
         90deg,
         main.$color-primary,

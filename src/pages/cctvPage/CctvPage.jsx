@@ -12,10 +12,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { cctvApi } from "../../apis/cctvApi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function CctvPage() {
+  const [activatedRow, setActivatedRow] = useState(null);
+
   const [colDefs, setColDefs] = useState([
     { headerName: "CCTV 이름", field: "cctvName", flex: 1 },
     { headerName: "IP 주소", field: "ipAddress", flex: 1 },
@@ -24,10 +28,27 @@ export default function CctvPage() {
     {
       headerName: "활성화 상태",
       field: "isActive",
-      flex: 1,
-      cellRenderer: (params) => {
-        return params.value ? "active" : "inactive";
+      cellStyle: {
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
       },
+      cellRenderer: (params) => {
+        const row = params.data;
+        const isActive = row.isActive;
+        return (
+          <button
+            className={`${styles.activatebtn} ${
+              isActive ? styles.active : styles.inactive
+            }`}
+            onClick={() => handleActivateCCTV(row)}
+          >
+            {row.isActive ? "스트리밍 중" : "스트리밍 시작"}
+          </button>
+        );
+      }, // 커스텀 렌더러 사용
+      sortable: true,
+      filter: false,
     },
     {
       headerName: "수정",
@@ -118,7 +139,6 @@ export default function CctvPage() {
     spacing: 8,
     wrapperBorder: false,
     wrapperBorderRadius: 0,
-    //selectCellBorder: "none",
   });
 
   const defaultColDef = {
@@ -131,8 +151,59 @@ export default function CctvPage() {
   const [selectedRows, setSelectedRows] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
+  // 초기 로드시 cctv 목록 가져오기.
+  // useEffect(async () => {
+  //   try {
+  //     const response = await cctvApi();
+  //   } catch (error) {}
+  // }, []);
 
+  const handleActivateCCTV = async (item) => {
+    try {
+      // 이미 활성화된 CCTV인지 확인
+      const isCurrentlyActive = item.isActive;
+
+      // 현재 모든 rowData를 복사
+      const updatedRowData = rowData.map((row) => {
+        if (row.cctvId === item.cctvId) {
+          // 클릭한 항목의 상태를 토글 (이미 활성화된 항목이면 비활성화, 아니면 활성화)
+          return {
+            ...row,
+            isActive: !isCurrentlyActive,
+          };
+        } else {
+          // 다른 항목들은 항상 비활성화
+          return {
+            ...row,
+            isActive: false,
+          };
+        }
+      });
+
+      setRowData(updatedRowData);
+      setActivatedRow(isCurrentlyActive ? null : item.cctvId);
+
+      // TODO: 활성화 상태 변경 API 추가
+      try {
+      } catch (error) {}
+
+      toast.info(
+        `  CCTV ID ${item.cctvId} ${
+          isCurrentlyActive ? "비활성화" : "활성화"
+        }됨`,
+        {
+          position: "bottom-center",
+          autoClose: 1000,
+          closeOnClick: true,
+          hideProgressBar: true,
+        }
+      );
+      console.log();
+    } catch (error) {
+      console.error("CCTV 상태 변경 중 오류 발생:", error);
+      alert("CCTV 상태 변경에 실패했습니다.");
+    }
+  };
   const handleEditCCTV = (item) => {
     navigate("edit", { state: { cctv: item } });
   };

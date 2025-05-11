@@ -5,6 +5,7 @@ import CommonButton from "../../components/commonButton/CommonButton";
 import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
 import { useNavigate } from "react-router-dom";
 import { userApi } from "@apis/userApi";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -20,15 +21,14 @@ export default function LoginPage() {
         user_email: userEmail,
         user_password: userPassword,
       });
-      console.log(response);
-      if (response.status === "success") {
-        // 유저 정보 가져오기
-        // localStorage.setItem("user", data);
+
+      if (response.success) {
+        toast.success("로그인 성공");
         localStorage.setItem("token", response.data.token);
-        console.log("token:", response.data.token);
         navigate("/");
       } else {
-        alert(response.message);
+        toast.error(response.error.message);
+        console.error(response.error.message);
       }
     } catch (error) {
       console.error("LoginPage: ", error);

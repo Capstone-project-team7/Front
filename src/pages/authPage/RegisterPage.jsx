@@ -59,12 +59,15 @@ export default function RegisterPage() {
         agreement_status: true,
       });
 
-      if (response.status === 200) {
-        alert("회원가입이 완료되었습니다. 로그인 후 사용해주세요.");
+      if (response.success) {
+        toast.success("회원가입 성공");
         navigate("/login");
+      } else {
+        toast.error(response.error.message);
+        console.error(response.error.message);
       }
     } catch (error) {
-      console.error("Component : 회원가입 실패");
+      console.error("RegisterPage: ", error);
     }
   };
 
