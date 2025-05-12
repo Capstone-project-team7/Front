@@ -23,12 +23,11 @@ export default function CctvEditPage() {
 
   useEffect(() => {
     if (cctv) {
-      setCctvId(cctv.cctvId);
-      setCctvName(cctv.cctvName);
-      setIpAddress(cctv.ipAddress);
-      setCctvAdmin(cctv.cctvAdmin);
-      setStream(cctv.stream);
-      setStoreName(cctv.storeName);
+      setCctvId(cctv.cctv_id);
+      setCctvName(cctv.cctv_name);
+      setIpAddress(cctv.ip_address);
+      setCctvAdmin(cctv.cctv_admin);
+      setStream(cctv.cctv_path);
     }
   }, [cctv]);
 
@@ -132,15 +131,7 @@ export default function CctvEditPage() {
                 placeholder="CCTV 비밀번호"
               ></input>
             </div>
-            <div className={styles.row}>
-              <label>매장 이름</label>
-              <input
-                className={styles.input}
-                value={storeName}
-                onChange={(e) => setStoreName(e.target.value)}
-                placeholder="매장 이름"
-              ></input>
-            </div>
+
             <CommonButton
               label="저장"
               size="large"

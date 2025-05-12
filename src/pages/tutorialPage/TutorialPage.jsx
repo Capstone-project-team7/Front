@@ -13,7 +13,6 @@ export default function TutorialPage() {
   const [cctvAdmin, setCctvAdmin] = useState("");
   const [stream, setStream] = useState("");
   const [password, setPassword] = useState("");
-  const [storeName, setStoreName] = useState("");
 
   const navigate = useNavigate();
 
@@ -112,15 +111,6 @@ export default function TutorialPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="CCTV 비밀번호"
-                ></input>
-              </div>
-              <div className={styles.row}>
-                <label>매장 이름</label>
-                <input
-                  className={styles.input}
-                  value={storeName}
-                  onChange={(e) => setStoreName(e.target.value)}
-                  placeholder="매장 이름"
                 ></input>
               </div>
             </div>

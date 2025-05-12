@@ -24,7 +24,6 @@ export default function CctvPage() {
     { headerName: "CCTV 이름", field: "cctvName", flex: 1 },
     { headerName: "IP 주소", field: "ipAddress", flex: 1 },
     { headerName: "스트림 경로", field: "stream", flex: 1 },
-    { headerName: "매장 이름", field: "storeName", flex: 1 },
     {
       headerName: "활성화 상태",
       field: "isActive",
@@ -82,7 +81,6 @@ export default function CctvPage() {
     //   ipAddress: "123.456.789.123",
     //   cctvAdmin: "admin",
     //   stream: "/main",
-    //   storeName: "이마트24",
     //   isActive: true,
     // },
     // {
@@ -91,7 +89,6 @@ export default function CctvPage() {
     //   ipAddress: "123.456.789.123",
     //   cctvAdmin: "admin",
     //   stream: "/sub1",
-    //   storeName: "이마트24",
     //   isActive: false,
     // },
     // {
@@ -100,7 +97,6 @@ export default function CctvPage() {
     //   ipAddress: "123.456.789.123",
     //   cctvAdmin: "admin",
     //   stream: "/sub2",
-    //   storeName: "이마트24",
     //   isActive: false,
     // },
     // {
@@ -109,7 +105,6 @@ export default function CctvPage() {
     //   ipAddress: "123.456.789.123",
     //   cctvAdmin: "admin",
     //   stream: "/sub3",
-    //   storeName: "이마트24",
     //   isActive: false,
     // },
     // {
@@ -118,7 +113,6 @@ export default function CctvPage() {
     //   ipAddress: "123.456.789.123",
     //   cctvAdmin: "admin",
     //   stream: "/sub4",
-    //   storeName: "이마트24",
     //   isActive: false,
     // },
   ]);
@@ -152,23 +146,26 @@ export default function CctvPage() {
   const navigate = useNavigate();
 
   //초기 로드시 cctv 목록 가져오기.
-  useEffect(async () => {
-    try {
-      const response = await cctvApi.getCctvs();
-      if (response.success) {
-        setRowData(response.data.cctvs);
-      } else {
-        toast(response.message);
-        console.error(response.message);
+  useEffect(() => {
+    async function getCCTVList() {
+      try {
+        const response = await cctvApi.getCctvs();
+        if (response.success) {
+          setRowData(response.data.cctvs);
+        } else {
+          toast(response.message || "CCTV 목록 조회 실패");
+          console.error(response.message);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
+    getCCTVList();
   }, []);
 
   const handleActivateCCTV = async (item) => {
     // 이미 활성화된 CCTV인지 확인
-    const isCurrentlyActive = item.isActive;
+    const isCurrentlyActive = item.is_active;
 
     // 현재 모든 rowData를 복사
     const updatedRowData = rowData.map((row) => {
@@ -228,7 +225,7 @@ export default function CctvPage() {
     e.preventDefault();
 
     console.log(selectedRows);
-    const cctvs = selectedRows.map((item) => item.cctv_name);
+    const cctvs = selectedRows.map((item) => item.cctv_id);
 
     const confirmDelete = window.confirm("선택한 CCTV를 삭제하시겠습니까?");
     if (confirmDelete) {

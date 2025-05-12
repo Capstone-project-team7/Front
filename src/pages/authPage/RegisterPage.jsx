@@ -36,19 +36,19 @@ export default function RegisterPage() {
       !userPasswordCheck ||
       !name
     ) {
-      alert("모든 필드를 입력해주세요.");
+      toast.info("모든 필드를 입력해주세요.");
       return;
     }
     if (userPassword !== userPasswordCheck) {
-      alert("비밀번호가 일치하지 않습니다.");
+      toast.info("비밀번호가 일치하지 않습니다.");
       return;
     }
     if (!isValid) {
-      alert("비밀번호 형식을 확인해주세요.");
+      toast.info("비밀번호 형식을 확인해주세요.");
       return;
     }
     if (!isAgreeTerm || !isAgreePrivacy) {
-      alert("필수 약관에 동의해야 합니다.");
+      toast.info("필수 약관에 동의해야 합니다.");
       return;
     }
 

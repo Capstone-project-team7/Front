@@ -1,6 +1,6 @@
 import { api } from "./client";
 
-export const cctvApi = {
+export const mainApi = {
   getCctvs: () => api.get("/cctv", {}, true),
   createCctv: (cctvData) => api.post(`/cctv/add`, cctvData, true),
   updateCctv: (id, cctvData) => api.put(`/cctv/update/${id}`, cctvData, true),
