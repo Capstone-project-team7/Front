@@ -7,7 +7,7 @@ import SideMenu from "../sideMenu/SideMenu";
 export default function SideMenuLayout() {
   const token = localStorage.getItem("token");
   if (!token) {
-    return <Navigate to={"/login"} replace />;
+    //return <Navigate to={"/login"} replace />;
   }
   return (
     <div className={styles.layoutwrapper}>

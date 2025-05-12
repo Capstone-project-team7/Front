@@ -2,9 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import styles from "./MyPage.module.scss";
 import CommonButton from "@components/commonButton/CommonButton";
 import { UserContext } from "@stores/UserContext";
+import { userApi } from "@apis/userApi";
 import StorageBar from "./components/stoargeBar/StorageBar";
 import { useNavigate } from "react-router-dom";
 import CommonToggle from "../../components/commonToggle/CommonToggle";
+import { toast } from "react-toastify";
 
 export default function MyPage() {
   const { user, setUser } = useContext(UserContext);
@@ -15,14 +17,25 @@ export default function MyPage() {
     navigate("edit");
   };
 
-  const handleAlarm = () => {
-    setIsAlarm(!isAlarm);
+  const handleAlarm = async () => {
     // 알림 설정 변경 api
+    try {
+      const response = null; //
+      if (response.success) {
+        setIsAlarm(!isAlarm);
+        toast.success(`${isAlarm ? "알림 켜짐" : "알림 꺼짐"}`);
+      } else {
+        toast.error(response.message || "알림 설정 변경 실패");
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error("Mypage: ", error);
+    }
   };
 
   useEffect(() => {
     if (user) {
-      setIsAlarm(user.isAlarm);
+      setIsAlarm(user.notify_status);
     }
   }, [user]);
 
@@ -69,7 +82,7 @@ export default function MyPage() {
           <div className={styles.mypage__wrapper__content__inner}>
             <StorageBar
               total={user ? user.maxStorage / 1024 / 1024 / 1024 : 10}
-              used={user ? user.currentStorage / 1024 / 1024 / 1024 : 0}
+              used={user ? user.currentStorage / 1024 / 1024 / 1024 : 4.0}
             />
           </div>
         </div>

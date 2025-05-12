@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./CctvPage.module.scss";
 import CommonButton from "../../components/commonButton/CommonButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import { cctvApi } from "../../apis/cctvApi";
+import { UserContext } from "../../stores/UserContext";
+import { toast } from "react-toastify";
 
 export default function CctvEditPage() {
   const location = useLocation();
   const { cctv } = location.state || {};
+  const { user } = useContext(UserContext);
 
   const [cctvId, setCctvId] = useState();
   const [cctvName, setCctvName] = useState("");
@@ -34,31 +37,44 @@ export default function CctvEditPage() {
 
     if (location.pathname.endsWith("add")) {
       try {
-        await cctvApi.createCctv({
-          user_id: null,
-          cctv_name: cctvName,
-          ip_address: ipAddress,
-          cctv_admin: cctvId,
-          cctv_path: stream,
-          cctv_password: password,
-        }); // CCTV ID????
-        navigate("/cctv");
-      } catch (error) {
-        alert("cctv 등록에 실패하였습니다. 다시 시도해주세요.");
-      }
-    } else if (location.pathname.endsWith("edit")) {
-      try {
-        await cctvApi.updateCctv({
-          cctvId: null,
-          user_id: null,
+        const response = await cctvApi.createCctv({
+          user_id: user.user_id,
           cctv_name: cctvName,
           ip_address: ipAddress,
           cctv_admin: cctvId,
           cctv_path: stream,
           cctv_password: password,
         });
+        if (response.success) {
+          toast.success("CCTV 추가 성공");
+          navigate("/cctv");
+        } else {
+          toast.error(response.message || "CCTV 추가 실패");
+          console.error(response.message);
+        }
       } catch (error) {
-        alert("cctv 수정에 실패하였습니다. 다시 시도해주세요.");
+        console.error("CCTV Edit Page: ", error);
+      }
+    } else if (location.pathname.endsWith("edit")) {
+      try {
+        const response = await cctvApi.updateCctv({
+          cctv_id: cctvId,
+          user_id: user.user_id,
+          cctv_name: cctvName,
+          ip_address: ipAddress,
+          cctv_admin: cctvAdmin,
+          cctv_path: stream,
+          cctv_password: password,
+        });
+        if (response.success) {
+          toast.success("CCTV 수정 성공");
+          navigate("/cctv");
+        } else {
+          toast.error(response.message || "CCTV 수정 실패");
+          console.error(response.message);
+        }
+      } catch (error) {
+        console.error("CCTV Edit Page: ", error);
       }
     }
   };

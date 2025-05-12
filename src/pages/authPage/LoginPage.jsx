@@ -30,12 +30,12 @@ export default function LoginPage() {
         toast.success("로그인 성공");
         localStorage.setItem("token", response.data.token);
         setUser({
-          userid: response.data.user_id,
-          name: response.data.user_name,
-          email: userEmail,
-          currentStorage: response.data.used_space,
-          maxStorage: response.data.total_space,
-          isAlarm: true,
+          user_id: response.data.user_id,
+          user_name: response.data.user_name,
+          user_email: userEmail,
+          used_space: response.data.used_space,
+          total_space: response.data.total_space,
+          notify_status: true,
         });
         response.data.first_login ? navigate("/tutorial") : navigate("/");
       } else {

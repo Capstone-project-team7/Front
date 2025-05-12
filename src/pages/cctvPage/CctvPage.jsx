@@ -35,7 +35,7 @@ export default function CctvPage() {
       },
       cellRenderer: (params) => {
         const row = params.data;
-        const isActive = row.isActive;
+        const isActive = row.is_active;
         return (
           <button
             className={`${styles.activatebtn} ${
@@ -43,10 +43,10 @@ export default function CctvPage() {
             }`}
             onClick={() => handleActivateCCTV(row)}
           >
-            {row.isActive ? "스트리밍 중" : "스트리밍 시작"}
+            {row.is_active ? "스트리밍 중" : "스트리밍 시작"}
           </button>
         );
-      }, // 커스텀 렌더러 사용
+      },
       sortable: true,
       filter: false,
     },
@@ -76,51 +76,51 @@ export default function CctvPage() {
   ]);
 
   const [rowData, setRowData] = useState([
-    {
-      cctvId: 1,
-      cctvName: "CCTV1",
-      ipAddress: "123.456.789.123",
-      cctvAdmin: "admin",
-      stream: "/main",
-      storeName: "이마트24",
-      isActive: true,
-    },
-    {
-      cctvId: 2,
-      cctvName: "CCTV2",
-      ipAddress: "123.456.789.123",
-      cctvAdmin: "admin",
-      stream: "/sub1",
-      storeName: "이마트24",
-      isActive: false,
-    },
-    {
-      cctvId: 3,
-      cctvName: "CCTV3",
-      ipAddress: "123.456.789.123",
-      cctvAdmin: "admin",
-      stream: "/sub2",
-      storeName: "이마트24",
-      isActive: false,
-    },
-    {
-      cctvId: 4,
-      cctvName: "CCTV4",
-      ipAddress: "123.456.789.123",
-      cctvAdmin: "admin",
-      stream: "/sub3",
-      storeName: "이마트24",
-      isActive: false,
-    },
-    {
-      cctvId: 5,
-      cctvName: "CCTV5",
-      ipAddress: "123.456.789.123",
-      cctvAdmin: "admin",
-      stream: "/sub4",
-      storeName: "이마트24",
-      isActive: false,
-    },
+    // {
+    //   cctvId: 1,
+    //   cctvName: "CCTV1",
+    //   ipAddress: "123.456.789.123",
+    //   cctvAdmin: "admin",
+    //   stream: "/main",
+    //   storeName: "이마트24",
+    //   isActive: true,
+    // },
+    // {
+    //   cctvId: 2,
+    //   cctvName: "CCTV2",
+    //   ipAddress: "123.456.789.123",
+    //   cctvAdmin: "admin",
+    //   stream: "/sub1",
+    //   storeName: "이마트24",
+    //   isActive: false,
+    // },
+    // {
+    //   cctvId: 3,
+    //   cctvName: "CCTV3",
+    //   ipAddress: "123.456.789.123",
+    //   cctvAdmin: "admin",
+    //   stream: "/sub2",
+    //   storeName: "이마트24",
+    //   isActive: false,
+    // },
+    // {
+    //   cctvId: 4,
+    //   cctvName: "CCTV4",
+    //   ipAddress: "123.456.789.123",
+    //   cctvAdmin: "admin",
+    //   stream: "/sub3",
+    //   storeName: "이마트24",
+    //   isActive: false,
+    // },
+    // {
+    //   cctvId: 5,
+    //   cctvName: "CCTV5",
+    //   ipAddress: "123.456.789.123",
+    //   cctvAdmin: "admin",
+    //   stream: "/sub4",
+    //   storeName: "이마트24",
+    //   isActive: false,
+    // },
   ]);
 
   const myTheme = themeQuartz.withPart(iconSetQuartzLight).withParams({
@@ -151,57 +151,69 @@ export default function CctvPage() {
   const [selectedRows, setSelectedRows] = useState([]);
   const navigate = useNavigate();
 
-  // 초기 로드시 cctv 목록 가져오기.
-  // useEffect(async () => {
-  //   try {
-  //     const response = await cctvApi();
-  //   } catch (error) {}
-  // }, []);
+  //초기 로드시 cctv 목록 가져오기.
+  useEffect(async () => {
+    try {
+      const response = await cctvApi.getCctvs();
+      if (response.success) {
+        setRowData(response.data.cctvs);
+      } else {
+        toast(response.message);
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   const handleActivateCCTV = async (item) => {
+    // 이미 활성화된 CCTV인지 확인
+    const isCurrentlyActive = item.isActive;
+
+    // 현재 모든 rowData를 복사
+    const updatedRowData = rowData.map((row) => {
+      if (row.cctv_id === item.cctv_id) {
+        // 클릭한 항목의 상태를 토글 (이미 활성화된 항목이면 비활성화, 아니면 활성화)
+        return {
+          ...row,
+          is_active: !isCurrentlyActive,
+        };
+      } else {
+        // 다른 항목들은 항상 비활성화
+        return {
+          ...row,
+          is_active: false,
+        };
+      }
+    });
+
+    // TODO: 활성화 상태 변경 API 추가
     try {
-      // 이미 활성화된 CCTV인지 확인
-      const isCurrentlyActive = item.isActive;
-
-      // 현재 모든 rowData를 복사
-      const updatedRowData = rowData.map((row) => {
-        if (row.cctvId === item.cctvId) {
-          // 클릭한 항목의 상태를 토글 (이미 활성화된 항목이면 비활성화, 아니면 활성화)
-          return {
-            ...row,
-            isActive: !isCurrentlyActive,
-          };
+      if (isCurrentlyActive) {
+        // 비활성화 API
+        const response = null; // TODO
+        if (response.success) {
+          toast.success(`${item.cctv_name} 비활성화됨`);
+          setRowData(updatedRowData);
+          setActivatedRow(null);
         } else {
-          // 다른 항목들은 항상 비활성화
-          return {
-            ...row,
-            isActive: false,
-          };
+          toast.error(response.message || "CCTV 비활성화 실패");
+          console.error(response.message);
         }
-      });
-
-      setRowData(updatedRowData);
-      setActivatedRow(isCurrentlyActive ? null : item.cctvId);
-
-      // TODO: 활성화 상태 변경 API 추가
-      try {
-      } catch (error) {}
-
-      toast.info(
-        `  CCTV ID ${item.cctvId} ${
-          isCurrentlyActive ? "비활성화" : "활성화"
-        }됨`,
-        {
-          position: "bottom-center",
-          autoClose: 1000,
-          closeOnClick: true,
-          hideProgressBar: true,
+      } else {
+        // 활성화 API
+        const response = null; // TODO
+        if (response.success) {
+          toast.success(`${item.cctv_name} 활성화됨`);
+          setRowData(updatedRowData);
+          setActivatedRow(item.cctv_id);
+        } else {
+          toast.error(response.message || "CCTV 활성화 실패");
+          console.error(response.message);
         }
-      );
-      console.log();
+      }
     } catch (error) {
-      console.error("CCTV 상태 변경 중 오류 발생:", error);
-      alert("CCTV 상태 변경에 실패했습니다.");
+      console.error("CCTV Page: ", error);
     }
   };
   const handleEditCCTV = (item) => {
@@ -216,18 +228,21 @@ export default function CctvPage() {
     e.preventDefault();
 
     console.log(selectedRows);
-    const cctvs = selectedRows.map((item) => item.cctvName);
+    const cctvs = selectedRows.map((item) => item.cctv_name);
 
     const confirmDelete = window.confirm("선택한 CCTV를 삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        await cctvApi.deleteCctv({ cctvs });
-        alert("선택한 CCTV가 삭제되었습니다.");
-        window.location.reload();
+        const response = await cctvApi.deleteCctv({ cctvs });
+        if (response.success) {
+          toast.success("CCTV 삭제 성공");
+          window.location.reload();
+        } else {
+          toast.error(response.message);
+          console.error(response.message);
+        }
       } catch (error) {
-        alert(
-          "서버 오류로 인해 CCTV 삭제에 실패하였습니다. 다시 시도해주세요."
-        );
+        console.error("CCTV Page: ", error);
       }
     }
   };
@@ -266,6 +281,9 @@ export default function CctvPage() {
               rowData={rowData}
               columnDefs={colDefs}
               defaultColDef={defaultColDef}
+              localeText={{
+                noRowsToShow: "등록된 CCTV가 없습니다",
+              }}
               rowSelection={{
                 mode: "multiRow",
                 checkboxes: true,

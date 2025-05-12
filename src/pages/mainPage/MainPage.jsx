@@ -22,18 +22,16 @@ export default function MainPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const totalItems = 40;
   const itemsPerPage = 6;
-  const maxPage = totalItems / itemsPerPage + 1;
-  console.log();
+
+  // 총 페이지 수 올바르게 계산
+  const pageCount = Math.ceil(totalItems / itemsPerPage); // 7이 나옴
+
   const pageRange = 5;
   const blockStart = Math.floor(currentPage / pageRange) * pageRange;
-  const pageCount = Math.ceil(totalItems / itemsPerPage);
+
+  // 현재 블록에서 표시할 페이지 버튼들을 생성하되, 최대 페이지 수를 초과하지 않도록 함
   const pages = Array.from(
-    {
-      length:
-        (currentPage + 1) / pageRange === maxPage / pageRange
-          ? pageRange
-          : (currentPage + 1) % pageRange,
-    },
+    { length: Math.min(pageRange, pageCount - blockStart) },
     (_, i) => blockStart + i
   );
 
