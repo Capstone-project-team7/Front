@@ -8,7 +8,7 @@ import Tutorial from "../../pages/tutorialPage/components/Tutorial";
 export default function SideMenuLayout() {
   const token = localStorage.getItem("token");
   if (!token) {
-    //return <Navigate to={"/login"} replace />;
+    return <Navigate to={"/login"} replace />;
   }
 
   const [showTutorial, setShowTutorial] = useState(false);

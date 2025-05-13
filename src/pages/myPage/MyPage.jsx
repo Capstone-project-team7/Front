@@ -54,11 +54,15 @@ export default function MyPage() {
           <div className={styles.mypage__wrapper__content__inner}>
             <div className={styles.row}>
               <label>사용자 이메일</label>
-              <span className={styles.gray}>{user ? user.email : "null"}</span>
+              <span className={styles.gray}>
+                {user ? user.user_email : "null"}
+              </span>
             </div>
             <div className={styles.row}>
               <label>이름</label>
-              <span className={styles.gray}>{user ? user.name : "null"}</span>
+              <span className={styles.gray}>
+                {user ? user.user_name : "null"}
+              </span>
             </div>
             <CommonButton
               label="개인정보 수정"
@@ -85,8 +89,8 @@ export default function MyPage() {
           </span>
           <div className={styles.mypage__wrapper__content__inner}>
             <StorageBar
-              total={user ? user.maxStorage / 1024 / 1024 / 1024 : 10}
-              used={user ? user.currentStorage / 1024 / 1024 / 1024 : 4.0}
+              total={user ? user.total_space / 1024 / 1024 / 1024 : 10}
+              used={user ? user.used_space / 1024 / 1024 / 1024 : 4.0}
             />
           </div>
         </div>

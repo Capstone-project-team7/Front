@@ -1,3 +1,6 @@
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const API_BASE_URL = "http://localhost:8080/api/v1";
 
 // API 응답을 위한 기본 형식
@@ -53,8 +56,11 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     } else {
-      toast.error("토큰이 만료되어 로그인 페이지로 이동합니다.");
-      window.location.href = "/login";
+      toast.error("토큰이 만료되어 로그인 페이지로 이동합니다.", {
+        onClose: () => {
+          window.location.href = "/login";
+        },
+      });
       return ApiResponse.error(
         {
           message: "Authentication required",
@@ -74,10 +80,11 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
       ...options,
       headers,
     });
+    console.log(options);
 
     // 응답 Json으로 변환
     const result = await response.json();
-
+    console.log(result);
     if (response.ok) {
       return ApiResponse.success(result.data, response.status);
     } else {
@@ -144,11 +151,12 @@ export const api = {
       withAuth
     ),
 
-  delete: (endpoint, withAuth = true) =>
+  delete: (endpoint, data, withAuth = true) =>
     fetchClient(
       endpoint,
       {
         method: "DELETE",
+        body: JSON.stringify(data),
       },
       withAuth
     ),

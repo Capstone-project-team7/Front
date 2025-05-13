@@ -10,24 +10,23 @@ export default function CctvEditPage() {
   const location = useLocation();
   const { cctv } = location.state || {};
   const { user } = useContext(UserContext);
-
-  const [cctvId, setCctvId] = useState();
+  // 안녕
+  const [cctvId, setCctvId] = useState("");
   const [cctvName, setCctvName] = useState("");
   const [ipAddress, setIpAddress] = useState("");
   const [cctvAdmin, setCctvAdmin] = useState("");
   const [stream, setStream] = useState("");
   const [password, setPassword] = useState("");
-  const [storeName, setStoreName] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (cctv) {
-      setCctvId(cctv.cctv_id);
-      setCctvName(cctv.cctv_name);
-      setIpAddress(cctv.ip_address);
-      setCctvAdmin(cctv.cctv_admin);
-      setStream(cctv.cctv_path);
+      setCctvId(cctv.cctv_id || "");
+      setCctvName(cctv.cctv_name || "");
+      setIpAddress(cctv.ip_address || "");
+      setCctvAdmin(cctv.cctv_admin || "");
+      setStream(cctv.cctv_path || "");
     }
   }, [cctv]);
 
@@ -56,8 +55,7 @@ export default function CctvEditPage() {
       }
     } else if (location.pathname.endsWith("edit")) {
       try {
-        const response = await cctvApi.updateCctv({
-          cctv_id: cctvId,
+        const response = await cctvApi.updateCctv(cctvId, {
           user_id: user.user_id,
           cctv_name: cctvName,
           ip_address: ipAddress,

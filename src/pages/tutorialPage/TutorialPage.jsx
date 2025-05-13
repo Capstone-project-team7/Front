@@ -1,33 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./TutorialPage.module.scss";
 import CommonButton from "../../components/commonButton/CommonButton";
 import { useNavigate } from "react-router-dom";
-import Tutorial from "./components/Tutorial";
+import { cctvApi } from "../../apis/cctvApi";
+import { UserContext } from "../../stores/UserContext";
+import { toast } from "react-toastify";
+
 export default function TutorialPage() {
-  const [cctvId, setCctvId] = useState();
   const [cctvName, setCctvName] = useState("");
   const [ipAddress, setIpAddress] = useState("");
   const [cctvAdmin, setCctvAdmin] = useState("");
   const [stream, setStream] = useState("");
   const [password, setPassword] = useState("");
+  const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleSaveCctv = async (e) => {
     e.preventDefault();
-
     try {
-      await cctvApi.createCctv({
-        user_id: null,
+      const response = await cctvApi.createCctv({
+        user_id: user.user_id,
         cctv_name: cctvName,
         ip_address: ipAddress,
-        cctv_admin: cctvId,
+        cctv_admin: cctvAdmin,
         cctv_path: stream,
         cctv_password: password,
-      }); // CCTV ID????
-      navigate("/cctv");
+      });
+      if (response.success) {
+        toast.success("CCTV 추가 성공");
+        navigate("/cctv");
+      } else {
+        toast.error(response.message || "CCTV 추가 실패");
+        console.error(response.message);
+      }
     } catch (error) {
-      alert("cctv 등록에 실패하였습니다. 다시 시도해주세요.");
+      console.error("Tutorial Page: ", error);
     }
   };
 

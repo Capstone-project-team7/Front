@@ -30,7 +30,7 @@ export default function UserEditPage() {
     // 개인정보 수정 api
     try {
       const response = await userApi.updateUser({
-        user_id: user.userid,
+        user_id: user.user_id,
         user_name: name,
         user_password: password,
         notify_status: true,
@@ -66,7 +66,7 @@ export default function UserEditPage() {
 
   useEffect(() => {
     if (user) {
-      setName(user.name);
+      setName(user.user_name);
     }
   }, [user]);
 
@@ -82,7 +82,7 @@ export default function UserEditPage() {
             <div className={styles.row}>
               <label>사용자 이메일</label>
               <span className={styles.gray}>
-                {user ? user.email : "*******@gmail.com"}
+                {user ? user.user_email : "*******@gmail.com"}
               </span>
             </div>
             <div className={styles.row}>

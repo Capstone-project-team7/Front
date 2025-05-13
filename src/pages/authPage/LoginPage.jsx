@@ -29,13 +29,14 @@ export default function LoginPage() {
       if (response.success) {
         toast.success("로그인 성공");
         localStorage.setItem("token", response.data.token);
+        console.log(response);
         setUser({
           user_id: response.data.user_id,
           user_name: response.data.user_name,
           user_email: userEmail,
           used_space: response.data.used_space,
           total_space: response.data.total_space,
-          notify_status: true,
+          notify_status: response.data.notify_status,
         });
         response.data.first_login ? navigate("/tutorial") : navigate("/");
       } else {

@@ -16,13 +16,24 @@ export default function Header() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    if (!user.user_id) {
+      setUser({
+        user_id: "",
+        user_name: "",
+        user_email: "",
+        used_space: 0,
+        total_space: 10 * 1024 * 1024 * 1024,
+        notify_status: false,
+      });
+      navigate("/login");
+    }
     // 로그아웃 api 추가
     try {
       const response = await userApi.logout({ user_id: user.userid });
       if (response.success) {
         toast.success("로그아웃됨");
         localStorage.removeItem("token");
-        setUser(null);
+        setUser({});
         navigate("/login");
       } else {
         toast.error(response.error.message);
@@ -55,7 +66,7 @@ export default function Header() {
             <FontAwesomeIcon icon={faCircleUser} size="2x" color="black" />{" "}
             <div>
               <span className={styles.header__profile__hello__name}>
-                {user.name}
+                {user.user_name}
               </span>
               <span>님 안녕하세요!</span>
             </div>

@@ -12,5 +12,5 @@ export const userApi = {
   deleteUser: () => api.delete(`/auth/withdraw`, {}, true), // 회원 탈퇴
   logout: (userData) => api.post("/auth/logout", userData, true), // 로그아웃
   updateNotification: (userData) =>
-    api.put("/auth/notification", userData, true),
+    api.put("/user/notification", userData, true),
 };

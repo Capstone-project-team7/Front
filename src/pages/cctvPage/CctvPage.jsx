@@ -21,8 +21,8 @@ export default function CctvPage() {
   const [activatedRow, setActivatedRow] = useState(null);
 
   const [colDefs, setColDefs] = useState([
-    { headerName: "CCTV 이름", field: "cctvName", flex: 1 },
-    { headerName: "IP 주소", field: "ipAddress", flex: 1 },
+    { headerName: "CCTV 이름", field: "cctv_name", flex: 1 },
+    { headerName: "IP 주소", field: "ip_address", flex: 1 },
     { headerName: "스트림 경로", field: "stream", flex: 1 },
     {
       headerName: "활성화 상태",
@@ -76,44 +76,44 @@ export default function CctvPage() {
 
   const [rowData, setRowData] = useState([
     // {
-    //   cctvId: 1,
-    //   cctvName: "CCTV1",
-    //   ipAddress: "123.456.789.123",
-    //   cctvAdmin: "admin",
+    //   cctv_id: 1,
+    //   cctv_name: "CCTV1",
+    //   ip_address: "123.456.789.123",
+    //   cctv_admin: "admin",
     //   stream: "/main",
-    //   isActive: true,
+    //   is_active: true,
     // },
     // {
-    //   cctvId: 2,
-    //   cctvName: "CCTV2",
-    //   ipAddress: "123.456.789.123",
-    //   cctvAdmin: "admin",
+    //   cctv_id: 2,
+    //   cctv_name: "CCTV2",
+    //   ip_address: "123.456.789.123",
+    //   cctv_admin: "admin",
     //   stream: "/sub1",
-    //   isActive: false,
+    //   is_active: false,
     // },
     // {
-    //   cctvId: 3,
-    //   cctvName: "CCTV3",
-    //   ipAddress: "123.456.789.123",
-    //   cctvAdmin: "admin",
+    //   cctv_id: 3,
+    //   cctv_name: "CCTV3",
+    //   ip_address: "123.456.789.123",
+    //   cctv_admin: "admin",
     //   stream: "/sub2",
-    //   isActive: false,
+    //   is_active: false,
     // },
     // {
-    //   cctvId: 4,
-    //   cctvName: "CCTV4",
-    //   ipAddress: "123.456.789.123",
-    //   cctvAdmin: "admin",
+    //   cctv_id: 4,
+    //   cctv_name: "CCTV4",
+    //   ip_address: "123.456.789.123",
+    //   cctv_admin: "admin",
     //   stream: "/sub3",
-    //   isActive: false,
+    //   is_active: false,
     // },
     // {
-    //   cctvId: 5,
-    //   cctvName: "CCTV5",
-    //   ipAddress: "123.456.789.123",
-    //   cctvAdmin: "admin",
+    //   cctv_id: 5,
+    //   cctv_name: "CCTV5",
+    //   ip_address: "123.456.789.123",
+    //   cctv_admin: "admin",
     //   stream: "/sub4",
-    //   isActive: false,
+    //   is_active: false,
     // },
   ]);
 
@@ -153,7 +153,7 @@ export default function CctvPage() {
         if (response.success) {
           setRowData(response.data.cctvs);
         } else {
-          toast(response.message || "CCTV 목록 조회 실패");
+          toast.error(response.message || "CCTV 목록 조회 실패");
           console.error(response.message);
         }
       } catch (error) {
@@ -184,11 +184,10 @@ export default function CctvPage() {
       }
     });
 
-    // TODO: 활성화 상태 변경 API 추가
     try {
       if (isCurrentlyActive) {
         // 비활성화 API
-        const response = null; // TODO
+        const response = cctvApi.stopStreaming(item.cctv_id);
         if (response.success) {
           toast.success(`${item.cctv_name} 비활성화됨`);
           setRowData(updatedRowData);
@@ -199,7 +198,7 @@ export default function CctvPage() {
         }
       } else {
         // 활성화 API
-        const response = null; // TODO
+        const response = cctvApi.startStreaming(item.cctv_id);
         if (response.success) {
           toast.success(`${item.cctv_name} 활성화됨`);
           setRowData(updatedRowData);
@@ -222,20 +221,21 @@ export default function CctvPage() {
   };
 
   const handleDeleteCCTV = async (e) => {
-    e.preventDefault();
-
-    console.log(selectedRows);
     const cctvs = selectedRows.map((item) => item.cctv_id);
+    console.log(cctvs);
 
     const confirmDelete = window.confirm("선택한 CCTV를 삭제하시겠습니까?");
     if (confirmDelete) {
       try {
-        const response = await cctvApi.deleteCctv({ cctvs });
+        const response = await cctvApi.deleteCctv({ cctvIds: cctvs });
         if (response.success) {
           toast.success("CCTV 삭제 성공");
-          window.location.reload();
         } else {
-          toast.error(response.message);
+          toast.error(response.message || "CCTV 삭제 실패", {
+            onClose: () => {
+              window.location.reload();
+            },
+          });
           console.error(response.message);
         }
       } catch (error) {
