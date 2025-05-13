@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./TutorialPage.module.scss";
 import CommonButton from "../../components/commonButton/CommonButton";
-import meerkatImage from "@assets/images/meerkat.png";
 import { useNavigate } from "react-router-dom";
-
+import Tutorial from "./components/Tutorial";
 export default function TutorialPage() {
-  const [isOpen, setIsOpen] = useState(true);
-
   const [cctvId, setCctvId] = useState();
   const [cctvName, setCctvName] = useState("");
   const [ipAddress, setIpAddress] = useState("");

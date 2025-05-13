@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./SideMenu.module.scss";
 import MenuItem from "../menuItem/MenuItem";
 import Modal from "../modal/Modal";
 import TermContent from "../termContent/TermContent";
+import Tutorial from "../../pages/tutorialPage/components/Tutorial";
 
 export default function SideMenu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickLeft, setIsClickLeft] = useState(true);
+
   return (
     <div className={styles.sidemenu}>
       <div className={styles.sidemenu__title}>메뉴</div>

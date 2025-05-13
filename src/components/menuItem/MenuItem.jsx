@@ -27,9 +27,17 @@ export default function MenuItem({ label, to }) {
     마이페이지: faGear,
   }[label];
 
+  const idtype = {
+    홈페이지: "homepage-menu",
+    캘린더: "calendarpage-menu",
+    "CCTV 관리": "cctvpage-menu",
+    이용가이드: "guidepage-menu",
+    마이페이지: "mypage-menu",
+  }[label];
+
   return (
     <li className={`${styles.menuitem} ${isActive ? styles.selected : ""}`}>
-      <Link className={styles.menuitem__link} to={to}>
+      <Link id={idtype} className={styles.menuitem__link} to={to}>
         <span className={styles.menuitem__link__icon}>
           <FontAwesomeIcon icon={icontype} />
         </span>
