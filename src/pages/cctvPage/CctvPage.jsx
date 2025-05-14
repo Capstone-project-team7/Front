@@ -23,7 +23,7 @@ export default function CctvPage() {
   const [colDefs, setColDefs] = useState([
     { headerName: "CCTV 이름", field: "cctv_name", flex: 1 },
     { headerName: "IP 주소", field: "ip_address", flex: 1 },
-    { headerName: "스트림 경로", field: "stream", flex: 1 },
+    { headerName: "스트림 경로", field: "cctv_path", flex: 1 },
     {
       headerName: "활성화 상태",
       field: "isActive",
@@ -229,13 +229,13 @@ export default function CctvPage() {
       try {
         const response = await cctvApi.deleteCctv({ cctvIds: cctvs });
         if (response.success) {
-          toast.success("CCTV 삭제 성공");
-        } else {
-          toast.error(response.message || "CCTV 삭제 실패", {
+          toast.success("CCTV 삭제 성공", {
             onClose: () => {
               window.location.reload();
             },
           });
+        } else {
+          toast.error(response.message || "CCTV 삭제 실패");
           console.error(response.message);
         }
       } catch (error) {

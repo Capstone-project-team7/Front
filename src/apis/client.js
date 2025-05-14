@@ -80,11 +80,11 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
       ...options,
       headers,
     });
-    console.log(options);
+    console.log("request body: ", options);
 
     // 응답 Json으로 변환
     const result = await response.json();
-    console.log(result);
+    console.log("response: ", result);
     if (response.ok) {
       return ApiResponse.success(result.data, response.status);
     } else {

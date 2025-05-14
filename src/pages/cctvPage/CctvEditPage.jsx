@@ -21,6 +21,7 @@ export default function CctvEditPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(cctv);
     if (cctv) {
       setCctvId(cctv.cctv_id || "");
       setCctvName(cctv.cctv_name || "");
@@ -39,7 +40,7 @@ export default function CctvEditPage() {
           user_id: user.user_id,
           cctv_name: cctvName,
           ip_address: ipAddress,
-          cctv_admin: cctvId,
+          cctv_admin: cctvAdmin,
           cctv_path: stream,
           cctv_password: password,
         });

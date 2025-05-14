@@ -20,13 +20,16 @@ export default function MyPage() {
   const handleAlarm = async () => {
     // 알림 설정 변경 api
     try {
-      const response = userApi.updateNotification({ notification: !isAlarm });
+      const response = await userApi.updateNotification({
+        notification: !isAlarm,
+      });
       if (response.success) {
-        setIsAlarm(!isAlarm);
         setUser({
           ...user,
-          notify_status: isAlarm,
+          notify_status: !isAlarm,
         });
+
+        setIsAlarm(user.notify_status);
         toast.success(`${isAlarm ? "알림 켜짐" : "알림 꺼짐"}`);
       } else {
         toast.error(response.message || "알림 설정 변경 실패");
@@ -79,7 +82,7 @@ export default function MyPage() {
           <div className={styles.mypage__wrapper__content__inner}>
             <div className={styles.row}>
               <label>이메일 수신 여부</label>
-              <CommonToggle checked={isAlarm} onToggle={() => handleAlarm()} />
+              <CommonToggle checked={isAlarm} onToggle={handleAlarm} />
             </div>
           </div>
         </div>

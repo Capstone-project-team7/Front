@@ -29,7 +29,7 @@ export default function Header() {
     }
     // 로그아웃 api 추가
     try {
-      const response = await userApi.logout({ user_id: user.userid });
+      const response = await userApi.logout({ user_id: user.user_id });
       if (response.success) {
         toast.success("로그아웃됨");
         localStorage.removeItem("token");
