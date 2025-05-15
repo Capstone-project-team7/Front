@@ -7,8 +7,7 @@ export default function VideoItem({ time, type, thumbnail, onClick }) {
   return (
     <div className={styles.videoitem}>
       <img
-        src="https://placehold.co/360x160"
-        alt="https://placehold.co/360x160"
+        src={thumbnail}
         className={styles.videoitem__thumbnail}
         onClick={onClick}
       ></img>

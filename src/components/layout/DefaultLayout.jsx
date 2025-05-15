@@ -6,7 +6,7 @@ import Header from "../header/Header";
 export default function DefaultLayout() {
   return (
     <div className={styles.layoutwrapper}>
-      <Header />
+      <Header isInfo={false} />
       <main className={styles.layoutwrapper__default}>
         <Outlet />
       </main>

@@ -80,7 +80,7 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
       ...options,
       headers,
     });
-    console.log("request body: ", url);
+    console.log("request body: ", options);
 
     // 응답 Json으로 변환
     const result = await response.json();

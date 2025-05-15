@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { userApi } from "@apis/userApi";
 import { toast } from "react-toastify";
 
-export default function Header() {
+export default function Header({ isInfo }) {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ export default function Header() {
       <Link className={styles.header__logo} to={"/"}>
         <img src={Logo} className={styles.header__logo__image} />
       </Link>
-      {user ? (
+      {isInfo && user ? (
         <div className={styles.header__profile}>
           <button
             className={styles.header__profile__logout}

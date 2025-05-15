@@ -15,17 +15,19 @@ import {
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../components/modal/Modal";
-import ReactPlayer from "react-player";
+import { mainApi } from "@apis/mainApi";
+import { toast } from "react-toastify";
+import NotFound from "./components/NotFound/NotFound";
+import { style } from "@mui/system";
 
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const totalItems = 40;
-  const itemsPerPage = 6;
+  const [totalItems, setTotalItems] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
+  const [limit, setLimit] = useState(6);
 
-  // 총 페이지 수 올바르게 계산
-  const pageCount = Math.ceil(totalItems / itemsPerPage); // 7이 나옴
-
+  // 총 페이지 수 계산
   const pageRange = 5;
   const blockStart = Math.floor(currentPage / pageRange) * pageRange;
 
@@ -35,58 +37,62 @@ export default function MainPage() {
     (_, i) => blockStart + i
   );
 
-  // 페이지가 변경될 때마다 해당 페이지의 아이템들을 가져옴
-  useEffect(() => {
-    // 페이지에 해당하는 영상 리스트 요청 api
-    // 우선 더미데이터 생성 후 삽입
-
-    const generateDummyItems = () => {
-      const startIndex = currentPage * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-
-      // 현재 페이지에 해당하는 아이템들만 필터링
-      const dummyItems = Array.from({ length: itemsPerPage }, (_, index) => {
-        const itemIndex = startIndex + index;
-        if (itemIndex < totalItems) {
-          return {
-            id: itemIndex + 1,
-            time: `2025.04.29 16:00 ${itemIndex + 1}`,
-            type: "절도",
-            url: "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-          };
-        }
-        return null;
-      }).filter(Boolean);
-
-      setCurrentItems(dummyItems);
-    };
-
-    generateDummyItems();
-  }, [currentPage]);
-
   const [dayFilterOpen, setDayFilterOpen] = useState(false);
   const dayFilterRef = useRef(null);
   const [range, setRange] = useState({ from: null, to: null });
-  const [category, setCategory] = useState("전체");
-  const [video, setVideo] = useState();
+  const [category, setCategory] = useState("");
+
+  const [video, setVideo] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const customStyles = {
-    day: {
-      selected: {
-        backgroundColor: "#ff4081",
-        color: "white",
-      },
-      today: {
-        border: "1px solid #ff4081",
-      },
-    },
+  const getDate = (fulldate) => {
+    const year = fulldate.getFullYear();
+    const month = fulldate.getMonth() + 1;
+    const day = fulldate.getDate();
+    const formatted = `${year}-${String(month).padStart(2, "0")}-${String(
+      day
+    ).padStart(2, "0")}`;
+    return formatted;
   };
 
+  const getVideoList = async (page) => {
+    let from = "";
+    let to = "";
+    if (range && range.to && range.from) {
+      from = getDate(range.from);
+      to = getDate(range.to);
+    } else {
+      from = "";
+      to = "";
+    }
+    try {
+      const response = await mainApi.getVideoList({
+        start_date: from,
+        end_date: to,
+        anomaly_behavior_type: category,
+        page: page + 1,
+      });
+      if (response.success) {
+        setCurrentItems(response.data.videos);
+        setTotalItems(response.data.pagination.total);
+        setPageCount(response.data.pagination.pages);
+        setLimit(response.data.pagination.limit);
+      } else {
+        toast.error(response.message || "영상 리스트 조회 실패");
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error("MainPage: ", error);
+    }
+  };
+
+  useEffect(() => {
+    // 페이지에 해당하는 영상 리스트 요청 api
+    getVideoList(currentPage);
+  }, [currentPage]);
+
   const handleSearch = () => {
-    // 날짜 및 유형 필터링 검색 api
-    console.log(range);
-    console.log(category);
+    getVideoList(0);
   };
 
   // 날짜 필터 바깥쪽 클릭 시 닫기
@@ -112,7 +118,6 @@ export default function MainPage() {
   }, [dayFilterOpen]); // dayFilterOpen 상태 변경 시마다 실행
 
   const handleVideoClicked = (item) => {
-    //console.log(item);
     setVideo(item);
     setIsOpen(true);
   };
@@ -167,14 +172,14 @@ export default function MainPage() {
               className={styles.mainpage__top__filter__category__select}
               onChange={(e) => setCategory(e.target.value)}
             >
-              <option value="전체">전체</option>
-              <option value="절도">절도</option>
-              <option value="파손">파손</option>
-              <option value="폭행">폭행</option>
-              <option value="전도">전도</option>
-              <option value="방화">방화</option>
-              <option value="흡연">흡연</option>
-              <option value="유기">유기</option>
+              <option value="">전체</option>
+              <option value="Type1">전도</option>
+              <option value="Type2">파손</option>
+              <option value="Type3">방화</option>
+              <option value="Type4">흡연</option>
+              <option value="Type5">유기</option>
+              <option value="Type6">절도</option>
+              <option value="Type7">폭행</option>
             </select>
           </div>
           <div className={styles.mainpage__top__filter__search}>
@@ -209,17 +214,24 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      <div className={styles.mainpage__list}>
-        {currentItems.map((item) => (
-          <VideoItem
-            key={item.id}
-            time={item.time}
-            type={item.type}
-            thumbnail={null}
-            onClick={() => handleVideoClicked(item)}
-          ></VideoItem>
-        ))}
-      </div>
+      {currentItems.length !== 0 ? (
+        <div className={styles.mainpage__list}>
+          {currentItems.map((item) => (
+            <VideoItem
+              key={item.video_id}
+              time={item.created_at}
+              type={item.anomaly_behavior_type}
+              thumbnail={item.thumbnail_path}
+              onClick={() => handleVideoClicked(item)}
+            ></VideoItem>
+          ))}
+        </div>
+      ) : (
+        <div className={styles.mainpage__notfound}>
+          <NotFound />
+        </div>
+      )}
+
       <div className={styles.mainpage__pagination}>
         <button
           className={styles.pageItem}
@@ -266,18 +278,19 @@ export default function MainPage() {
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div className={styles.modalwrapper}>
           <div className={styles.modalwrapper__video}>
-            {/* <ReactPlayer
-              //url={video.url}
-              controls
-              width="100%"
-              height="auto"
-              playing
-              muted
-            /> */}
+            {video ? (
+              <video controls autoPlay>
+                <source src={video.file_path} type="video/mp4"></source>
+              </video>
+            ) : (
+              <div>video not found</div>
+            )}
           </div>
-          <span className={styles.modalwrapper__title}>
-            {/*`${video.time} ${video.type}`*/}
-          </span>
+          {video && (
+            <span className={styles.modalwrapper__title}>
+              {`${video.created_at} ${video.anomaly_behavior_type}`}{" "}
+            </span>
+          )}
         </div>
       </Modal>
     </div>

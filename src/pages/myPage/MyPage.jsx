@@ -18,19 +18,18 @@ export default function MyPage() {
   };
 
   const handleAlarm = async () => {
+    const nextAlarm = !isAlarm;
     // 알림 설정 변경 api
     try {
       const response = await userApi.updateNotification({
-        notification: !isAlarm,
+        notification: nextAlarm,
       });
       if (response.success) {
         setUser({
           ...user,
-          notify_status: !isAlarm,
+          notify_status: nextAlarm,
         });
-
-        setIsAlarm(user.notify_status);
-        toast.success(`${isAlarm ? "알림 켜짐" : "알림 꺼짐"}`);
+        toast.info(`${nextAlarm ? "알림 켜짐" : "알림 꺼짐"}`);
       } else {
         toast.error(response.message || "알림 설정 변경 실패");
         console.error(response.message);

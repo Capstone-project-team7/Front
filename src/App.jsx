@@ -63,7 +63,7 @@ function App() {
     <UserProvider>
       <RouterProvider router={router} />
       <ToastContainer
-        position="bottom-center"
+        position="top-center"
         autoClose={1000}
         limit={3}
         hideProgressBar={true}
