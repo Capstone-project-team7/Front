@@ -88,7 +88,6 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    // 페이지에 해당하는 영상 리스트 요청 api
     getVideoList(currentPage);
   }, [currentPage]);
 
@@ -118,12 +117,11 @@ export default function MainPage() {
     };
   }, [dayFilterOpen]); // dayFilterOpen 상태 변경 시마다 실행
 
-  const handleVideoClicked = async (item) => {
+  const getPlayURL = async (id) => {
     try {
-      const response = await mainApi.viewVideo(item.video_id);
+      const response = await mainApi.viewVideo(id);
       if (response.success) {
         setVideoPlayURL(response.data.file_path);
-        console.log(videoPlayURL);
       } else {
         toast.error(response.message || "비디오 조회 실패");
         console.error(response.message);
@@ -131,10 +129,12 @@ export default function MainPage() {
     } catch (error) {
       console.error("MainPage: ", error);
     }
-    console.log(videoPlayURL);
+  };
+
+  const handleVideoClicked = async (item) => {
+    await getPlayURL(item.video_id);
     setVideo(item);
     setIsOpen(true);
-    console.log(item.file_path);
   };
 
   return (
@@ -293,9 +293,17 @@ export default function MainPage() {
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div className={styles.modalwrapper}>
           <div className={styles.modalwrapper__video}>
-            {video ? (
-              <video controls autoPlay>
-                <source src={videoPlayURL} type="video/mp4"></source>
+            {videoPlayURL ? (
+              <video
+                className={styles.modalwrapper__video__player}
+                controls
+                autoPlay
+                onError={(e) => console.error("Video Error:", e)}
+                onLoadStart={() =>
+                  console.log("Video load started, URL:", videoPlayURL)
+                }
+              >
+                <source src={videoPlayURL}></source>
               </video>
             ) : (
               <div>video not found</div>

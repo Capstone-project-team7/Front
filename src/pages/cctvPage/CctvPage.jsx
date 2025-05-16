@@ -109,10 +109,8 @@ export default function CctvPage() {
     async function getCCTVList() {
       try {
         const response = await cctvApi.getCctvs();
-        console.log(response);
         if (response.success) {
           setRowData(response.data.cctvs);
-          console.log(response.data.cctvs);
         } else {
           toast.error(response.message || "CCTV 목록 조회 실패");
           console.error(response.message);
@@ -125,7 +123,6 @@ export default function CctvPage() {
   }, []);
 
   const handleActivateCCTV = async (item) => {
-    console.log(rowData);
     // 이미 활성화된 CCTV인지 확인
     const isCurrentlyActive = item.is_active;
 
@@ -184,7 +181,6 @@ export default function CctvPage() {
   const handleDeleteCCTV = () => {
     const cctvs = selectedRows.map((item) => item.cctv_id);
     if (!cctvs.length) return;
-    console.log(cctvs);
 
     confirmAlert({
       title: "정말 삭제하시겠습니까?",

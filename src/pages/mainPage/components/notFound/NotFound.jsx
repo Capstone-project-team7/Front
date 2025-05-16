@@ -19,7 +19,7 @@ export default function NotFound() {
               rx="8"
               fill="#EAEAEA"
               stroke="#CCCCCC"
-              stroke-width="2"
+              strokeWidth="2"
             />
 
             <rect x="50" y="40" width="140" height="80" rx="4" fill="#F5F5F5" />
@@ -37,8 +37,8 @@ export default function NotFound() {
               x2="170"
               y2="100"
               stroke="#CCCCCC"
-              stroke-width="2"
-              stroke-dasharray="5,5"
+              strokeWidth="2"
+              strokeDasharray="5,5"
             />
             <line
               x1="70"
@@ -46,11 +46,11 @@ export default function NotFound() {
               x2="170"
               y2="60"
               stroke="#CCCCCC"
-              stroke-width="2"
-              stroke-dasharray="5,5"
+              strokeWidth="2"
+              strokeDasharray="5,5"
             />
 
-            <path d="M120 130V140" stroke="#CCCCCC" stroke-width="4" />
+            <path d="M120 130V140" stroke="#CCCCCC" strokeWidth="4" />
             <rect
               x="100"
               y="140"
@@ -59,7 +59,7 @@ export default function NotFound() {
               rx="4"
               fill="#EAEAEA"
               stroke="#CCCCCC"
-              stroke-width="2"
+              strokeWidth="2"
             />
 
             <circle cx="120" cy="80" r="15" fill="#EAEAEA" opacity="0.5" />
@@ -68,9 +68,9 @@ export default function NotFound() {
             <text
               x="185"
               y="55"
-              font-family="Arial"
-              font-size="24"
-              font-weight="bold"
+              fontFamily="Arial"
+              fontSize="24"
+              fontWeight="bold"
               fill="#CCCCCC"
             ></text>
           </svg>
