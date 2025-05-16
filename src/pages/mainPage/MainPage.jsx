@@ -43,6 +43,7 @@ export default function MainPage() {
   const [category, setCategory] = useState("");
 
   const [video, setVideo] = useState(null);
+  const [videoPlayURL, setVideoPlayURL] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const getDate = (fulldate) => {
@@ -117,9 +118,23 @@ export default function MainPage() {
     };
   }, [dayFilterOpen]); // dayFilterOpen 상태 변경 시마다 실행
 
-  const handleVideoClicked = (item) => {
+  const handleVideoClicked = async (item) => {
+    try {
+      const response = await mainApi.viewVideo(item.video_id);
+      if (response.success) {
+        setVideoPlayURL(response.data.file_path);
+        console.log(videoPlayURL);
+      } else {
+        toast.error(response.message || "비디오 조회 실패");
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error("MainPage: ", error);
+    }
+    console.log(videoPlayURL);
     setVideo(item);
     setIsOpen(true);
+    console.log(item.file_path);
   };
 
   return (
@@ -280,7 +295,7 @@ export default function MainPage() {
           <div className={styles.modalwrapper__video}>
             {video ? (
               <video controls autoPlay>
-                <source src={video.file_path} type="video/mp4"></source>
+                <source src={videoPlayURL} type="video/mp4"></source>
               </video>
             ) : (
               <div>video not found</div>

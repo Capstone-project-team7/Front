@@ -20,14 +20,15 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function CctvPage() {
   const [activatedRow, setActivatedRow] = useState(null);
+  const [rowData, setRowData] = useState([]);
 
   const [colDefs, setColDefs] = useState([
     { headerName: "CCTV 이름", field: "cctv_name", flex: 1 },
     { headerName: "IP 주소", field: "ip_address", flex: 1 },
-    { headerName: "스트림 경로", field: "cctv_path", flex: 1 },
     {
       headerName: "활성화 상태",
       field: "isActive",
+      flex: 1,
       cellStyle: {
         display: "flex",
         justifyContent: "flex-start",
@@ -53,9 +54,10 @@ export default function CctvPage() {
     {
       headerName: "수정",
       field: "actions",
+      flex: 1,
       cellStyle: {
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
       },
       cellRenderer: (params) => {
@@ -69,53 +71,9 @@ export default function CctvPage() {
           />
         );
       }, // 커스텀 렌더러 사용
-      width: 150,
       sortable: false,
       filter: false,
     },
-  ]);
-
-  const [rowData, setRowData] = useState([
-    // {
-    //   cctv_id: 1,
-    //   cctv_name: "CCTV1",
-    //   ip_address: "123.456.789.123",
-    //   cctv_admin: "admin",
-    //   stream: "/main",
-    //   is_active: true,
-    // },
-    // {
-    //   cctv_id: 2,
-    //   cctv_name: "CCTV2",
-    //   ip_address: "123.456.789.123",
-    //   cctv_admin: "admin",
-    //   stream: "/sub1",
-    //   is_active: false,
-    // },
-    // {
-    //   cctv_id: 3,
-    //   cctv_name: "CCTV3",
-    //   ip_address: "123.456.789.123",
-    //   cctv_admin: "admin",
-    //   stream: "/sub2",
-    //   is_active: false,
-    // },
-    // {
-    //   cctv_id: 4,
-    //   cctv_name: "CCTV4",
-    //   ip_address: "123.456.789.123",
-    //   cctv_admin: "admin",
-    //   stream: "/sub3",
-    //   is_active: false,
-    // },
-    // {
-    //   cctv_id: 5,
-    //   cctv_name: "CCTV5",
-    //   ip_address: "123.456.789.123",
-    //   cctv_admin: "admin",
-    //   stream: "/sub4",
-    //   is_active: false,
-    // },
   ]);
 
   const myTheme = themeQuartz.withPart(iconSetQuartzLight).withParams({
@@ -151,8 +109,10 @@ export default function CctvPage() {
     async function getCCTVList() {
       try {
         const response = await cctvApi.getCctvs();
+        console.log(response);
         if (response.success) {
           setRowData(response.data.cctvs);
+          console.log(response.data.cctvs);
         } else {
           toast.error(response.message || "CCTV 목록 조회 실패");
           console.error(response.message);
@@ -165,48 +125,48 @@ export default function CctvPage() {
   }, []);
 
   const handleActivateCCTV = async (item) => {
+    console.log(rowData);
     // 이미 활성화된 CCTV인지 확인
     const isCurrentlyActive = item.is_active;
 
-    // 현재 모든 rowData를 복사
-    const updatedRowData = rowData.map((row) => {
-      if (row.cctv_id === item.cctv_id) {
-        // 클릭한 항목의 상태를 토글 (이미 활성화된 항목이면 비활성화, 아니면 활성화)
-        return {
-          ...row,
-          is_active: !isCurrentlyActive,
-        };
-      } else {
-        // 다른 항목들은 항상 비활성화
-        return {
-          ...row,
-          is_active: false,
-        };
-      }
-    });
+    setRowData((prev) =>
+      prev.map((row) => {
+        if (row.cctv_id === item.cctv_id) {
+          return {
+            ...row,
+            is_active: !item.is_active, // 토글
+          };
+        } else {
+          return {
+            ...row,
+            is_active: false, // 나머지는 비활성화
+          };
+        }
+      })
+    );
 
     try {
       if (isCurrentlyActive) {
         // 비활성화 API
-        const response = cctvApi.stopStreaming(item.cctv_id);
+        const response = await cctvApi.stopStreaming(item.cctv_id);
         if (response.success) {
           toast.success(`${item.cctv_name} 비활성화됨`);
-          setRowData(updatedRowData);
           setActivatedRow(null);
         } else {
           toast.error(response.message || "CCTV 비활성화 실패");
           console.error(response.message);
+          window.location.reload();
         }
       } else {
         // 활성화 API
-        const response = cctvApi.startStreaming(item.cctv_id);
+        const response = await cctvApi.startStreaming(item.cctv_id);
         if (response.success) {
           toast.success(`${item.cctv_name} 활성화됨`);
-          setRowData(updatedRowData);
           setActivatedRow(item.cctv_id);
         } else {
           toast.error(response.message || "CCTV 활성화 실패");
           console.error(response.message);
+          window.location.reload();
         }
       }
     } catch (error) {
