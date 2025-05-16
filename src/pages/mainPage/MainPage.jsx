@@ -17,7 +17,7 @@ import {
 import Modal from "../../components/modal/Modal";
 import { mainApi } from "@apis/mainApi";
 import { toast } from "react-toastify";
-import NotFound from "./components/NotFound/NotFound";
+import NotFound from "./components/notFound/NotFound";
 import { style } from "@mui/system";
 
 export default function MainPage() {

@@ -13,7 +13,8 @@ import { faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { cctvApi } from "../../apis/cctvApi";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -220,28 +221,43 @@ export default function CctvPage() {
     navigate("add");
   };
 
-  const handleDeleteCCTV = async (e) => {
+  const handleDeleteCCTV = () => {
     const cctvs = selectedRows.map((item) => item.cctv_id);
+    if (!cctvs.length) return;
     console.log(cctvs);
 
-    const confirmDelete = window.confirm("선택한 CCTV를 삭제하시겠습니까?");
-    if (confirmDelete) {
-      try {
-        const response = await cctvApi.deleteCctv({ cctvIds: cctvs });
-        if (response.success) {
-          toast.success("CCTV 삭제 성공", {
-            onClose: () => {
-              window.location.reload();
-            },
-          });
-        } else {
-          toast.error(response.message || "CCTV 삭제 실패");
-          console.error(response.message);
-        }
-      } catch (error) {
-        console.error("CCTV Page: ", error);
-      }
-    }
+    confirmAlert({
+      title: "정말 삭제하시겠습니까?",
+      buttons: [
+        {
+          label: "삭제",
+          onClick: async () => {
+            // Confirm action
+            try {
+              const response = await cctvApi.deleteCctv({ cctvIds: cctvs });
+              if (response.success) {
+                toast.success("CCTV 삭제 성공", {
+                  onClose: () => {
+                    window.location.reload();
+                  },
+                });
+              } else {
+                toast.error(response.message || "CCTV 삭제 실패");
+                console.error(response.message);
+              }
+            } catch (error) {
+              console.error("CCTV Page: ", error);
+            }
+          },
+        },
+        {
+          label: "취소",
+          onClick: () => {
+            // Cancel action
+          },
+        },
+      ],
+    });
   };
 
   return (

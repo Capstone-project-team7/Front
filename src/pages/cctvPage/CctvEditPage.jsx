@@ -10,7 +10,7 @@ export default function CctvEditPage() {
   const location = useLocation();
   const { cctv } = location.state || {};
   const { user } = useContext(UserContext);
-  // 안녕
+
   const [cctvId, setCctvId] = useState("");
   const [cctvName, setCctvName] = useState("");
   const [ipAddress, setIpAddress] = useState("");
