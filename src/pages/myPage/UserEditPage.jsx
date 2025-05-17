@@ -32,8 +32,8 @@ export default function UserEditPage() {
       const response = await userApi.updateUser({
         user_id: user.user_id,
         user_name: name,
-        user_password: password,
-        notify_status: true,
+        user_password: currentPassword,
+        new_password: password,
       });
       if (response.success) {
         toast.success("회원정보 수정 성공");

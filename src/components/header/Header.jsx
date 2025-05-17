@@ -16,17 +16,6 @@ export default function Header({ isInfo }) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    if (!user.user_id) {
-      setUser({
-        user_id: "",
-        user_name: "",
-        user_email: "",
-        used_space: 0,
-        total_space: 10 * 1024 * 1024 * 1024,
-        notify_status: false,
-      });
-      navigate("/login");
-    }
     // 로그아웃 api 추가
     try {
       const response = await userApi.logout({ user_id: user.user_id });
@@ -41,6 +30,9 @@ export default function Header({ isInfo }) {
       }
     } catch (error) {
       console.error("Logout: ", error);
+      localStorage.removeItem("token");
+      setUser({});
+      navigate("/login");
     }
   };
 
