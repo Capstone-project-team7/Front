@@ -145,10 +145,6 @@
             border: none;
             outline: none;
           }
-
-          &:focus {
-            border: none;
-          }
         }
       }
 
@@ -330,10 +326,25 @@
     }
   }
   &__title {
-    text-align: start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
     width: 100%;
-    padding: 8px 0 8px 12px;
-    font-size: 1rem;
+
+    &__circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid main.$color-border-gray;
+      background-color: #000000;
+    }
+
+    &__text {
+      padding: 8px 0 8px 12px;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
   }
 }
 

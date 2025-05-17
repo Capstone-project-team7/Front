@@ -1,37 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./CalendarPage.module.scss";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
 import { mainApi } from "@apis/mainApi";
 import { toast } from "react-toastify";
 
 export default function CalendarPage() {
-  const [monthEvents, setMonthEvents] = useState([
-    // {
-    //   id: "1",
-    //   title: "절도 1회",
-    //   start: "2025-04-06",
-    //   end: "2025-04-06",
-    // },
-    // {
-    //   id: "2",
-    //   title: "흡연 1회",
-    //   start: "2025-04-10",
-    //   end: "2025-04-10",
-    // },
-    // {
-    //   id: "3",
-    //   title: "유기 2회",
-    //   start: "2025-04-04",
-    //   end: "2025-04-04",
-    // },
-  ]);
+  const [monthEvents, setMonthEvents] = useState([]);
   const calendarRef = useRef();
 
   const convertEventData = (apiData) => {
     const events = [];
+    const typeColors = {
+      type1: "#c2d8e8",
+      type2: "#f8b8c6",
+      type3: "#e8b5a2",
+      type4: "#d9c2f0",
+      type5: "#c6e8d9",
+      type6: "#b8d8ba",
+      type7: "#f9e4ad",
+    };
+
     apiData.forEach(
       ({
         date,
@@ -48,6 +37,8 @@ export default function CalendarPage() {
             title: `전도 ${type1Count}회`,
             start: date,
             end: date,
+            backgroundColor: typeColors.type1,
+            borderColor: typeColors.type1,
           });
         }
         if (type2Count) {
@@ -55,6 +46,8 @@ export default function CalendarPage() {
             title: `파손 ${type2Count}회`,
             start: date,
             end: date,
+            backgroundColor: typeColors.type2,
+            borderColor: typeColors.type2,
           });
         }
         if (type3Count) {
@@ -62,6 +55,8 @@ export default function CalendarPage() {
             title: `방화 ${type3Count}회`,
             start: date,
             end: date,
+            backgroundColor: typeColors.type3,
+            borderColor: typeColors.type3,
           });
         }
         if (type4Count) {
@@ -69,6 +64,8 @@ export default function CalendarPage() {
             title: `흡연 ${type4Count}회`,
             start: date,
             end: date,
+            backgroundColor: typeColors.type4,
+            borderColor: typeColors.type4,
           });
         }
         if (type5Count) {
@@ -76,6 +73,8 @@ export default function CalendarPage() {
             title: `유기 ${type5Count}회`,
             start: date,
             end: date,
+            backgroundColor: typeColors.type5,
+            borderColor: typeColors.type5,
           });
         }
         if (type6Count) {
@@ -83,6 +82,8 @@ export default function CalendarPage() {
             title: `절도 ${type6Count}회`,
             start: date,
             end: date,
+            backgroundColor: typeColors.type6,
+            borderColor: typeColors.type6,
           });
         }
         if (type7Count) {
@@ -90,6 +91,8 @@ export default function CalendarPage() {
             title: `폭행 ${type7Count}회`,
             start: date,
             end: date,
+            backgroundColor: typeColors.type7,
+            borderColor: typeColors.type7,
           });
         }
       }

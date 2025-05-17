@@ -18,7 +18,6 @@ import Modal from "../../components/modal/Modal";
 import { mainApi } from "@apis/mainApi";
 import { toast } from "react-toastify";
 import NotFound from "./components/notFound/NotFound";
-import { style } from "@mui/system";
 
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
@@ -137,6 +136,19 @@ export default function MainPage() {
     setIsOpen(true);
   };
 
+  const getBadgeColor = (type) => {
+    const typeColors = {
+      전도: "#c2d8e8",
+      파손: "#f8b8c6",
+      방화: "#e8b5a2",
+      흡연: "#d9c2f0",
+      유기: "#c6e8d9",
+      절도: "#b8d8ba",
+      폭행: "#f9e4ad",
+    }[type];
+    return typeColors ? typeColors : "#00000000";
+  };
+
   return (
     <div className={styles.mainpage}>
       <div className={styles.mainpage__top}>
@@ -188,13 +200,13 @@ export default function MainPage() {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="">전체</option>
-              <option value="Type1">전도</option>
-              <option value="Type2">파손</option>
-              <option value="Type3">방화</option>
-              <option value="Type4">흡연</option>
-              <option value="Type5">유기</option>
-              <option value="Type6">절도</option>
-              <option value="Type7">폭행</option>
+              <option value="type1">전도</option>
+              <option value="type2">파손</option>
+              <option value="type3">방화</option>
+              <option value="type4">흡연</option>
+              <option value="type5">유기</option>
+              <option value="type6">절도</option>
+              <option value="type7">폭행</option>
             </select>
           </div>
           <div className={styles.mainpage__top__filter__search}>
@@ -234,7 +246,7 @@ export default function MainPage() {
           {currentItems.map((item) => (
             <VideoItem
               key={item.video_id}
-              time={item.created_at}
+              time={item.created_at.replace("T", " ")}
               type={item.anomaly_behavior_type}
               thumbnail={item.thumbnail_path}
               onClick={() => handleVideoClicked(item)}
@@ -306,13 +318,23 @@ export default function MainPage() {
                 <source src={videoPlayURL}></source>
               </video>
             ) : (
-              <div>video not found</div>
+              <NotFound />
             )}
           </div>
           {video && (
-            <span className={styles.modalwrapper__title}>
-              {`${video.created_at} ${video.anomaly_behavior_type}`}{" "}
-            </span>
+            <div className={styles.modalwrapper__title}>
+              <div
+                className={styles.modalwrapper__title__circle}
+                style={{
+                  backgroundColor: getBadgeColor(video.anomaly_behavior_type),
+                }}
+              ></div>
+              <span className={styles.modalwrapper__title__text}>
+                {`${video.created_at.replace("T", " ")} ${
+                  video.anomaly_behavior_type
+                }`}
+              </span>
+            </div>
           )}
         </div>
       </Modal>
