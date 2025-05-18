@@ -7,10 +7,12 @@ import StorageBar from "./components/stoargeBar/StorageBar";
 import { useNavigate } from "react-router-dom";
 import CommonToggle from "../../components/commonToggle/CommonToggle";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 export default function MyPage() {
   const { user, setUser } = useContext(UserContext);
   const [isAlarm, setIsAlarm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChangeInfo = () => {
@@ -18,6 +20,7 @@ export default function MyPage() {
   };
 
   const handleAlarm = async () => {
+    setLoading(true);
     const nextAlarm = !isAlarm;
     // 알림 설정 변경 api
     try {
@@ -36,6 +39,8 @@ export default function MyPage() {
       }
     } catch (error) {
       console.error("Mypage: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,6 +117,11 @@ export default function MyPage() {
             </div>
           </div>
         </div>
+        {loading && (
+          <div className={styles.loader}>
+            <ClipLoader color="#2c3e50" loading={loading} size={50} />
+          </div>
+        )}
       </div>
     </div>
   );

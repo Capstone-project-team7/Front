@@ -5,6 +5,7 @@ import CommonButton from "@components/commonButton/CommonButton";
 import { toast } from "react-toastify";
 import { userApi } from "../../apis/userApi";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 export default function UserEditPage() {
   const { user, setUser } = useContext(UserContext);
@@ -14,11 +15,13 @@ export default function UserEditPage() {
   const [passwordCheck, setPasswordCheck] = useState("");
 
   const [isValid, setIsValid] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleChangeInfo = async (e) => {
     e.preventDefault();
+
     // 비밀번호 일치 체크
     if (!isValid) {
       toast.error("비밀번호 형식을 다시 확인해주세요.");
@@ -28,6 +31,7 @@ export default function UserEditPage() {
       toast.error("변경할 비밀번호가 일치하지 않습니다.");
     }
     // 개인정보 수정 api
+    setLoading(true);
     try {
       const response = await userApi.updateUser({
         user_id: user.user_id,
@@ -49,6 +53,8 @@ export default function UserEditPage() {
       }
     } catch (error) {
       console.error("UserEditPage: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -144,6 +150,11 @@ export default function UserEditPage() {
             ></CommonButton>
           </form>
         </div>
+        {loading && (
+          <div className={styles.loader}>
+            <ClipLoader color="#2c3e50" loading={loading} size={50} />
+          </div>
+        )}
       </div>
     </div>
   );

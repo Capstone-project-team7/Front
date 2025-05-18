@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./TutorialPage.module.scss";
+import Tutorial from "./components/Tutorial";
 import CommonButton from "../../components/commonButton/CommonButton";
 import { useNavigate } from "react-router-dom";
 import { cctvApi } from "../../apis/cctvApi";
 import { UserContext } from "../../stores/UserContext";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function TutorialPage() {
   const [cctvName, setCctvName] = useState("");
@@ -12,12 +15,15 @@ export default function TutorialPage() {
   const [cctvAdmin, setCctvAdmin] = useState("");
   const [stream, setStream] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const handleSaveCctv = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await cctvApi.createCctv({
         user_id: user.user_id,
@@ -36,7 +42,55 @@ export default function TutorialPage() {
       }
     } catch (error) {
       console.error("Tutorial Page: ", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const [showTutorial, setShowTutorial] = useState(false);
+
+  const tutorialSteps = [
+    {
+      target: "#homepage-menu",
+      title: "홈페이지",
+      description:
+        "감지된 이상행동 리스트를 확인할 수 있어요. 날짜, 유형 필터링을 통해 원하는 영상을 검색할 수 있어요.",
+    },
+    {
+      target: "#calendarpage-menu",
+      title: "달력",
+      description:
+        "달력을 통해 해당 달의 이상행동 발생 여부를 한 눈에 확인할 수 있어요.",
+    },
+    {
+      target: "#cctvpage-menu",
+      title: "CCTV 관리",
+      description:
+        "등록한 CCTV를 확인할 수 있어요. CCTV를 추가하거나, 수정, 삭제할 수 있어요.",
+    },
+    {
+      target: "#guidepage-menu", // CSS 선택자 - 사용자 프로필
+      title: "사용 가이드",
+      description: "자세한 사용 가이드를 확인할 수 있어요.",
+    },
+    {
+      target: "#mypage-menu", // CSS 선택자 - 사용자 프로필
+      title: "마이 페이지",
+      description:
+        "회원 정보 및 알림 설정, 잔여 저장 공간을 확인할 수 있어요. 회원 정보 수정, 탈퇴도 가능해요.",
+    },
+  ];
+
+  useEffect(() => {
+    const tutorialCompleted = localStorage.getItem("tutorialCompleted");
+    if (!tutorialCompleted) {
+      setShowTutorial(true);
+    }
+  }, []);
+
+  const handleTutorialComplete = () => {
+    localStorage.setItem("tutorialCompleted", "true");
+    setShowTutorial(false);
   };
 
   return (
@@ -122,6 +176,17 @@ export default function TutorialPage() {
           </div>
         </div>
       </div>
+      <Tutorial
+        steps={tutorialSteps}
+        isEnabled={showTutorial}
+        onComplete={handleTutorialComplete}
+        routePath="/tutorial"
+      />
+      {loading && (
+        <div className={styles.loader}>
+          <ClipLoader color="#2c3e50" loading={loading} size={50} />
+        </div>
+      )}
     </div>
   );
 }

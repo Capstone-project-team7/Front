@@ -131,12 +131,13 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
 export const api = {
   get: (endpoint, withAuth = true) => fetchClient(endpoint, {}, withAuth),
 
-  post: (endpoint, data, withAuth = true) =>
+  post: (endpoint, data, withAuth = true, responseType) =>
     fetchClient(
       endpoint,
       {
         method: "POST",
         body: JSON.stringify(data),
+        responseType: responseType,
       },
       withAuth
     ),

@@ -5,11 +5,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { cctvApi } from "../../apis/cctvApi";
 import { UserContext } from "../../stores/UserContext";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 export default function CctvEditPage() {
   const location = useLocation();
   const { cctv } = location.state || {};
   const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
 
   const [cctvId, setCctvId] = useState("");
   const [cctvName, setCctvName] = useState("");
@@ -33,7 +35,7 @@ export default function CctvEditPage() {
 
   const handleSaveCctv = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (location.pathname.endsWith("add")) {
       try {
         const response = await cctvApi.createCctv({
@@ -53,6 +55,8 @@ export default function CctvEditPage() {
         }
       } catch (error) {
         console.error("CCTV Edit Page: ", error);
+      } finally {
+        setLoading(false);
       }
     } else if (location.pathname.endsWith("edit")) {
       try {
@@ -73,6 +77,8 @@ export default function CctvEditPage() {
         }
       } catch (error) {
         console.error("CCTV Edit Page: ", error);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -130,13 +136,17 @@ export default function CctvEditPage() {
                 placeholder="CCTV 비밀번호"
               ></input>
             </div>
-
             <CommonButton
               label="저장"
               size="large"
               color="primary"
               onClick={handleSaveCctv}
             ></CommonButton>
+            {loading && (
+              <div className={styles.loader}>
+                <ClipLoader color="#2c3e50" loading={loading} size={50} />
+              </div>
+            )}
           </div>
         </div>
       </div>

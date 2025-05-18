@@ -7,11 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { userApi } from "@apis/userApi";
 import { toast } from "react-toastify";
 import { UserContext } from "../../stores/UserContext";
+import { ClipLoader } from "react-spinners";
 
 export default function LoginPage() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [isStay, setIsStay] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { setUser } = useContext(UserContext);
 
@@ -19,7 +21,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await userApi.login({
         user_email: userEmail,
@@ -45,6 +47,8 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error("LoginPage: ", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -84,20 +88,13 @@ export default function LoginPage() {
           <CommonCheckbox checked={isStay} onChange={setIsStay}>
             로그인 상태 유지
           </CommonCheckbox>
-
-          {/* <label className={styles.pagewrapper__form__saveid}>
-            <input
-              type="checkbox"
-              checked={isStay}
-              onChange={(e) => setIsStay(e.target.checked)}
-            />
-            <span className={styles.pagewrapper__form__saveid__box}></span>
-            <span className={styles.pagewrapper__form__saveid__text}>
-              로그인 상태 유지
-            </span>
-          </label> */}
         </form>
       </AuthBox>
+      {loading && (
+        <div className={styles.loader}>
+          <ClipLoader color="#2c3e50" loading={loading} size={50} />
+        </div>
+      )}
     </div>
   );
 }

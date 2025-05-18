@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import styles from "./VideoItem.module.scss";
 
-export default function VideoItem({ time, type, thumbnail, onClick }) {
-  const [isChecked, setIsChecked] = useState(false);
-
+export default function VideoItem({
+  time,
+  type,
+  thumbnail,
+  onClick,
+  isChecked,
+  onCheckChange,
+}) {
   const getBadgeColor = (type) => {
     const typeColors = {
       전도: "#c2d8e8",
@@ -24,7 +29,7 @@ export default function VideoItem({ time, type, thumbnail, onClick }) {
           className={styles.videoitem__thumbnail__badge}
           style={{ backgroundColor: getBadgeColor(type) }}
         >
-          {type.split(" ")[0]} {/* 타입의 첫 부분만 뱃지에 표시 */}
+          {type}
         </div>
         <img
           src={thumbnail}
@@ -37,7 +42,7 @@ export default function VideoItem({ time, type, thumbnail, onClick }) {
           <input
             type="checkbox"
             checked={isChecked}
-            onChange={(e) => setIsChecked(e.target.checked)}
+            onChange={(e) => onCheckChange(e.target.checked)}
           />
           <span className={styles.videoitem__info__checkbox__box}></span>
         </label>

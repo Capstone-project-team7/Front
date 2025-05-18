@@ -15,12 +15,14 @@ import { cctvApi } from "../../apis/cctvApi";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { ClipLoader } from "react-spinners";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function CctvPage() {
   const [activatedRow, setActivatedRow] = useState(null);
   const [rowData, setRowData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [colDefs, setColDefs] = useState([
     { headerName: "CCTV 이름", field: "cctv_name", flex: 1 },
@@ -104,25 +106,30 @@ export default function CctvPage() {
   const [selectedRows, setSelectedRows] = useState([]);
   const navigate = useNavigate();
 
-  //초기 로드시 cctv 목록 가져오기.
-  useEffect(() => {
-    async function getCCTVList() {
-      try {
-        const response = await cctvApi.getCctvs();
-        if (response.success) {
-          setRowData(response.data.cctvs);
-        } else {
-          toast.error(response.message || "CCTV 목록 조회 실패");
-          console.error(response.message);
-        }
-      } catch (error) {
-        console.error(error);
+  // cctv 목록 가져오기.
+  const getCCTVList = async () => {
+    setLoading(true);
+    try {
+      const response = await cctvApi.getCctvs();
+      if (response.success) {
+        setRowData(response.data.cctvs);
+      } else {
+        toast.error(response.message || "CCTV 목록 조회 실패");
+        console.error(response.message);
       }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
     getCCTVList();
   }, []);
 
   const handleActivateCCTV = async (item) => {
+    setLoading(true);
     // 이미 활성화된 CCTV인지 확인
     const isCurrentlyActive = item.is_active;
 
@@ -152,7 +159,7 @@ export default function CctvPage() {
         } else {
           toast.error(response.message || "CCTV 비활성화 실패");
           console.error(response.message);
-          window.location.reload();
+          getCCTVList();
         }
       } else {
         // 활성화 API
@@ -163,11 +170,13 @@ export default function CctvPage() {
         } else {
           toast.error(response.message || "CCTV 활성화 실패");
           console.error(response.message);
-          window.location.reload();
+          getCCTVList();
         }
       }
     } catch (error) {
       console.error("CCTV Page: ", error);
+    } finally {
+      setLoading(false);
     }
   };
   const handleEditCCTV = (item) => {
@@ -188,13 +197,15 @@ export default function CctvPage() {
         {
           label: "삭제",
           onClick: async () => {
+            setLoading(true);
+
             // Confirm action
             try {
               const response = await cctvApi.deleteCctv({ cctvIds: cctvs });
               if (response.success) {
                 toast.success("CCTV 삭제 성공", {
                   onClose: () => {
-                    window.location.reload();
+                    getCCTVList();
                   },
                 });
               } else {
@@ -203,6 +214,8 @@ export default function CctvPage() {
               }
             } catch (error) {
               console.error("CCTV Page: ", error);
+            } finally {
+              setLoading(false);
             }
           },
         },
@@ -266,6 +279,11 @@ export default function CctvPage() {
               }}
               theme={myTheme} // 테마 API 사용
             />
+            {loading && (
+              <div className={styles.loader}>
+                <ClipLoader color="#2c3e50" loading={loading} size={50} />
+              </div>
+            )}
           </div>
         </div>
       </div>

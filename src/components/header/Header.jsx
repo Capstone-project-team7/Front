@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./Header.module.scss";
 import Logo from "@assets/images/Logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,15 +7,18 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../stores/UserContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, replace, useNavigate } from "react-router-dom";
 import { userApi } from "@apis/userApi";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 export default function Header({ isInfo }) {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
+    setLoading(true);
     // 로그아웃 api 추가
     try {
       const response = await userApi.logout({ user_id: user.user_id });
@@ -32,7 +35,9 @@ export default function Header({ isInfo }) {
       console.error("Logout: ", error);
       localStorage.removeItem("token");
       setUser({});
-      navigate("/login");
+      navigate("/login", replace);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,6 +71,11 @@ export default function Header({ isInfo }) {
         </div>
       ) : (
         ""
+      )}
+      {loading && (
+        <div className={styles.loader}>
+          <ClipLoader color="#2c3e50" loading={loading} size={50} />
+        </div>
       )}
     </header>
   );

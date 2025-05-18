@@ -8,6 +8,7 @@ import CommonCheckbox from "../../components/commonCheckbox/CommonCheckbox";
 import { userApi } from "@apis/userApi.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 export default function RegisterPage() {
   const [userEmail, setUserEmail] = useState("");
@@ -22,6 +23,8 @@ export default function RegisterPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClickLeft, setIsClickLeft] = useState(true);
   const [isValid, setIsValid] = useState(false);
+
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -51,7 +54,7 @@ export default function RegisterPage() {
       toast.info("필수 약관에 동의해야 합니다.");
       return;
     }
-
+    setLoading(true);
     try {
       const response = await userApi.register({
         user_email: fullEmail,
@@ -69,6 +72,8 @@ export default function RegisterPage() {
       }
     } catch (error) {
       console.error("RegisterPage: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -210,6 +215,11 @@ export default function RegisterPage() {
           <TermContent isClickLeft={isClickLeft}></TermContent>
         </Modal>
       </AuthBox>
+      {loading && (
+        <div className={styles.loader}>
+          <ClipLoader color="#2c3e50" loading={loading} size={50} />
+        </div>
+      )}
     </div>
   );
 }

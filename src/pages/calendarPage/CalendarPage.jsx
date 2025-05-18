@@ -4,10 +4,12 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { mainApi } from "@apis/mainApi";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 export default function CalendarPage() {
   const [monthEvents, setMonthEvents] = useState([]);
   const calendarRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   const convertEventData = (apiData) => {
     const events = [];
@@ -101,6 +103,7 @@ export default function CalendarPage() {
   };
 
   const handleChangeMonth = async (arg) => {
+    setLoading(true);
     // 월이 변경될때 월별 이상행동 기록 api
     const currentDate = arg.view.currentStart;
     const year = currentDate.getFullYear();
@@ -116,6 +119,8 @@ export default function CalendarPage() {
       }
     } catch (error) {
       console.error("CalendarPage: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -161,6 +166,11 @@ export default function CalendarPage() {
             }}
             themeSystem="bootstrap"
           />
+          {loading && (
+            <div className={styles.loader}>
+              <ClipLoader color="#2c3e50" loading={loading} size={50} />
+            </div>
+          )}
         </div>
       </div>
     </div>

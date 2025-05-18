@@ -6,8 +6,7 @@
   position: relative;
 
   width: 100%;
-  min-width: 1310px;
-  max-width: 1920px;
+  min-width: 850px;
   height: 100%;
   min-height: 700px;
   padding: 20px;
@@ -27,6 +26,7 @@
       display: flex;
       width: 100%;
       padding: 18px 24px;
+      position: relative;
     }
   }
 }
@@ -70,21 +70,35 @@
   }
 }
 
-// 헤더 툴바 (상단 네비게이션 바)
-:global(.fc .fc-header-toolbar) {
+.loader {
   display: flex;
-  background-color: transparent;
-  color: main.$color-text-black;
-  padding: 10px;
-  border: none;
-  font-weight: bold;
-  border-bottom: 3px solid main.$color-border-black;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  /* 오버플로우 방지 */
+  overflow: hidden;
 }
 
+// 헤더 툴바 (상단 네비게이션 바)
 :global {
+  .fc .fc-header-toolbar {
+    display: flex;
+    background-color: transparent;
+    color: main.$color-text-black;
+    padding: 10px;
+    border: none;
+    font-weight: bold;
+    border-bottom: 3px solid main.$color-border-black;
+  }
   .fc .fc-scrollgrid {
     font-size: 1rem;
   }
+
   .fc .fc-daygrid-day {
     background-color: main.$color-background-box;
     border: 1px solid main.$color-border-light;
@@ -109,16 +123,16 @@
     font-size: 0.8rem;
     padding: 4px 16px;
   }
+  .fc .fc-daygrid-day-events {
+    padding: 0 5px;
+  }
+
   .fc .fc-event .fc-event-title {
     color: main.$color-text-black;
   }
 
   .fc-daygrid-event-harness {
     float: left;
-  }
-
-  .fc-daygrid-event-harness:nth-child(odd) {
-    margin-left: 6px;
   }
 
   // 이벤트 내용이 넘칠 경우 처리

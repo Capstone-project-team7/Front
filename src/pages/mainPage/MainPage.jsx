@@ -18,6 +18,7 @@ import Modal from "../../components/modal/Modal";
 import { mainApi } from "@apis/mainApi";
 import { toast } from "react-toastify";
 import NotFound from "./components/notFound/NotFound";
+import { ClipLoader } from "react-spinners";
 
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
@@ -41,6 +42,9 @@ export default function MainPage() {
   const [range, setRange] = useState({ from: null, to: null });
   const [category, setCategory] = useState("");
 
+  const [loading, setloading] = useState(false);
+  const [checkedItems, setCheckedItems] = useState({});
+
   const [video, setVideo] = useState(null);
   const [videoPlayURL, setVideoPlayURL] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +60,7 @@ export default function MainPage() {
   };
 
   const getVideoList = async (page) => {
+    setloading(true);
     let from = "";
     let to = "";
     if (range && range.to && range.from) {
@@ -83,10 +88,13 @@ export default function MainPage() {
       }
     } catch (error) {
       console.error("MainPage: ", error);
+    } finally {
+      setloading(false);
     }
   };
 
   useEffect(() => {
+    setCheckedItems({});
     getVideoList(currentPage);
   }, [currentPage]);
 
@@ -134,6 +142,53 @@ export default function MainPage() {
     await getPlayURL(item.video_id);
     setVideo(item);
     setIsOpen(true);
+  };
+
+  const handleCheckChange = (index, isChecked) => {
+    setCheckedItems((prev) => ({ ...prev, [index]: isChecked }));
+  };
+
+  const handleVideoDelete = async () => {
+    const videos = currentItems
+      .map((item, index) => ({ item, index }))
+      .filter(({ index }) => checkedItems[index])
+      .map(({ item }) => item.video_id);
+
+    console.log(videos, "삭제");
+
+    // try {
+    //   const response = await mainApi.deleteVideo({ videoIds: videos });
+    //   if (response.success) {
+    //     window.location.reload();
+    //   } else {
+    //     toast.error(response.message || "영상 삭제 실패");
+    //     console.error(response.message);
+    //   }
+    // } catch (error) {
+    //   console.error("MainPage: ", error);
+    // }
+  };
+
+  const handleVideoDownload = async () => {
+    const videos = currentItems
+      .map((item, index) => ({ item, index }))
+      .filter(({ index }) => checkedItems[index])
+      .map(({ item }) => item.video_id);
+
+    console.log(videos, "다운로드");
+
+    // try {
+    //   const response = await mainApi.downloadVideo({ videoIds: videos });
+    //   if (response.success) {
+    //     console.log(response.data);
+    //     toast.info("다운로드 시작됨");
+    //   } else {
+    //     toast.error(response.message || "영상 다운로드 실패");
+    //     console.error(response.message);
+    //   }
+    // } catch (error) {
+    //   console.error("MainPage: ", error);
+    // }
   };
 
   const getBadgeColor = (type) => {
@@ -241,16 +296,22 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      {currentItems.length !== 0 ? (
+      {loading ? (
+        <div className={styles.loader}>
+          <ClipLoader color="#2c3e50" loading={loading} size={50} />
+        </div>
+      ) : currentItems.length !== 0 ? (
         <div className={styles.mainpage__list}>
-          {currentItems.map((item) => (
+          {currentItems.map((item, index) => (
             <VideoItem
               key={item.video_id}
               time={item.created_at.replace("T", " ")}
               type={item.anomaly_behavior_type}
               thumbnail={item.thumbnail_path}
               onClick={() => handleVideoClicked(item)}
-            ></VideoItem>
+              isChecked={!!checkedItems[index]}
+              onCheckChange={(checked) => handleCheckChange(index, checked)}
+            />
           ))}
         </div>
       ) : (
@@ -294,12 +355,14 @@ export default function MainPage() {
           label="선택 항목 삭제"
           color="secondary"
           size="small"
+          onClick={handleVideoDelete}
         ></CommonButton>
         <CommonButton
           icon={<FontAwesomeIcon icon={faDownload} size="1x"></FontAwesomeIcon>}
           label="선택 항목 다운로드"
           color="primary"
           size="small"
+          onClick={handleVideoDownload}
         ></CommonButton>
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
