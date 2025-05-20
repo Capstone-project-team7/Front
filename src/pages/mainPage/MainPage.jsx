@@ -196,8 +196,6 @@ export default function MainPage() {
       전도: "#c2d8e8",
       파손: "#f8b8c6",
       방화: "#e8b5a2",
-      흡연: "#d9c2f0",
-      유기: "#c6e8d9",
       절도: "#b8d8ba",
       폭행: "#f9e4ad",
     }[type];
@@ -258,8 +256,6 @@ export default function MainPage() {
               <option value="type1">전도</option>
               <option value="type2">파손</option>
               <option value="type3">방화</option>
-              <option value="type4">흡연</option>
-              <option value="type5">유기</option>
               <option value="type6">절도</option>
               <option value="type7">폭행</option>
             </select>
@@ -286,12 +282,10 @@ export default function MainPage() {
               <div className={styles.thief}>절도</div>
               <div className={styles.break}>파손</div>
               <div className={styles.assault}>폭행</div>
-              <div className={styles.falling}>전도</div>
             </div>
             <div className={styles.second}>
+              <div className={styles.falling}>전도</div>
               <div className={styles.arson}>방화</div>
-              <div className={styles.smoke}>흡연</div>
-              <div className={styles.abandon}>유기</div>
             </div>
           </div>
         </div>

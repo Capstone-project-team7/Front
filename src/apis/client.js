@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_BASE_URL = "http://localhost:8080/api/v1";
+const API_BASE_URL = "http://43.201.129.51:8080/api/v1";
 
 // API 응답을 위한 기본 형식
 class ApiResponse {

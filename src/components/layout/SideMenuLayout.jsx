@@ -10,6 +10,23 @@ export default function SideMenuLayout() {
     return <Navigate to={"/login"} replace />;
   }
 
+  function isTokenExpired(token) {
+    if (!token) return true;
+
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1])); // payload 추출
+      const now = Math.floor(Date.now() / 1000); // 현재 시간 (초 단위)
+      return payload.exp < now; // 만료됐으면 true 반환
+    } catch (e) {
+      console.error("토큰 파싱 실패:", e);
+      return true; // 파싱 실패 시 만료된 것으로 간주
+    }
+  }
+
+  if (isTokenExpired(token)) {
+    return <Navigate to={"/login"} replace />;
+  }
+
   return (
     <div className={styles.layoutwrapper}>
       <Header isInfo={true} />

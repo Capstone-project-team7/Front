@@ -40,7 +40,12 @@ export default function LoginPage() {
           total_space: response.data.total_space,
           notify_status: response.data.notify_status,
         });
-        response.data.first_login ? navigate("/tutorial") : navigate("/");
+        if (response.data.first_login) {
+          localStorage.removeItem("tutorialCompleted");
+          navigate("/tutorial");
+        } else {
+          navigate("/");
+        }
       } else {
         toast.error(response.error.message);
         console.error(response.error.message);
