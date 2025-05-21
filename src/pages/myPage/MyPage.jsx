@@ -19,6 +19,10 @@ export default function MyPage() {
     navigate("edit");
   };
 
+  const handleWithdraw = () => {
+    navigate("withdraw", { state: { email: user.user_email } });
+  };
+
   const handleAlarm = async () => {
     setLoading(true);
     const nextAlarm = !isAlarm;
@@ -112,7 +116,7 @@ export default function MyPage() {
                 label="회원 탈퇴"
                 size="small"
                 color="primary"
-                onClick={() => handleWithdraw}
+                onClick={handleWithdraw}
               ></CommonButton>
             </div>
           </div>

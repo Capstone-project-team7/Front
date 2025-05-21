@@ -175,20 +175,18 @@ export default function MainPage() {
       .filter(({ index }) => checkedItems[index])
       .map(({ item }) => item.video_id);
 
-    console.log(videos, "다운로드");
-
-    // try {
-    //   const response = await mainApi.downloadVideo({ videoIds: videos });
-    //   if (response.success) {
-    //     console.log(response.data);
-    //     toast.info("다운로드 시작됨");
-    //   } else {
-    //     toast.error(response.message || "영상 다운로드 실패");
-    //     console.error(response.message);
-    //   }
-    // } catch (error) {
-    //   console.error("MainPage: ", error);
-    // }
+    try {
+      const response = await mainApi.downloadVideo({ videoIds: videos });
+      console.log(response.data);
+      if (response.success) {
+        toast.info("다운로드 시작됨");
+      } else {
+        toast.error(response.message || "영상 다운로드 실패");
+        console.error(response.message);
+      }
+    } catch (error) {
+      console.error("MainPage: ", error);
+    }
   };
 
   const getBadgeColor = (type) => {

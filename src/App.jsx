@@ -7,14 +7,14 @@ import CalendarPage from "./pages/calendarPage/CalendarPage";
 import CctvPage from "./pages/cctvPage/CctvPage";
 import CctvEditPage from "./pages/cctvPage/CctvEditPage";
 import MyPage from "./pages/myPage/MyPage";
+import UserConfirmPage from "./pages/myPage/UserConfirmPage";
+import UserEditPage from "./pages/myPage/UserEditPage";
 import LoginPage from "./pages/authPage/LoginPage";
 import RegisterPage from "./pages/authPage/RegisterPage";
 import FindPasswordPage from "./pages/authPage/FindPasswordPage";
 import ResetPasswordPage from "./pages/authPage/ResetPasswordPage";
 import { UserProvider } from "./stores/UserContext";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import UserEditPage from "./pages/myPage/UserEditPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -54,6 +54,7 @@ const router = createBrowserRouter([
       { path: "/guide", element: <GuidePage /> },
       { path: "/mypage", element: <MyPage /> },
       { path: "/mypage/edit", element: <UserEditPage /> },
+      { path: "/mypage/withdraw", element: <UserConfirmPage /> },
     ],
   },
 ]);

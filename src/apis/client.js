@@ -82,7 +82,6 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
     });
     console.log("request body: ", options);
 
-    // 응답 Json으로 변환
     const result = await response.json();
     console.log("response: ", result);
     if (response.ok) {
@@ -137,7 +136,6 @@ export const api = {
       {
         method: "POST",
         body: JSON.stringify(data),
-        responseType: responseType,
       },
       withAuth
     ),
@@ -162,3 +160,23 @@ export const api = {
       withAuth
     ),
 };
+
+// 응답 Json으로 변환
+// if (endpoint === "/video/download") {
+//   console.log(response.body);
+//   if (response.ok) {
+//     return ApiResponse.success(response.url, response.status);
+//   } else {
+//     if (response.status === 401) {
+//       TokenManager.removeToken();
+//     }
+//     return ApiResponse.error(
+//       {
+//         message: result.message || "API request failed",
+//         code: result.code || "API_ERROR",
+//         details: result.details || result,
+//       },
+//       response.status
+//     );
+//   }
+// } else {
