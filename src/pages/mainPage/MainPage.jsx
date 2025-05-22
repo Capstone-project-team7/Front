@@ -200,18 +200,21 @@ export default function MainPage() {
       .filter(({ index }) => checkedItems[index])
       .map(({ item }) => item.video_id);
 
-    try {
-      const response = await mainApi.downloadVideo({ videoIds: videos });
-      console.log(response.data);
-      if (response.success) {
-        toast.info("다운로드 시작됨");
-      } else {
-        toast.error(response.message || "영상 다운로드 실패");
-        console.error(response.message);
-      }
-    } catch (error) {
-      console.error("MainPage: ", error);
-    }
+    toast.info("영상 다운로드 아직 구현안됨");
+    return;
+
+    // try {
+    //   const response = await mainApi.downloadVideo({ videoIds: videos });
+    //   console.log(response.data);
+    //   if (response.success) {
+    //     toast.info("다운로드 시작됨");
+    //   } else {
+    //     toast.error(response.message || "영상 다운로드 실패");
+    //     console.error(response.message);
+    //   }
+    // } catch (error) {
+    //   console.error("MainPage: ", error);
+    // }
   };
 
   const getBadgeColor = (type) => {
@@ -219,6 +222,8 @@ export default function MainPage() {
       전도: "#c2d8e8",
       파손: "#f8b8c6",
       방화: "#e8b5a2",
+      흡연: "#d9c2f0",
+      유기: "#c6e8d9",
       절도: "#b8d8ba",
       폭행: "#f9e4ad",
     }[type];
