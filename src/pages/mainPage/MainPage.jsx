@@ -19,6 +19,7 @@ import { mainApi } from "@apis/mainApi";
 import { toast } from "react-toastify";
 import NotFound from "./components/notFound/NotFound";
 import { ClipLoader } from "react-spinners";
+import { confirmAlert } from "react-confirm-alert";
 
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
@@ -42,7 +43,7 @@ export default function MainPage() {
   const [range, setRange] = useState({ from: null, to: null });
   const [category, setCategory] = useState("");
 
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState({});
 
   const [video, setVideo] = useState(null);
@@ -60,7 +61,7 @@ export default function MainPage() {
   };
 
   const getVideoList = async (page) => {
-    setloading(true);
+    setLoading(true);
     let from = "";
     let to = "";
     if (range && range.to && range.from) {
@@ -89,7 +90,7 @@ export default function MainPage() {
     } catch (error) {
       console.error("MainPage: ", error);
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   };
 
@@ -156,17 +157,41 @@ export default function MainPage() {
 
     console.log(videos, "삭제");
 
-    // try {
-    //   const response = await mainApi.deleteVideo({ videoIds: videos });
-    //   if (response.success) {
-    //     window.location.reload();
-    //   } else {
-    //     toast.error(response.message || "영상 삭제 실패");
-    //     console.error(response.message);
-    //   }
-    // } catch (error) {
-    //   console.error("MainPage: ", error);
-    // }
+    confirmAlert({
+      title: "정말 삭제하시겠습니까?",
+      buttons: [
+        {
+          label: "삭제",
+          onClick: async () => {
+            setLoading(true);
+
+            // Confirm action
+            setLoading(true);
+            try {
+              const response = await mainApi.deleteVideo({ videoIds: videos });
+              if (response.success) {
+                setCheckedItems({});
+                setCurrentPage(0);
+                getVideoList(currentPage);
+              } else {
+                toast.error(response.message || "영상 삭제 실패");
+                console.error(response.message);
+              }
+            } catch (error) {
+              console.error("MainPage: ", error);
+            } finally {
+              setLoading(false);
+            }
+          },
+        },
+        {
+          label: "취소",
+          onClick: () => {
+            // Cancel action
+          },
+        },
+      ],
+    });
   };
 
   const handleVideoDownload = async () => {
@@ -254,6 +279,8 @@ export default function MainPage() {
               <option value="type1">전도</option>
               <option value="type2">파손</option>
               <option value="type3">방화</option>
+              <option value="type4">흡연</option>
+              <option value="type5">유기</option>
               <option value="type6">절도</option>
               <option value="type7">폭행</option>
             </select>
@@ -277,13 +304,15 @@ export default function MainPage() {
           </div>
           <div className={styles.mainpage__top__types__content}>
             <div className={styles.first}>
-              <div className={styles.thief}>절도</div>
+              <div className={styles.falling}>전도</div>
               <div className={styles.break}>파손</div>
-              <div className={styles.assault}>폭행</div>
+              <div className={styles.arson}>방화</div>
+              <div className={styles.smoke}>흡연</div>
             </div>
             <div className={styles.second}>
-              <div className={styles.falling}>전도</div>
-              <div className={styles.arson}>방화</div>
+              <div className={styles.abandon}>유기</div>
+              <div className={styles.thief}>절도</div>
+              <div className={styles.assault}>폭행</div>
             </div>
           </div>
         </div>

@@ -80,10 +80,8 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
       ...options,
       headers,
     });
-    console.log("request body: ", options);
 
     const result = await response.json();
-    console.log("response: ", result);
     if (response.ok) {
       return ApiResponse.success(result.data, response.status);
     } else {

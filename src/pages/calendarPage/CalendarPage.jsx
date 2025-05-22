@@ -158,6 +158,8 @@ export default function CalendarPage() {
             titleFormat={{ year: "numeric", month: "2-digit" }}
             dayCellContent={(arg) => String(arg.date.getDate())}
             plugins={[dayGridPlugin]}
+            dayMaxEventRows={false}
+            height={"auto"}
             initialView="dayGridMonth"
             locale={"ko"}
             events={monthEvents}
