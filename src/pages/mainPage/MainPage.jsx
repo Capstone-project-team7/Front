@@ -155,7 +155,7 @@ export default function MainPage() {
       .filter(({ index }) => checkedItems[index])
       .map(({ item }) => item.video_id);
 
-    console.log(videos, "삭제");
+    if (videos.length === 0) return;
 
     confirmAlert({
       title: "정말 삭제하시겠습니까?",
@@ -379,17 +379,17 @@ export default function MainPage() {
         <CommonButton
           icon={<FontAwesomeIcon icon={faTrash} size="1x"></FontAwesomeIcon>}
           label="선택 항목 삭제"
-          color="secondary"
+          color="primary"
           size="small"
           onClick={handleVideoDelete}
         ></CommonButton>
-        <CommonButton
+        {/* <CommonButton
           icon={<FontAwesomeIcon icon={faDownload} size="1x"></FontAwesomeIcon>}
           label="선택 항목 다운로드"
           color="primary"
           size="small"
           onClick={handleVideoDownload}
-        ></CommonButton>
+        ></CommonButton> */}
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div className={styles.modalwrapper}>

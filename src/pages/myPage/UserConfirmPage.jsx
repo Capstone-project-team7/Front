@@ -23,27 +23,27 @@ export default function UserConfirmPage() {
       return;
     }
     // API 구현 안됨
-    // setLoading(true);
-    // try {
-    //   const response = await userApi.deleteUser({
-    //     user_id: user.user_id,
-    //     user_password: currentPassword,
-    //   });
-    //   if (response.success) {
-    //     toast.success("회원 탈퇴 성공");
-    //     localStorage.removeItem("user");
-    //     localStorage.removeItem("token");
-    //     setUser(null);
-    //     navigate("/login");
-    //   } else {
-    //     toast.error(response.message || "회원 탈퇴 실패");
-    //     console.error(response.error);
-    //   }
-    // } catch (error) {
-    //   console.error("UserConfirmPage: ", error);
-    // } finally {
-    //   setLoading(false);
-    // }
+    setLoading(true);
+    try {
+      const response = await userApi.deleteUser({
+        user_id: user.user_id,
+        user_password: currentPassword,
+      });
+      if (response.success) {
+        toast.success("회원 탈퇴 성공");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        setUser(null);
+        navigate("/login");
+      } else {
+        toast.error(response.message || "회원 탈퇴 실패");
+        console.error(response.error);
+      }
+    } catch (error) {
+      console.error("UserConfirmPage: ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
