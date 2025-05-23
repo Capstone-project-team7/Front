@@ -17,6 +17,7 @@ import { UserProvider } from "./stores/UserContext";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  // App.js or App.tsx
+  useEffect(() => {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    setVh();
+    window.addEventListener("resize", setVh);
+    return () => window.removeEventListener("resize", setVh);
+  }, []);
+
   return (
     <UserProvider>
       <RouterProvider router={router} />
