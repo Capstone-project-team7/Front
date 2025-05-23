@@ -61,17 +61,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  // App.js or App.tsx
-  useEffect(() => {
-    const setVh = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    };
-    setVh();
-    window.addEventListener("resize", setVh);
-    return () => window.removeEventListener("resize", setVh);
-  }, []);
-
   return (
     <UserProvider>
       <RouterProvider router={router} />
