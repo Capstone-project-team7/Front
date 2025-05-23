@@ -22,7 +22,7 @@ export default function UserConfirmPage() {
       toast.error("이메일을 정확히 입력해주세요");
       return;
     }
-    // API 구현 안됨
+
     setLoading(true);
     try {
       const response = await userApi.deleteUser({
