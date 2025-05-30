@@ -19,6 +19,13 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
 
+  const handleKeyDown = (e) => {
+    console.log(e.key);
+    if (e.key === "Enter") {
+      handleLogin(e);
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -80,6 +87,7 @@ export default function LoginPage() {
             placeholder="이메일"
             value={userEmail}
             onChange={(e) => setUserEmail(e.target.value)}
+            onKeyDown={handleKeyDown}
             autoComplete="email"
           />
           <input
@@ -88,6 +96,7 @@ export default function LoginPage() {
             placeholder="비밀번호"
             value={userPassword}
             onChange={(e) => setUserPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
             autoComplete="current-password"
           />
           <CommonCheckbox checked={isStay} onChange={setIsStay}>

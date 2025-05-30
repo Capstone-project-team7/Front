@@ -84,9 +84,10 @@
         .datePickerButton {
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-end;
           position: absolute;
           height: 95%;
+          width: 100%;
           right: 0;
           background-color: main.$color-background;
           color: main.$color-text-black;
