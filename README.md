@@ -13,7 +13,7 @@ npm run dev
 
 ### **서비스 링크**
 
-[서비스 바로가기](meerkat-ai-gray.vercel.app)
+[서비스 바로가기]([meerkat-ai-gray.vercel.app](https://meerkat-ai-gray.vercel.app))
 
 -----
 
