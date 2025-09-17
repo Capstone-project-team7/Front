@@ -2,16 +2,12 @@
 
 ## 0\. 실행 방법
 
-### **Clone해서 실행하는 방법**
-
 ```bash
 git clone https://github.com/your-repository-url/capstone-project-team7.git
 cd capstone-project-team7/front
 npm install
 npm run dev
 ```
-
-### **서비스 링크**
 
 [서비스 바로가기](https://meerkat-ai-gray.vercel.app)
 
@@ -22,6 +18,8 @@ npm run dev
 **MeerKat AI**는 무인 점포의 CCTV 영상을 실시간으로 분석하여 절도, 방화, 쓰러짐 등 이상 행동을 감지하고 사용자에게 알림을 제공하는 웹 서비스입니다. 사용자는 이 서비스를 통해 원격으로 점포의 보안을 관리하고, 이상 상황 발생 시 신속하게 대응할 수 있습니다.
 
 [프로젝트 시연 영상](https://www.youtube.com/watch?v=1pzjq62xbKQ)
+
+[프로젝트 설명](https://github.com/Capstone-project-team7)
 
 -----
 
