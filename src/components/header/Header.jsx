@@ -46,10 +46,11 @@ export default function Header({ isInfo }) {
       {isInfo && user ? (
         <div className={styles.header__profile}>
           <button className={styles.header__profile__logout} onClick={handleLogout}>
-            <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" color="black" /> <span>로그아웃</span>
+            <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" color="black" /> <span>Logout</span>
           </button>
           <div className={styles.header__profile__hello}>
-            <FontAwesomeIcon icon={faCircleUser} size="2x" color="black" />{' '}
+            <div className={styles.header__profile__separator}></div>
+            {/* <FontAwesomeIcon icon={faCircleUser} size="2x" color="black" />{' '} */}
             <div>
               <span className={styles.header__profile__hello__name}>{user.user_name}</span>
               <span>님 안녕하세요!</span>

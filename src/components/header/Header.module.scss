@@ -45,7 +45,7 @@
       font-size: 0.6rem;
       font-weight: 400;
 
-      background-color: main.$color-background-accent;
+      background-color: main.$color-background;
 
       border: 1px solid main.$color-border-gray;
       border-radius: 50px;
@@ -81,6 +81,14 @@
       &__name {
         font-weight: 700;
       }
+    }
+
+    &__separator {
+      position: relative;
+      top: 2px;
+      width: 1px;
+      height: 18px;
+      background-color: main.$color-border-gray;
     }
   }
 }

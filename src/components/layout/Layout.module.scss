@@ -6,8 +6,6 @@
   position: relative;
 
   width: 100%;
-  min-width: 1366px;
-
   height: 100%;
 
   background-color: main.$color-background;
@@ -19,7 +17,6 @@
 
     background-color: main.$color-background;
     width: 100%;
-    min-width: 1366px;
     height: calc(100% - 70px);
   }
 
@@ -30,7 +27,30 @@
 
     background-color: main.$color-background;
     width: 100%;
-    min-width: 1366px;
     height: calc(100% - 70px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .layoutwrapper {
+    min-width: 480px;
+    &__default {
+      flex-direction: column;
+    }
+    &__sidemenu {
+      flex-direction: column;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .layoutwrapper {
+    min-width: 768px;
+    &__default {
+      flex-direction: column;
+    }
+    &__sidemenu {
+      flex-direction: column;
+    }
   }
 }
