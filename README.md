@@ -74,7 +74,7 @@ npm run dev
   - **Core:** `React`, `Vite`
   - **Routing:** `react-router-dom`
   - **State Management:** `React Context`
-  - **Styling:** `Sass`
+  - **Styling:** `Scss`
 -----
 
 ## 5\. 프로젝트 구조
