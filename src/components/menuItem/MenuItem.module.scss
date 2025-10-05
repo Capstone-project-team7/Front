@@ -43,3 +43,37 @@
     }
   }
 }
+
+@media screen and (max-width: 480px) {
+  .menuitem {
+    &__link {
+      &__label {
+        font-size: 0.6rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .menuitem {
+    border-radius: 0;
+    &.selected {
+      filter: none;
+      border-bottom: 1px solid main.$color-border-black;
+    }
+    &:hover {
+      filter: brightness(0.9);
+    }
+
+    &__link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 15px;
+
+      &__icon {
+        display: none;
+      }
+    }
+  }
+}

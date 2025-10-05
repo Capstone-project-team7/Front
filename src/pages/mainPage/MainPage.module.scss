@@ -6,9 +6,7 @@
   position: relative;
 
   width: 100%;
-  min-width: 850px;
   height: 100%;
-  min-height: 700px;
 
   &__top {
     display: flex;
@@ -384,5 +382,11 @@
   .rdp-button_previous:hover,
   .rdp-button_next:hover {
     filter: brightness(0.9);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mainpage {
+    height: calc(100% - 70px);
   }
 }

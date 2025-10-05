@@ -100,7 +100,6 @@ body {
 #root {
   height: 100dvh;
   min-height: 783px;
-  overflow: auto;
 }
 
 /* HTML5 display-role reset for older browsers */

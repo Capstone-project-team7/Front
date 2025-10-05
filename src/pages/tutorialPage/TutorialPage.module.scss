@@ -6,9 +6,7 @@
   position: relative;
 
   width: 100%;
-  min-width: 850px;
   height: 100%;
-  min-height: 700px;
   padding: 20px;
   gap: 20px;
 
@@ -165,4 +163,10 @@
   z-index: 4;
   /* 오버플로우 방지 */
   overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .tutorialpage {
+    height: calc(100% - 70px);
+  }
 }

@@ -33,7 +33,6 @@
 
 @media screen and (max-width: 480px) {
   .layoutwrapper {
-    min-width: 480px;
     &__default {
       flex-direction: column;
     }
@@ -45,7 +44,6 @@
 
 @media screen and (max-width: 768px) {
   .layoutwrapper {
-    min-width: 768px;
     &__default {
       flex-direction: column;
     }
