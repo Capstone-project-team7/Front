@@ -1,5 +1,5 @@
 .layoutwrapper {
-  display: block;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -28,17 +28,6 @@
     background-color: main.$color-background;
     width: 100%;
     height: calc(100% - 70px);
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .layoutwrapper {
-    &__default {
-      flex-direction: column;
-    }
-    &__sidemenu {
-      flex-direction: column;
-    }
   }
 }
 
