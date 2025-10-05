@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import "react-day-picker/dist/style.css";
-import styles from "./MainPage.module.scss";
-import CommonButton from "../../components/commonButton/CommonButton";
-import VideoItem from "./components/videoItem/VideoItem";
-import { DayPicker } from "react-day-picker";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ko } from "date-fns/locale";
+import React, { useEffect, useRef, useState } from 'react';
+import 'react-day-picker/dist/style.css';
+import styles from './MainPage.module.scss';
+import CommonButton from '../../components/commonButton/CommonButton';
+import VideoItem from './components/videoItem/VideoItem';
+import { DayPicker } from 'react-day-picker';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ko } from 'date-fns/locale';
 import {
   faFilter,
   faCircleInfo,
@@ -13,13 +13,13 @@ import {
   faSearch,
   faTrash,
   faDownload,
-} from "@fortawesome/free-solid-svg-icons";
-import Modal from "../../components/modal/Modal";
-import { mainApi } from "@apis/mainApi";
-import { toast } from "react-toastify";
-import NotFound from "./components/notFound/NotFound";
-import { ClipLoader } from "react-spinners";
-import { confirmAlert } from "react-confirm-alert";
+} from '@fortawesome/free-solid-svg-icons';
+import Modal from '../../components/modal/Modal';
+import { mainApi } from '@apis/mainApi';
+import { toast } from 'react-toastify';
+import NotFound from './components/notFound/NotFound';
+import { ClipLoader } from 'react-spinners';
+import { confirmAlert } from 'react-confirm-alert';
 
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
@@ -33,43 +33,38 @@ export default function MainPage() {
   const blockStart = Math.floor(currentPage / pageRange) * pageRange;
 
   // 현재 블록에서 표시할 페이지 버튼들을 생성하되, 최대 페이지 수를 초과하지 않도록 함
-  const pages = Array.from(
-    { length: Math.min(pageRange, pageCount - blockStart) },
-    (_, i) => blockStart + i
-  );
+  const pages = Array.from({ length: Math.min(pageRange, pageCount - blockStart) }, (_, i) => blockStart + i);
 
   const [dayFilterOpen, setDayFilterOpen] = useState(false);
   const dayFilterRef = useRef(null);
   const [range, setRange] = useState({ from: null, to: null });
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState({});
 
   const [video, setVideo] = useState(null);
-  const [videoPlayURL, setVideoPlayURL] = useState("");
+  const [videoPlayURL, setVideoPlayURL] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const getDate = (fulldate) => {
     const year = fulldate.getFullYear();
     const month = fulldate.getMonth() + 1;
     const day = fulldate.getDate();
-    const formatted = `${year}-${String(month).padStart(2, "0")}-${String(
-      day
-    ).padStart(2, "0")}`;
+    const formatted = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     return formatted;
   };
 
   const getVideoList = async (page) => {
     setLoading(true);
-    let from = "";
-    let to = "";
+    let from = '';
+    let to = '';
     if (range && range.to && range.from) {
       from = getDate(range.from);
       to = getDate(range.to);
     } else {
-      from = "";
-      to = "";
+      from = '';
+      to = '';
     }
     try {
       const response = await mainApi.getVideoList({
@@ -84,11 +79,11 @@ export default function MainPage() {
         setPageCount(response.data.pagination.pages);
         setLimit(response.data.pagination.limit);
       } else {
-        toast.error(response.message || "영상 리스트 조회 실패");
+        toast.error(response.message || '영상 리스트 조회 실패');
         console.error(response.message);
       }
     } catch (error) {
-      console.error("MainPage: ", error);
+      console.error('MainPage: ', error);
     } finally {
       setLoading(false);
     }
@@ -96,32 +91,29 @@ export default function MainPage() {
 
   useEffect(() => {
     setCheckedItems({});
-    getVideoList(currentPage);
+    //getVideoList(currentPage);
   }, [currentPage]);
 
   const handleSearch = () => {
-    getVideoList(0);
+    //getVideoList(0);
   };
 
   // 날짜 필터 바깥쪽 클릭 시 닫기
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dayFilterRef.current &&
-        !dayFilterRef.current.contains(event.target)
-      ) {
+      if (dayFilterRef.current && !dayFilterRef.current.contains(event.target)) {
         setDayFilterOpen(false);
       }
     };
 
     if (dayFilterOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dayFilterOpen]); // dayFilterOpen 상태 변경 시마다 실행
 
@@ -131,16 +123,16 @@ export default function MainPage() {
       if (response.success) {
         setVideoPlayURL(response.data.file_path);
       } else {
-        toast.error(response.message || "비디오 조회 실패");
+        toast.error(response.message || '비디오 조회 실패');
         console.error(response.message);
       }
     } catch (error) {
-      console.error("MainPage: ", error);
+      console.error('MainPage: ', error);
     }
   };
 
   const handleVideoClicked = async (item) => {
-    await getPlayURL(item.video_id);
+    //await getPlayURL(item.video_id);
     setVideo(item);
     setIsOpen(true);
   };
@@ -158,10 +150,10 @@ export default function MainPage() {
     if (videos.length === 0) return;
 
     confirmAlert({
-      title: "정말 삭제하시겠습니까?",
+      title: '정말 삭제하시겠습니까?',
       buttons: [
         {
-          label: "삭제",
+          label: '삭제',
           onClick: async () => {
             setLoading(true);
 
@@ -174,18 +166,18 @@ export default function MainPage() {
                 setCurrentPage(0);
                 getVideoList(currentPage);
               } else {
-                toast.error(response.message || "영상 삭제 실패");
+                toast.error(response.message || '영상 삭제 실패');
                 console.error(response.message);
               }
             } catch (error) {
-              console.error("MainPage: ", error);
+              console.error('MainPage: ', error);
             } finally {
               setLoading(false);
             }
           },
         },
         {
-          label: "취소",
+          label: '취소',
           onClick: () => {
             // Cancel action
           },
@@ -200,7 +192,7 @@ export default function MainPage() {
       .filter(({ index }) => checkedItems[index])
       .map(({ item }) => item.video_id);
 
-    toast.info("영상 다운로드 아직 구현안됨");
+    toast.info('영상 다운로드 아직 구현안됨');
     return;
 
     // try {
@@ -219,15 +211,15 @@ export default function MainPage() {
 
   const getBadgeColor = (type) => {
     const typeColors = {
-      전도: "#c2d8e8",
-      파손: "#f8b8c6",
-      방화: "#e8b5a2",
-      흡연: "#d9c2f0",
-      유기: "#c6e8d9",
-      절도: "#b8d8ba",
-      폭행: "#f9e4ad",
+      전도: '#c2d8e8',
+      파손: '#f8b8c6',
+      방화: '#e8b5a2',
+      흡연: '#d9c2f0',
+      유기: '#c6e8d9',
+      절도: '#b8d8ba',
+      폭행: '#f9e4ad',
     }[type];
-    return typeColors ? typeColors : "#00000000";
+    return typeColors ? typeColors : '#00000000';
   };
 
   return (
@@ -247,10 +239,7 @@ export default function MainPage() {
               ) : (
                 <span className={styles.placeholderText}>전체 기간</span>
               )}
-              <button
-                onClick={() => setDayFilterOpen(!dayFilterOpen)}
-                className={styles.datePickerButton}
-              >
+              <button onClick={() => setDayFilterOpen(!dayFilterOpen)} className={styles.datePickerButton}>
                 <FontAwesomeIcon icon={faCalendarDays} size="lg" />
               </button>
               {dayFilterOpen && (
@@ -261,12 +250,8 @@ export default function MainPage() {
                     onSelect={setRange}
                     locale={ko}
                     formatters={{
-                      formatCaption: (month, options) =>
-                        `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
-                      formatWeekdayName: (day, options) =>
-                        ["일", "월", "화", "수", "목", "금", "토"][
-                          day.getDay()
-                        ],
+                      formatCaption: (month, options) => `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
+                      formatWeekdayName: (day, options) => ['일', '월', '화', '수', '목', '금', '토'][day.getDay()],
                       formatDay: (date, options) => date.getDate().toString(),
                     }}
                   />
@@ -293,9 +278,7 @@ export default function MainPage() {
           <div className={styles.mainpage__top__filter__search}>
             <CommonButton
               size="small"
-              label={
-                <FontAwesomeIcon icon={faSearch} size="lg"></FontAwesomeIcon>
-              }
+              label={<FontAwesomeIcon icon={faSearch} size="lg"></FontAwesomeIcon>}
               color="primary"
               onClick={handleSearch}
             >
@@ -331,7 +314,7 @@ export default function MainPage() {
           {currentItems.map((item, index) => (
             <VideoItem
               key={item.video_id}
-              time={item.created_at.replace("T", " ")}
+              time={item.created_at.replace('T', ' ')}
               type={item.anomaly_behavior_type}
               thumbnail={item.thumbnail_path}
               onClick={() => handleVideoClicked(item)}
@@ -352,14 +335,12 @@ export default function MainPage() {
           onClick={() => setCurrentPage(Math.max(currentPage - 1, 0))}
           disabled={currentPage <= 0}
         >
-          {"<"}
+          {'<'}
         </button>
         {pages.map((page) => (
           <button
             key={page}
-            className={`${styles.pageItem} ${
-              currentPage === page ? styles.active : ""
-            }`}
+            className={`${styles.pageItem} ${currentPage === page ? styles.active : ''}`}
             onClick={() => setCurrentPage(page)}
           >
             {page + 1}
@@ -367,12 +348,10 @@ export default function MainPage() {
         ))}
         <button
           className={styles.pageItem}
-          onClick={() =>
-            setCurrentPage(Math.min(currentPage + 1, pageCount - 1))
-          }
+          onClick={() => setCurrentPage(Math.min(currentPage + 1, pageCount - 1))}
           disabled={currentPage >= pageCount - 1}
         >
-          {">"}
+          {'>'}
         </button>
       </div>
       <div className={styles.mainpage__buttons}>
@@ -399,10 +378,8 @@ export default function MainPage() {
                 className={styles.modalwrapper__video__player}
                 controls
                 autoPlay
-                onError={(e) => console.error("Video Error:", e)}
-                onLoadStart={() =>
-                  console.log("Video load started, URL:", videoPlayURL)
-                }
+                onError={(e) => console.error('Video Error:', e)}
+                onLoadStart={() => console.log('Video load started, URL:', videoPlayURL)}
               >
                 <source src={videoPlayURL}></source>
               </video>
@@ -419,9 +396,7 @@ export default function MainPage() {
                 }}
               ></div>
               <span className={styles.modalwrapper__title__text}>
-                {`${video.created_at.replace("T", " ")} ${
-                  video.anomaly_behavior_type
-                }`}
+                {`${video.created_at.replace('T', ' ')} ${video.anomaly_behavior_type}`}
               </span>
             </div>
           )}
