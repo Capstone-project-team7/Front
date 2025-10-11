@@ -30,14 +30,3 @@
     height: calc(100% - 70px);
   }
 }
-
-@media screen and (max-width: 768px) {
-  .layoutwrapper {
-    &__default {
-      flex-direction: column;
-    }
-    &__sidemenu {
-      flex-direction: column;
-    }
-  }
-}

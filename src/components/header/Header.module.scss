@@ -84,14 +84,17 @@
     justify-content: center;
     height: 100%;
 
-    &__button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    &__wrapper {
+      position: relative;
+      &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-      cursor: pointer;
-      border: none;
-      color: main.$color-text-black;
+        cursor: pointer;
+        border: none;
+        color: main.$color-text-black;
+      }
     }
   }
 
@@ -107,15 +110,14 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      width: 60px;
-      height: 25px;
+      width: 80px;
+      height: 28px;
 
-      font-size: 0.6rem;
-      font-weight: 400;
+      font-size: 0.8rem;
 
       background-color: main.$color-background;
 
-      border: 1px solid main.$color-border-gray;
+      border: 2px solid main.$color-text-black;
       border-radius: 50px;
       gap: 2px;
 
@@ -131,7 +133,7 @@
 
       span {
         color: main.$color-text-black;
-        font-weight: 500;
+        font-weight: 600;
       }
     }
   }
@@ -154,27 +156,26 @@
     padding-top: 120px;
     gap: 40px;
 
-    position: fixed; // 화면에 고정
+    position: fixed;
     top: 0;
     right: 0;
-    width: 280px; // 메뉴 너비
+    width: 240px;
     height: 100%;
     background-color: main.$color-background;
     box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
     z-index: 100;
 
-    // 평소에는 오른쪽 화면 밖에 위치시킴
     transform: translateX(100%);
     transition: transform 0.4s ease-in-out;
 
-    // 모바일 메뉴 안의 메뉴와 로그아웃 버튼 스타일 재정의
-    .header__menu {
+    &__menu {
+      display: flex;
       flex-direction: column;
       padding: 0;
       gap: 30px;
       text-align: center;
     }
-    .header__logout {
+    &__logout {
       padding: 0;
     }
   }
@@ -185,6 +186,23 @@
   .header__mobileNav {
     transform: translateX(0);
   }
+  .overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 .loader {
@@ -207,8 +225,11 @@
     &__menu,
     &__logout {
       display: none;
-    }
 
+      &.mobile {
+        display: flex;
+      }
+    }
     &__info {
       flex: 1;
       justify-content: flex-end;
