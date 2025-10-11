@@ -110,9 +110,3 @@
   /* 오버플로우 방지 */
   overflow: hidden;
 }
-
-@media screen and (max-width: 768px) {
-  .mypage {
-    height: calc(100% - 70px);
-  }
-}

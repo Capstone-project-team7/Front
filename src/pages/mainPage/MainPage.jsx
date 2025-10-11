@@ -287,24 +287,6 @@ export default function MainPage() {
             </CommonButton>
           </div>
         </div>
-        <div className={styles.mainpage__top__types} onMouseLeave={() => setIsTypesVisible(false)}>
-          <div className={styles.mainpage__top__types__title} onMouseEnter={() => setIsTypesVisible(true)}>
-            <FontAwesomeIcon icon={faCircleInfo} size="2x" />
-          </div>
-          <div className={styles.mainpage__top__types__content}>
-            <div className={styles.first}>
-              <div className={styles.falling}>전도</div>
-              <div className={styles.break}>파손</div>
-              <div className={styles.arson}>방화</div>
-              <div className={styles.smoke}>흡연</div>
-            </div>
-            <div className={styles.second}>
-              <div className={styles.abandon}>유기</div>
-              <div className={styles.thief}>절도</div>
-              <div className={styles.assault}>폭행</div>
-            </div>
-          </div>
-        </div>
       </div>
       {loading ? (
         <div className={styles.loader}>

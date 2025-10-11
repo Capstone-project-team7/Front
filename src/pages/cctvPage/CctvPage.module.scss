@@ -173,9 +173,3 @@
   /* 오버플로우 방지 */
   overflow: hidden;
 }
-
-@media screen and (max-width: 768px) {
-  .cctvpage {
-    height: calc(100% - 70px);
-  }
-}
