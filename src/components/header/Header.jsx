@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import styles from './Header.module.scss';
 import Logo from '@assets/images/logo.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightFromBracket, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 import { UserContext } from '../../stores/UserContext';
 import { Link, replace, useNavigate } from 'react-router-dom';
 import { userApi } from '@apis/userApi';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
-import { paths } from '@stores/Constants';
 
 const getBasePath = (pathname) => {
   const segments = pathname.split('/').filter(Boolean);
@@ -73,6 +73,11 @@ export default function Header({}) {
           <Link to="/mypage">마이페이지</Link>
         </li>
       </ul>
+      <div className={styles.header__info}>
+        <button className={styles.header__info__button}>
+          <FontAwesomeIcon icon={faCircleQuestion} size="lg" />
+        </button>
+      </div>
       <div className={styles.header__logout}>
         <button className={styles.header__logout__button} onClick={handleLogout}>
           <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" color="black" /> <span>로그아웃</span>

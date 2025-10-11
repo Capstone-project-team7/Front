@@ -78,6 +78,23 @@
     }
   }
 
+  &__info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    &__button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+      border: none;
+      color: main.$color-text-black;
+    }
+  }
+
   &__logout {
     display: flex;
     align-items: center;
@@ -92,7 +109,6 @@
       position: relative;
       width: 60px;
       height: 25px;
-      top: 3px;
 
       font-size: 0.6rem;
       font-weight: 400;
@@ -123,8 +139,8 @@
   &__hamburger {
     display: none;
     position: relative;
-    width: 30px;
-    height: 24px;
+    width: 22px;
+    height: 25px;
     border: none;
     background: none;
     cursor: pointer;
@@ -193,10 +209,17 @@
       display: none;
     }
 
+    &__info {
+      flex: 1;
+      justify-content: flex-end;
+    }
+
     // 햄버거 버튼 보이기
     &__hamburger {
-      display: block; // block이나 inline-block, flex 등으로 보이게 설정
-      margin-right: 15px; // 오른쪽 여백
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 15px; // 오른쪽 여백
     }
   }
 }
