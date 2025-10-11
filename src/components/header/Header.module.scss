@@ -4,8 +4,8 @@
   justify-content: space-between;
 
   width: 100%;
-  height: 70px;
-  border-bottom: 1px solid main.$color-border-gray;
+  height: 80px;
+  border-bottom: 1px solid main.$color-border-lightgray;
   background-color: main.$color-background;
 
   &__logo {
@@ -19,20 +19,73 @@
 
     &__image {
       display: flex;
-      height: 60%;
+      height: 50%;
     }
   }
 
-  &__profile {
+  &__menu {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 40px;
+
+    height: 100%;
+    gap: 40px;
+
+    &__item {
+      & > a {
+        position: relative;
+        top: -2px;
+        padding: 6px 0;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: main.$color-text-black;
+
+        text-overflow: clip;
+        white-space: nowrap;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -1px;
+          width: 0;
+          height: 2px;
+          background-color: main.$color-text-black;
+          transition: width 0.2s ease;
+          transform-origin: center center;
+        }
+
+        &:hover {
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+
+      &.active {
+        & > a {
+          color: main.$color-primary;
+
+          &::after {
+            width: 100%;
+            background-color: main.$color-primary;
+          }
+        }
+      }
+    }
+  }
+
+  &__logout {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     padding: 0 15px;
 
-    gap: 10px;
-
-    &__logout {
+    &__button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -65,32 +118,59 @@
         font-weight: 500;
       }
     }
+  }
 
-    &__hello {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  &__hamburger {
+    display: none;
+    position: relative;
+    width: 30px;
+    height: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 101; // 메뉴 창보다 위에 있도록
+  }
 
-      gap: 10px;
+  &__mobileNav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 120px;
+    gap: 40px;
 
-      color: main.$color-text-black;
-      font-size: 1rem;
-      font-weight: 500;
+    position: fixed; // 화면에 고정
+    top: 0;
+    right: 0;
+    width: 280px; // 메뉴 너비
+    height: 100%;
+    background-color: main.$color-background;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 100;
 
-      &__name {
-        font-weight: 700;
-      }
+    // 평소에는 오른쪽 화면 밖에 위치시킴
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+
+    // 모바일 메뉴 안의 메뉴와 로그아웃 버튼 스타일 재정의
+    .header__menu {
+      flex-direction: column;
+      padding: 0;
+      gap: 30px;
+      text-align: center;
     }
-
-    &__separator {
-      position: relative;
-      top: 2px;
-      width: 1px;
-      height: 18px;
-      background-color: main.$color-border-gray;
+    .header__logout {
+      padding: 0;
     }
   }
 }
+
+.header.open {
+  // 모바일 메뉴를 화면 안으로 이동
+  .header__mobileNav {
+    transform: translateX(0);
+  }
+}
+
 .loader {
   display: flex;
   align-items: center;
@@ -105,12 +185,18 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   .header {
-    &__profile {
-      &__hello {
-        display: none;
-      }
+    // 기존 데스크톱 메뉴와 로그아웃 버튼 숨기기
+    &__menu,
+    &__logout {
+      display: none;
+    }
+
+    // 햄버거 버튼 보이기
+    &__hamburger {
+      display: block; // block이나 inline-block, flex 등으로 보이게 설정
+      margin-right: 15px; // 오른쪽 여백
     }
   }
 }

@@ -27,6 +27,7 @@ export default function MainPage() {
   const [totalItems, setTotalItems] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [limit, setLimit] = useState(6);
+  const [isTypesVisible, setIsTypesVisible] = useState(false);
 
   // 총 페이지 수 계산
   const pageRange = 5;
@@ -224,7 +225,7 @@ export default function MainPage() {
 
   return (
     <div className={styles.mainpage}>
-      <div className={styles.mainpage__top}>
+      <div className={`${styles.mainpage__top} ${isTypesVisible ? 'types-visible' : ''}`}>
         <div className={styles.mainpage__top__filter}>
           <div className={styles.mainpage__top__filter__title}>
             <FontAwesomeIcon icon={faFilter} size="2x" />
@@ -286,8 +287,8 @@ export default function MainPage() {
             </CommonButton>
           </div>
         </div>
-        <div className={styles.mainpage__top__types}>
-          <div className={styles.mainpage__top__types__title}>
+        <div className={styles.mainpage__top__types} onMouseLeave={() => setIsTypesVisible(false)}>
+          <div className={styles.mainpage__top__types__title} onMouseEnter={() => setIsTypesVisible(true)}>
             <FontAwesomeIcon icon={faCircleInfo} size="2x" />
           </div>
           <div className={styles.mainpage__top__types__content}>

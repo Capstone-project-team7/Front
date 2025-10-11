@@ -29,9 +29,8 @@ export default function SideMenuLayout() {
 
   return (
     <div className={styles.layoutwrapper}>
-      <Header isInfo={true} />
+      <Header />
       <main className={styles.layoutwrapper__sidemenu}>
-        <SideMenu />
         <Outlet />
       </main>
     </div>
