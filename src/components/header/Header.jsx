@@ -10,7 +10,7 @@ import { userApi } from '@apis/userApi';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
 import InfoTooltip from '@components/infoTooltip/InfoTooltip';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
+import useOnClickOutside from '@hooks/useOnClickOutside';
 
 const getBasePath = (pathname) => {
   const segments = pathname.split('/').filter(Boolean);

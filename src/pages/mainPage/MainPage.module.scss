@@ -8,148 +8,134 @@
   width: 100%;
   height: 100%;
 
-  &__top {
+  padding: 20px;
+
+  &__filter {
     display: flex;
     align-items: center;
-    justify-content: center;
-
+    justify-content: space-between;
+    position: relative;
     width: 100%;
-    height: 120px;
+    min-width: 360px;
+    height: 72px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: main.$color-background-white;
+    border-radius: 12px;
 
-    margin-top: 20px;
-    padding: 0 20px;
-    gap: 20px;
+    transition: width 0.4s ease-in-out;
+    padding: 0 24px;
+    gap: 16px;
 
-    &__filter {
+    &__date {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      width: 100%;
-      height: 100%;
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
-      background-color: main.$color-background-box;
-      border-radius: 20px;
+      width: 50%;
+      text-wrap: nowrap;
+      font-size: 1rem;
 
-      transition: width 0.4s ease-in-out;
+      gap: 10px;
 
-      gap: 20px;
-
-      &__title {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        font-size: 0.6rem;
-      }
-
-      &__date {
+      .dateRangeDisplay {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         position: relative;
-
-        text-wrap: nowrap;
-        font-size: 1rem;
-        margin-top: 15px;
-
+        background-color: main.$color-background;
+        height: 40px;
+        padding: 8px 16px;
         gap: 10px;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid main.$color-border-gray;
+        cursor: pointer;
+        font-size: 1rem;
+      }
 
-        .dateRangeDisplay {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          position: relative;
-          background-color: main.$color-background;
-          height: 40px;
-          padding: 8px 16px;
-          gap: 10px;
-          width: 100%;
-          border-radius: 5px;
-          border: 1px solid main.$color-border-gray;
-          cursor: pointer;
-          font-size: 1rem;
-        }
+      .dateRangeText {
+        font-size: 1rem;
+        font-weight: 500;
+        width: 90%;
+        color: main.$color-text-black;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
 
-        .dateRangeText {
-          font-size: 1rem;
-          font-weight: 500;
-          color: main.$color-text-black;
-        }
+      .placeholderText {
+        font-size: 1rem;
+        color: main.$color-text-gray;
+      }
 
-        .placeholderText {
-          font-size: 1rem;
-          color: main.$color-text-gray;
-        }
+      .datePickerButton {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        position: absolute;
+        height: 95%;
+        width: 100%;
+        right: 0;
+        background-color: transparent;
+        color: main.$color-text-black;
+        border: none;
+        padding: 8px 12px;
 
-        .datePickerButton {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          position: absolute;
-          height: 95%;
-          width: 100%;
-          right: 0;
-          background-color: main.$color-background;
-          color: main.$color-text-black;
-          border: none;
-          padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
 
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 1rem;
-          transition: background-color 0.3s;
-
-          &:hover {
-            filter: brightness(0.9);
-          }
-        }
-
-        &__calendar {
-          position: absolute;
-          top: calc(100% + 10px);
-          left: 0;
-          background-color: main.$color-background-box;
-
-          z-index: 10;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
-          border: 1px solid main.$color-border-gray;
+        &:hover {
+          outline: 2px solid main.$color-border-black;
         }
       }
 
-      &__category {
+      &__calendar {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        background-color: main.$color-background-box;
+        z-index: 10;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid main.$color-border-gray;
+      }
+    }
+
+    &__type {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-wrap: nowrap;
+      width: 30%;
+      min-width: 120px;
+      height: 40px;
+
+      gap: 10px;
+      font-size: 1rem;
+
+      &__select {
         display: flex;
         align-items: center;
         justify-content: center;
-        text-wrap: nowrap;
-        height: 40px;
-        margin-top: 15px;
-
-        gap: 10px;
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        padding: 0 8px;
+        border: none;
+        outline: none;
+        background-color: main.$color-background;
         font-size: 1rem;
+        border: 1px solid main.$color-border-gray;
 
-        &__select {
-          width: 100%;
-          height: 100%;
-          padding: 8px 16px;
-          border-radius: 5px;
+        & > option {
+          border-radius: 15px;
+          font-size: 1rem;
           border: none;
           outline: none;
-          background-color: main.$color-background;
-          font-size: 1rem;
-          border: 1px solid main.$color-border-gray;
-
-          option {
-            font-size: 1rem;
-            border: none;
-            outline: none;
-          }
         }
-      }
-
-      &__search {
-        margin-top: 15px;
       }
     }
   }
@@ -313,8 +299,47 @@
     }
   }
 
+  .rdp-today:not(.rdp-outside) {
+    color: main.$color-secondary;
+  }
+
   .rdp-button_previous:hover,
   .rdp-button_next:hover {
     filter: brightness(0.9);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .mainpage {
+    &__filter {
+      display: grid;
+      align-content: center;
+      justify-content: center;
+      grid-template-columns: 8fr 2fr;
+      grid-template-areas:
+        'date date'
+        'type search';
+
+      gap: 10px;
+      height: 120px;
+      position: relative;
+
+      &__date {
+        width: 100%;
+        grid-area: date;
+      }
+
+      &__type {
+        width: 100%;
+        grid-area: type;
+      }
+
+      &__search {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        grid-area: search;
+      }
+    }
   }
 }

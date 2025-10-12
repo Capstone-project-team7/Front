@@ -20,6 +20,8 @@ import { toast } from 'react-toastify';
 import NotFound from './components/notFound/NotFound';
 import { ClipLoader } from 'react-spinners';
 import { confirmAlert } from 'react-confirm-alert';
+import useOnClickOutside from '@hooks/useOnClickOutside.js';
+import { types } from '../../stores/Constants';
 
 export default function MainPage() {
   const [currentItems, setCurrentItems] = useState([]);
@@ -27,7 +29,6 @@ export default function MainPage() {
   const [totalItems, setTotalItems] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [limit, setLimit] = useState(6);
-  const [isTypesVisible, setIsTypesVisible] = useState(false);
 
   // 총 페이지 수 계산
   const pageRange = 5;
@@ -39,7 +40,7 @@ export default function MainPage() {
   const [dayFilterOpen, setDayFilterOpen] = useState(false);
   const dayFilterRef = useRef(null);
   const [range, setRange] = useState({ from: null, to: null });
-  const [category, setCategory] = useState('');
+  const [type, setType] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [checkedItems, setCheckedItems] = useState({});
@@ -71,7 +72,7 @@ export default function MainPage() {
       const response = await mainApi.getVideoList({
         start_date: from,
         end_date: to,
-        anomaly_behavior_type: category,
+        anomaly_behavior_type: type,
         page: page + 1,
       });
       if (response.success) {
@@ -99,24 +100,7 @@ export default function MainPage() {
     //getVideoList(0);
   };
 
-  // 날짜 필터 바깥쪽 클릭 시 닫기
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dayFilterRef.current && !dayFilterRef.current.contains(event.target)) {
-        setDayFilterOpen(false);
-      }
-    };
-
-    if (dayFilterOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dayFilterOpen]); // dayFilterOpen 상태 변경 시마다 실행
+  useOnClickOutside(dayFilterRef, () => setDayFilterOpen(false));
 
   const getPlayURL = async (id) => {
     try {
@@ -187,105 +171,65 @@ export default function MainPage() {
     });
   };
 
-  const handleVideoDownload = async () => {
-    const videos = currentItems
-      .map((item, index) => ({ item, index }))
-      .filter(({ index }) => checkedItems[index])
-      .map(({ item }) => item.video_id);
-
-    toast.info('영상 다운로드 아직 구현안됨');
-    return;
-
-    // try {
-    //   const response = await mainApi.downloadVideo({ videoIds: videos });
-    //   console.log(response.data);
-    //   if (response.success) {
-    //     toast.info("다운로드 시작됨");
-    //   } else {
-    //     toast.error(response.message || "영상 다운로드 실패");
-    //     console.error(response.message);
-    //   }
-    // } catch (error) {
-    //   console.error("MainPage: ", error);
-    // }
-  };
-
-  const getBadgeColor = (type) => {
-    const typeColors = {
-      전도: '#c2d8e8',
-      파손: '#f8b8c6',
-      방화: '#e8b5a2',
-      흡연: '#d9c2f0',
-      유기: '#c6e8d9',
-      절도: '#b8d8ba',
-      폭행: '#f9e4ad',
-    }[type];
-    return typeColors ? typeColors : '#00000000';
+  const getAnomalyClassName = (name) => {
+    return types.find((item) => item.name === name).className;
   };
 
   return (
     <div className={styles.mainpage}>
-      <div className={`${styles.mainpage__top} ${isTypesVisible ? 'types-visible' : ''}`}>
-        <div className={styles.mainpage__top__filter}>
-          <div className={styles.mainpage__top__filter__title}>
-            <FontAwesomeIcon icon={faFilter} size="2x" />
+      <div className={styles.mainpage__filter}>
+        <div className={styles.mainpage__filter__date}>
+          <span>날짜 선택: </span>
+          <div className={styles.dateRangeDisplay} ref={dayFilterRef}>
+            {range && range.from && range.to ? (
+              <span className={styles.dateRangeText}>
+                {`${range.from.toLocaleDateString().slice(0, -1)} ~ ${range.to.toLocaleDateString().slice(0, -1)}`}
+              </span>
+            ) : (
+              <span className={styles.placeholderText}>전체 기간</span>
+            )}
+            <button onClick={() => setDayFilterOpen(!dayFilterOpen)} className={styles.datePickerButton}>
+              <FontAwesomeIcon icon={faCalendarDays} size="lg" />
+            </button>
+            {dayFilterOpen && (
+              <div className={styles.mainpage__filter__date__calendar}>
+                <DayPicker
+                  mode="range"
+                  selected={range}
+                  onSelect={setRange}
+                  locale={ko}
+                  formatters={{
+                    formatCaption: (month, options) => `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
+                    formatWeekdayName: (day, options) => ['일', '월', '화', '수', '목', '금', '토'][day.getDay()],
+                    formatDay: (date, options) => date.getDate().toString(),
+                  }}
+                />
+              </div>
+            )}
           </div>
-          <div className={styles.mainpage__top__filter__date}>
-            <span>날짜 선택: </span>
-            <div className={styles.dateRangeDisplay} ref={dayFilterRef}>
-              {range && range.from && range.to ? (
-                <span className={styles.dateRangeText}>
-                  {`${range.from.toLocaleDateString()} ~ ${range.to.toLocaleDateString()}`}
-                </span>
-              ) : (
-                <span className={styles.placeholderText}>전체 기간</span>
-              )}
-              <button onClick={() => setDayFilterOpen(!dayFilterOpen)} className={styles.datePickerButton}>
-                <FontAwesomeIcon icon={faCalendarDays} size="lg" />
-              </button>
-              {dayFilterOpen && (
-                <div className={styles.mainpage__top__filter__date__calendar}>
-                  <DayPicker
-                    mode="range"
-                    selected={range}
-                    onSelect={setRange}
-                    locale={ko}
-                    formatters={{
-                      formatCaption: (month, options) => `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
-                      formatWeekdayName: (day, options) => ['일', '월', '화', '수', '목', '금', '토'][day.getDay()],
-                      formatDay: (date, options) => date.getDate().toString(),
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-          <div className={styles.mainpage__top__filter__category}>
-            <span>유형 선택: </span>
-            <select
-              className={styles.mainpage__top__filter__category__select}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="">전체</option>
-              <option value="type1">전도</option>
-              <option value="type2">파손</option>
-              <option value="type3">방화</option>
-              <option value="type4">흡연</option>
-              <option value="type5">유기</option>
-              <option value="type6">절도</option>
-              <option value="type7">폭행</option>
-            </select>
-          </div>
-          <div className={styles.mainpage__top__filter__search}>
-            <CommonButton
-              size="small"
-              label={<FontAwesomeIcon icon={faSearch} size="lg"></FontAwesomeIcon>}
-              color="primary"
-              onClick={handleSearch}
-            >
-              검색
-            </CommonButton>
-          </div>
+        </div>
+        <div className={styles.mainpage__filter__type}>
+          <span>유형 선택: </span>
+          <select className={styles.mainpage__filter__type__select} onChange={(e) => setType(e.target.value)}>
+            <option value="">전체</option>
+            <option value="type1">전도</option>
+            <option value="type2">파손</option>
+            <option value="type3">방화</option>
+            <option value="type4">흡연</option>
+            <option value="type5">유기</option>
+            <option value="type6">절도</option>
+            <option value="type7">폭행</option>
+          </select>
+        </div>
+        <div className={styles.mainpage__filter__search}>
+          <CommonButton
+            size="small"
+            label={<FontAwesomeIcon icon={faSearch} size="lg"></FontAwesomeIcon>}
+            color="primary"
+            onClick={handleSearch}
+          >
+            검색
+          </CommonButton>
         </div>
       </div>
       {loading ? (
@@ -345,13 +289,6 @@ export default function MainPage() {
           size="small"
           onClick={handleVideoDelete}
         ></CommonButton>
-        {/* <CommonButton
-          icon={<FontAwesomeIcon icon={faDownload} size="1x"></FontAwesomeIcon>}
-          label="선택 항목 다운로드"
-          color="primary"
-          size="small"
-          onClick={handleVideoDownload}
-        ></CommonButton> */}
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div className={styles.modalwrapper}>
@@ -372,12 +309,9 @@ export default function MainPage() {
           </div>
           {video && (
             <div className={styles.modalwrapper__title}>
-              <div
-                className={styles.modalwrapper__title__circle}
-                style={{
-                  backgroundColor: getBadgeColor(video.anomaly_behavior_type),
-                }}
-              ></div>
+              <span
+                className={`${styles.modalwrapper__title__circle} ${getAnomalyClassName(video.anomaly_behavior_type)}`}
+              ></span>
               <span className={styles.modalwrapper__title__text}>
                 {`${video.created_at.replace('T', ' ')} ${video.anomaly_behavior_type}`}
               </span>
