@@ -13,7 +13,7 @@
   &__filter {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     position: relative;
     width: 100%;
     min-width: 360px;
@@ -24,14 +24,14 @@
 
     transition: width 0.4s ease-in-out;
     padding: 0 24px;
-    gap: 16px;
+    gap: 20px;
 
     &__date {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      width: 50%;
+      width: 40%;
       text-wrap: nowrap;
       font-size: 1rem;
 
@@ -109,7 +109,7 @@
       align-items: center;
       justify-content: center;
       text-wrap: nowrap;
-      width: 30%;
+      width: 25%;
       min-width: 120px;
       height: 40px;
 
