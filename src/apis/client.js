@@ -10,6 +10,9 @@ const API_BASE_URL = import.meta.env.REACT_APP_API_BASE_URL;
  * @returns {Promise<ApiResponse>} API 응답 객체
  */
 async function fetchClient(endpoint, options = {}, withAuth = true) {
+  // URL 구성
+  const url = `${API_BASE_URL}${endpoint}`;
+
   // 기본 헤더 설정
   const headers = {
     "Content-Type": "application/json",
@@ -32,9 +35,6 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
     }
   }
 
-  // URL 구성
-  const url = `${API_BASE_URL}${endpoint}`;
-
   try {
     // fetch 요청 실행
     const response = await fetch(url, {
@@ -46,7 +46,7 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
     if (response.ok) {
       return ApiResponse.success(result.data, response.status);
     } else {
-      // 401 Unauthorized - 토큰 만료 등의 문제
+      // 401 Unauthorized - 토큰 만료 등의 문제 시 토큰 삭제
       if (response.status === 401) {
         TokenManager.removeToken();
       }
@@ -87,7 +87,8 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
 
 // HTTP 메서드별 헬퍼 함수들
 export const api = {
-  get: (endpoint, withAuth) => fetchClient(endpoint, {}, withAuth),
+  get: (endpoint, withAuth) =>
+    fetchClient(endpoint, { method: "GET" }, withAuth),
 
   post: (endpoint, data, withAuth) =>
     fetchClient(
