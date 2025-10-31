@@ -9,7 +9,7 @@ export const userApi = {
   //토큰 필요
   getUser: () => api.get("/auth/info", {}, true), // 마이페이지 조회
   updateUser: (userData) => api.put(`/auth/update`, userData, true), // 회원정보 수정(비밀번호 변경 포함)
-  deleteUser: (userData) => api.delete(`/auth/withdraw`, userData, true), // 회원 탈퇴
+  deleteUser: (userId) => api.delete(`/auth/withdraw/${userId}`, true), // 회원 탈퇴
   logout: (userData) => api.post("/auth/logout", userData, true), // 로그아웃
   updateNotification: (userData) =>
     api.put("/user/notification", userData, true),

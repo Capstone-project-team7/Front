@@ -1,7 +1,7 @@
 import ApiResponse from "./ApiResonse";
 import { TokenManager } from "../utils/tokenManager";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = import.meta.env.REACT_APP_API_BASE_URL;
 
 /* API 요청을 처리하는 기본 클라이언트 함수
  * @param {string} endpoint - API 엔드포인트
@@ -87,9 +87,9 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
 
 // HTTP 메서드별 헬퍼 함수들
 export const api = {
-  get: (endpoint, withAuth = true) => fetchClient(endpoint, {}, withAuth),
+  get: (endpoint, withAuth) => fetchClient(endpoint, {}, withAuth),
 
-  post: (endpoint, data, withAuth = true) =>
+  post: (endpoint, data, withAuth) =>
     fetchClient(
       endpoint,
       {
@@ -99,7 +99,7 @@ export const api = {
       withAuth
     ),
 
-  put: (endpoint, data, withAuth = true) =>
+  put: (endpoint, data, withAuth) =>
     fetchClient(
       endpoint,
       {
@@ -109,12 +109,11 @@ export const api = {
       withAuth
     ),
 
-  delete: (endpoint, data, withAuth = true) =>
+  delete: (endpoint, withAuth) =>
     fetchClient(
       endpoint,
       {
         method: "DELETE",
-        body: JSON.stringify(data),
       },
       withAuth
     ),
