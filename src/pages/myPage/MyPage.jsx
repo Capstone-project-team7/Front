@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import styles from "./MyPage.module.scss";
 import CommonButton from "@components/commonButton/CommonButton";
 import { UserContext } from "@stores/UserContext";
@@ -15,12 +15,22 @@ export default function MyPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChangeInfo = () => {
-    navigate("edit");
-  };
-
-  const handleWithdraw = () => {
-    navigate("withdraw", { state: { email: user.user_email } });
+  const handleWithdraw = async () => {
+    // TODO: 회원 탈퇴 구현
+    // setLoading(true);
+    // // 회원 탈퇴 모달 표시 후 API 요청
+    // try {
+    //   const response = await userApi.deleteUser(user.id);
+    //   if (response.success) {
+    //   } else {
+    //     toast.error(response.message || "회원 탈퇴 실패");
+    //     console.error(response.message);
+    //   }
+    // } catch (error) {
+    //   console.error("MyPage: ", error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handleAlarm = async () => {
@@ -79,7 +89,7 @@ export default function MyPage() {
               label="개인정보 수정"
               size="small"
               color="primary"
-              onClick={handleChangeInfo}
+              onClick={() => navigate("edit")}
             ></CommonButton>
           </div>
         </div>
