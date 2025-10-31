@@ -1,7 +1,7 @@
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const API_BASE_URL = 'https://meerkat-ai-gray.duckdns.org/api/v1';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // API 응답을 위한 기본 형식
 class ApiResponse {
@@ -23,17 +23,17 @@ class ApiResponse {
 
 const TokenManager = {
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem("token");
   },
 
   setToken(token) {
     if (token) {
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
     }
   },
 
   removeToken() {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   },
 };
 
@@ -46,7 +46,7 @@ const TokenManager = {
 async function fetchClient(endpoint, options = {}, withAuth = true) {
   // 기본 헤더 설정
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
     ...options.headers,
   };
 
@@ -56,15 +56,15 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     } else {
-      toast.error('토큰이 만료되어 로그인 페이지로 이동합니다.', {
+      toast.error("토큰이 만료되어 로그인 페이지로 이동합니다.", {
         onClose: () => {
-          window.location.href = '/login';
+          window.location.href = "/login";
         },
       });
       return ApiResponse.error(
         {
-          message: 'Authentication required',
-          code: 'AUTH_REQUIRED',
+          message: "Authentication required",
+          code: "AUTH_REQUIRED",
         },
         401
       );
@@ -92,8 +92,8 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
 
       return ApiResponse.error(
         {
-          message: result.message || 'API request failed',
-          code: result.code || 'API_ERROR',
+          message: result.message || "API request failed",
+          code: result.code || "API_ERROR",
           details: result.details || result,
         },
         response.status
@@ -101,11 +101,11 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
     }
   } catch (error) {
     // 네트워크 에러 또는 요청 중단
-    if (error.name === 'AbortError') {
+    if (error.name === "AbortError") {
       return ApiResponse.error(
         {
-          message: 'Request was aborted',
-          code: 'REQUEST_ABORTED',
+          message: "Request was aborted",
+          code: "REQUEST_ABORTED",
         },
         0
       );
@@ -115,8 +115,8 @@ async function fetchClient(endpoint, options = {}, withAuth = true) {
     console.error(`API Error (${endpoint}):`, error);
     return ApiResponse.error(
       {
-        message: 'Network error or server unavailable',
-        code: 'NETWORK_ERROR',
+        message: "Network error or server unavailable",
+        code: "NETWORK_ERROR",
         originalError: error.message,
       },
       0
@@ -132,7 +132,7 @@ export const api = {
     fetchClient(
       endpoint,
       {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(data),
       },
       withAuth
@@ -142,7 +142,7 @@ export const api = {
     fetchClient(
       endpoint,
       {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(data),
       },
       withAuth
@@ -152,7 +152,7 @@ export const api = {
     fetchClient(
       endpoint,
       {
-        method: 'DELETE',
+        method: "DELETE",
         body: JSON.stringify(data),
       },
       withAuth
